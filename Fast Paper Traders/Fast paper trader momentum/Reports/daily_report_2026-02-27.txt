@@ -1,0 +1,118 @@
+========================================================================
+  Fast Paper Trader – Daily Report  2026-02-27
+========================================================================
+
+
+  Generated: 2026-02-28 08:01
+
+  (One report per day; includes all sessions run on this date. File overwritten on each shutdown.)
+
+------------------------------------------------------------------------
+  PARAMETERS
+------------------------------------------------------------------------
+
+  First session end (today)     $3,105.80
+  Last session end (today)     $3,105.80
+  Sessions today               1
+
+  Capital / position rules
+    Max positions per day         10
+    Max position per trade        15% of capital
+    Entry order timeout           15 min
+
+  Exit rules
+    Target                       4%
+    Stop                         3%
+
+------------------------------------------------------------------------
+  DAILY STATS (today – from IB API)
+------------------------------------------------------------------------
+
+  Trades today                  24
+  P&L today                     $81.97
+  Wins / Losses today           14 / 8
+  Capital at first session end  $3,105.80
+  Capital at last session end   $3,105.80
+  Peak capital (today)          $3,067.95
+
+------------------------------------------------------------------------
+  ROLLING / ALL-TIME STATS
+------------------------------------------------------------------------
+
+  Trading days with trades      4
+  Total trades                  15
+  Initial capital (reference)   $2,853.66
+  Final capital (from logs)     $2,918.12
+  Total P&L                    $64.46
+  Return                       2.26%
+  Avg daily P&L                 $16.11
+  Best day                     2026-02-27  P&L $68.57
+  Worst day                    2026-02-23  P&L $-5.00
+  Max drawdown                 $14.58 (0.5%)
+  Win rate                     53.3% (8 wins / 7 losses)
+
+------------------------------------------------------------------------
+  CLUSTERING & RISK (quick wins)
+------------------------------------------------------------------------
+
+  Worst 5-day rolling P&L      $-4.11  (ending 2026-02-26)
+  Max stops in one day         1 (approx: PnL <= -2.5%)
+  Stops per day distribution   0 stops: 2 days, 1: 2, 2: 0, 3+: 0
+  Longest losing streak        5 trades  P&L $-22.46
+  Worst 10 consecutive trades  P&L $0.00  (0.0% of capital at start of run)
+  Theoretical one-day loss     4.5% of capital (all positions stop, before slippage)
+
+------------------------------------------------------------------------
+  INTRADAY DRAWDOWN
+------------------------------------------------------------------------
+
+  Max intraday drawdown        $3,079.18
+  Max single-day intraday DD  $3,079.18  on 2026-02-24
+
+------------------------------------------------------------------------
+  IB API SUPPLEMENT (from TWS – run with TWS open for this section)
+------------------------------------------------------------------------
+
+  NetLiquidation (now)        $3,105.22
+
+  Executions today:
+    2026-02-27 14:30:17  SLD Q  3.0 @ 123.05
+    2026-02-27 15:26:08  BOT PSKY  37.0 @ 12.23
+    2026-02-27 15:34:07  BOT NFLX  4.0 @ 91.85
+    2026-02-27 15:44:06  BOT XYZ  7.0 @ 63.81
+    2026-02-27 15:53:27  SLD PSKY  37.0 @ 12.50
+    2026-02-27 15:56:06  BOT PSKY  36.0 @ 12.48
+    2026-02-27 16:20:14  SLD XYZ  7.0 @ 61.88
+    2026-02-27 16:24:06  BOT XYZ  7.0 @ 61.43
+    2026-02-27 16:51:32  SLD PSKY  36.0 @ 13.09
+    2026-02-27 16:52:06  BOT PSKY  34.0 @ 13.14
+    2026-02-27 17:31:12  SLD PSKY  34.0 @ 13.52
+    2026-02-27 17:34:05  BOT PSKY  33.0 @ 13.60
+    2026-02-27 19:37:44  SLD PSKY  33.0 @ 13.59
+    2026-02-27 19:42:06  BOT PSKY  33.0 @ 13.46
+    2026-02-27 20:45:00  SLD PSKY  36.0 @ 13.51
+    2026-02-27 20:45:00  SLD PSKY  33.0 @ 13.51
+    2026-02-27 20:45:00  SLD PSKY  33.0 @ 13.51
+    2026-02-27 20:45:00  SLD PSKY  4.0 @ 13.51
+    2026-02-27 20:45:00  SLD PSKY  33.0 @ 13.51
+    2026-02-27 20:45:00  SLD PSKY  34.0 @ 13.51
+    2026-02-27 20:45:00  SLD XYZ  7.0 @ 63.86
+    2026-02-27 20:45:00  SLD XYZ  7.0 @ 63.86
+    2026-02-27 20:45:00  SLD NFLX  4.0 @ 96.57
+    2026-02-27 20:45:00  SLD NFLX  4.0 @ 96.57
+    2026-02-27 20:45:00  SLD XYZ  7.0 @ 63.86
+    2026-02-27 20:45:00  SLD PSKY  33.0 @ 13.51
+    2026-02-27 20:46:07  BOT XYZ  7.0 @ 64.13
+    2026-02-27 20:46:10  BOT NFLX  4.0 @ 96.34
+    2026-02-27 20:48:07  SLD XYZ  7.0 @ 64.03
+    2026-02-27 20:48:17  SLD Q  6.0 @ 126.13
+    2026-02-27 20:49:35  BOT PSKY  73.0 @ 13.32
+    2026-02-27 20:49:35  BOT PSKY  100.0 @ 13.32
+    2026-02-27 20:49:57  BOT Q  12.0 @ 126.50
+    2026-02-27 20:50:01  SLD PSKY  173.0 @ 13.37
+    2026-02-27 20:50:06  BOT PSKY  34.0 @ 13.39
+    2026-02-27 20:50:23  BOT XYZ  14.0 @ 64.32
+    2026-02-27 20:50:40  BOT PSKY  100.0 @ 13.37
+    2026-02-27 20:50:40  BOT PSKY  39.0 @ 13.37
+
+  Open positions              (none)

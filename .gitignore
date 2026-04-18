@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+.env
+.env.*
+
+# IDE / OS
+.idea/
+.vscode/
+.cursor/
+Thumbs.db
+Desktop.ini
+*.lnk
+
+# Arbiter: large / local runtime artifacts (keep source only)
+Arbiter/data/backtest_bars/
+Arbiter/logs/
+*.pkl
+
+# Optional: uncomment to exclude generated reports (currently kept as text artifacts)
+# Arbiter/Reports/
+
+# Don’t commit archives at repo root
+*.zip
+
+# Backtest MK1: large local datasets (exceed GitHub 100 MB limit)
+Backtest MK1/1 multi year pnl database/data/
+Backtest MK1/2 protypes/
+
+# Optional: ignore all CSVs (narrow with !path/to/file.csv if you need one committed)
+*.csv

@@ -1,0 +1,103 @@
+=====================================================================================
+  Fast Paper Long/Short – Daily Report  2026-04-04
+=====================================================================================
+
+  Generated: 2026-04-11 10:10
+
+-------------------------------------------------------------------------------------
+  PARAMETERS
+-------------------------------------------------------------------------------------
+
+  Opening capital (today)      $2,838.05
+  Closing capital (today)      $2,838.90
+  Sessions today               3
+
+  Capital / position rules
+    Max positions per day         10
+    Max position per trade        15% of capital
+    Entry order timeout           15 min
+
+  Exit rules
+    TP1                          1.5%  x50%
+    Runner cap                   6%
+    Stop                         2%
+
+-------------------------------------------------------------------------------------
+  DAILY STATS (today)
+-------------------------------------------------------------------------------------
+
+  Trades today                  0
+  P&L today                     $0.00
+  Wins / Losses today           0 / 0
+  Opening capital (today)       $2,838.05
+  Closing capital (today)       $2,838.90
+  Peak capital (today)          $2,838.90
+  Capital delta (close-open)    $0.85
+  Reconciliation gap (delta-P&L) $0.85
+
+  Snapshot (backtest-style)
+    Total trades                 0
+    Avg trades / day             14.00
+    Wins / Losses                0 / 0
+    Win rate                     0.0%
+    Opening capital (today)      $2,838.05
+    Closing capital (today)      $2,838.90
+    Total P&L                    $0.00
+    Return                       0.00%
+    Avg daily P&L                $9.11
+    Best day                     2026-04-02  P&L $17.71
+    Worst day                    2026-04-01  P&L $0.50
+    Max drawdown                 $3.66 (0.1%)
+    Exit reason mix              N/A
+
+-------------------------------------------------------------------------------------
+  ROLLING / ALL-TIME STATS
+-------------------------------------------------------------------------------------
+
+  Trading days with trades      2
+  Total trades                  28
+  Initial capital (reference)   $2,843.64
+  Final capital (from logs)     $2,861.85
+  Total P&L                    $18.21
+  Return                       0.64%
+  Avg daily P&L                 $9.11
+  Best day                     2026-04-02  P&L $17.71
+  Worst day                    2026-04-01  P&L $0.50
+  Max drawdown                 $3.66 (0.1%)
+  Win rate                     66.7% (18 wins / 9 losses)
+
+-------------------------------------------------------------------------------------
+  CLUSTERING & RISK
+-------------------------------------------------------------------------------------
+
+  Worst 5-day rolling P&L      $0.00  (ending )
+  Max stops in one day         1 (approx: PnL <= -2.5%)
+  Stops per day distribution   0 stops: 1 days, 1: 1, 2: 0, 3+: 0
+  Longest losing streak        4 trades  P&L $-2.51
+  Worst 10 consecutive trades  P&L $-0.11  (-0.0% of capital at start of run)
+  Theoretical one-day loss     3.8% of capital (all positions stop, before slippage)
+
+-------------------------------------------------------------------------------------
+  INTRADAY DRAWDOWN
+-------------------------------------------------------------------------------------
+
+  Max intraday drawdown        $25.99
+  Max single-day intraday DD  $25.99  on 2026-04-01
+
+-------------------------------------------------------------------------------------
+  NARRATIVE SUMMARY
+-------------------------------------------------------------------------------------
+
+  No trades were executed on 2026-04-04. Booked closed-trade P&L is $0.00 (0.0% win
+  rate). This usually means gates, bias, or opportunity set did not justify new risk
+  today. Capital reconciliation: delta minus booked trade P&L is $0.85 (fees, marks,
+  open exposure, or timing can explain gaps).
+
+  Rolling context (through this report date, from logs above): cumulative return
+  0.64%, max drawdown $3.66 (0.1%), all-time win rate 66.7% (18W / 9L), avg daily P&L
+  $9.11 across 2 trading day(s) with activity. Calendar best 2026-04-02 ($17.71);
+  worst 2026-04-01 ($0.50).
+
+  Verdict (read with the numeric sections; not investment advice): idle book—capital
+  was not put into new closed trades; whether that was ideal depends on tape quality
+  versus your edge.

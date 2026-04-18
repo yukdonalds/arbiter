@@ -1,0 +1,82 @@
+========================================================================
+  Fast Paper Trader – Daily Report  2026-02-23
+========================================================================
+
+
+  Generated: 2026-02-24 09:28
+
+  (One report per day; includes all sessions run on this date. File overwritten on each shutdown.)
+
+------------------------------------------------------------------------
+  PARAMETERS
+------------------------------------------------------------------------
+
+  First session end (today)     $3,090.03
+  Last session end (today)     $3,077.87
+  Sessions today               2
+
+  Capital / position rules
+    Max positions per day         10
+    Max position per trade        15% of capital
+    Entry order timeout           15 min
+
+  Exit rules
+    Target                       5%
+    Stop                         3%
+
+------------------------------------------------------------------------
+  DAILY STATS (today – from IB API)
+------------------------------------------------------------------------
+
+  Trades today                  1
+  P&L today                     $-5.00
+  Wins / Losses today           0 / 1
+  Capital at first session end  $3,090.03
+  Capital at last session end   $3,077.87
+  Peak capital (today)          $3,089.17
+
+------------------------------------------------------------------------
+  ROLLING / ALL-TIME STATS
+------------------------------------------------------------------------
+
+  Trading days with trades      2
+  Total trades                  5
+  Initial capital (reference)   $2,853.66
+  Final capital (from logs)     $2,851.08
+  Total P&L                    $-2.58
+  Return                       -0.09%
+  Avg daily P&L                 $-1.29
+  Best day                     2026-02-19  P&L $2.42
+  Worst day                    2026-02-23  P&L $-5.00
+  Max drawdown                 $5.73 (0.2%)
+  Win rate                     20.0% (1 wins / 4 losses)
+
+------------------------------------------------------------------------
+  CLUSTERING & RISK (quick wins)
+------------------------------------------------------------------------
+
+  Worst 5-day rolling P&L      $-2.58  (ending 2026-02-23)
+  Max stops in one day         0 (approx: PnL <= -2.5%)
+  Stops per day distribution   0 stops: 2 days, 1: 0, 2: 0, 3+: 0
+  Longest losing streak        4 trades  P&L $-10.34
+  Worst 10 consecutive trades  P&L $0.00  (0.0% of capital at start of run)
+  Theoretical one-day loss     4.5% of capital (all positions stop, before slippage)
+
+------------------------------------------------------------------------
+  INTRADAY DRAWDOWN
+------------------------------------------------------------------------
+
+  Max intraday drawdown        $10.19
+  Max single-day intraday DD  $10.19  on 2026-02-23
+
+------------------------------------------------------------------------
+  IB API SUPPLEMENT (from TWS – run with TWS open for this section)
+------------------------------------------------------------------------
+
+  NetLiquidation (now)        $3,077.34
+
+  Executions today:
+    2026-02-23 18:25:32  BOT PYPL  10.0 @ 44.35
+    2026-02-23 20:45:00  SLD PYPL  10.0 @ 43.85
+
+  Open positions              (none)

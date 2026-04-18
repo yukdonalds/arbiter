@@ -1,0 +1,68 @@
+=====================================================================================
+  Fast Paper Long/Short – BACKTEST Report  2026-04-17 to 2026-04-17
+=====================================================================================
+
+  *** BACKTEST – not live trading ***
+
+  Generated: 2026-04-18 12:30
+
+-------------------------------------------------------------------------------------
+  BACKTEST RANGE
+-------------------------------------------------------------------------------------
+
+  Date from                     2026-04-17
+  Date to                       2026-04-17
+  Trading days requested        1
+  Trading days replayed         1
+
+  Capital / position rules
+    Max positions per day         10
+    Max position per trade        15% of capital
+    Entry order timeout           15 min
+
+  Exit rules
+    TP1                          1.5%  x50%
+    Runner cap                   6%
+    Stop                         2%
+
+-------------------------------------------------------------------------------------
+  BACKTEST RESULTS
+-------------------------------------------------------------------------------------
+
+  Total trades                  31
+  Avg trades / replay day       31.00
+  Wins / Losses                 16 / 15
+  Win rate                      51.6%
+  Start capital                 $20,001.74
+  End capital                   $19,924.45
+  Total P&L                     $-77.29
+  Return                        -0.39%
+  Avg daily P&L                 $-77.29
+  Best day                      2026-04-17  P&L $-77.29
+  Worst day                     2026-04-17  P&L $-77.29
+  Max drawdown                  $77.29 (0.4%)
+  Exit reason mix               EOD:10, STP:13, TP1:8
+
+-------------------------------------------------------------------------------------
+  CLUSTERING & RISK
+-------------------------------------------------------------------------------------
+
+  Worst 5-day rolling P&L       $-77.29  (ending 2026-04-17)
+  Max stops in one day          6 (approx: PnL <= -2.5%)
+  Stops per day distribution    0 stops: 0 days, 1: 0, 2: 0, 3+: 1
+  Longest losing streak         13 trades  P&L $-141.09
+  Worst 10 consecutive trades   P&L $-126.19  (-0.6%)
+  Theoretical one-day loss      3.8% of capital
+
+-------------------------------------------------------------------------------------
+  DIAGNOSTICS
+-------------------------------------------------------------------------------------
+
+  Bias distribution             LONG: 36, SHORT: 21, NEUTRAL: 21
+  Signal hits (long / short)    5319 / 3244
+  Confirmations (strict/fast)   154 / 4019
+  SPY soft penalties            0
+  Fill model                    live_parity
+  Events processed              468000
+  Per-condition hits            {'liquidity': 220, 'price': 21985, 'momentum': 2984,
+    'volatility': 22332, 'structural': 10712}

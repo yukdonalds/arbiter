@@ -1,0 +1,680 @@
+2026-02-19 20:41:55 [INFO] Fast Paper Trader – Startup
+2026-02-19 20:41:55 [INFO] Loaded 501 tickers from list
+2026-02-19 20:41:57 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,853.79
+2026-02-19 20:41:57 [INFO] Using cached watchlist and metrics: 52 tickers (instant)
+2026-02-19 20:41:57 [INFO] Subscribing to 5-sec bars for 52 tickers...
+2026-02-19 20:42:00 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-19 20:46:57 [INFO] Fast Paper Trader – Startup
+2026-02-19 20:46:57 [INFO] Loaded 501 tickers from list
+2026-02-19 20:47:01 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,853.84
+2026-02-19 20:47:01 [INFO] External screen did not return enough data; falling back to IB parallel scan.
+2026-02-19 20:47:13 [INFO] Saved cache for next run. Using 52 tickers (IB parallel).
+2026-02-19 20:47:13 [INFO] Subscribing to 5-sec bars for 52 tickers...
+2026-02-19 20:47:16 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-19 20:49:04 [INFO] Fast Paper Trader – Startup
+2026-02-19 20:49:04 [INFO] Loaded 501 tickers from list
+2026-02-19 20:49:07 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,854.10
+2026-02-19 20:49:07 [INFO] Using cached watchlist and metrics: 52 tickers (instant)
+2026-02-19 20:49:07 [INFO] Subscribing to 5-sec bars for 52 tickers...
+2026-02-19 20:49:10 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-19 20:49:25 [INFO] Interrupted.
+2026-02-19 20:49:25 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-19 20:50:19 [INFO] Fast Paper Trader – Startup
+2026-02-19 20:50:19 [INFO] Loaded 501 tickers from list
+2026-02-19 20:50:21 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,854.10
+2026-02-19 20:50:26 [INFO] External screen did not return enough data; falling back to IB parallel scan.
+2026-02-19 20:50:37 [INFO] Saved cache for next run. Using 52 tickers (IB parallel).
+2026-02-19 20:50:37 [INFO] Subscribing to 5-sec bars for 52 tickers...
+2026-02-19 20:50:39 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-19 20:50:43 [INFO] Interrupted.
+2026-02-19 20:50:43 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-19 20:53:07 [INFO] Fast Paper Trader – Startup
+2026-02-19 20:53:07 [INFO] Loaded 501 tickers from list
+2026-02-19 20:53:12 [INFO] Fast Paper Trader – Startup
+2026-02-19 20:53:12 [INFO] Loaded 501 tickers from list
+2026-02-19 20:53:14 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,854.13
+2026-02-19 20:53:14 [INFO] Using cached watchlist and metrics: 52 tickers (instant)
+2026-02-19 20:53:14 [INFO] Subscribing to 5-sec bars for 52 tickers...
+2026-02-19 20:53:17 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-19 20:53:36 [INFO] Fast Paper Trader – Startup
+2026-02-19 20:53:36 [INFO] Loaded 501 tickers from list
+2026-02-19 20:53:38 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,854.13
+2026-02-19 20:53:38 [INFO] Using cached watchlist and metrics: 52 tickers (instant)
+2026-02-19 20:53:38 [INFO] Subscribing to 5-sec bars for 52 tickers...
+2026-02-19 20:53:41 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-19 20:53:44 [INFO] Interrupted.
+2026-02-19 20:53:44 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-19 21:03:08 [INFO] Fast Paper Trader – Startup
+2026-02-19 21:03:08 [INFO] Loaded 501 tickers from list
+2026-02-19 21:03:11 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,853.88
+2026-02-19 21:03:12 [INFO] External screen did not return enough data; falling back to IB parallel scan.
+2026-02-19 21:04:48 [INFO] Fast Paper Trader – Startup
+2026-02-19 21:04:48 [INFO] Loaded 501 tickers from list
+2026-02-19 21:04:50 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,853.88
+2026-02-19 21:05:08 [INFO] Saved cache for next run. Using 150 tickers (external screen).
+2026-02-19 21:05:08 [INFO] Subscribing to 5-sec bars for 150 tickers...
+2026-02-19 21:05:16 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-19 21:07:41 [INFO] Fast Paper Trader – Startup
+2026-02-19 21:07:41 [INFO] Loaded 501 tickers from list
+2026-02-19 21:07:46 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,853.94
+2026-02-19 21:07:46 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-19 21:07:46 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-19 21:07:51 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-19 21:37:51 [INFO] Fast Paper Trader – Startup
+2026-02-19 21:37:51 [INFO] Loaded 501 tickers from list
+2026-02-19 21:37:53 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,854.48
+2026-02-19 21:37:53 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-19 21:37:53 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-19 21:37:58 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-19 21:37:58 [INFO]   Signal: F @ 12.00 x 34 (pending fill)
+2026-02-19 21:37:58 [INFO]   [TEST] Placed one test order for F (Ford). Set TEST_PLACE_ONE_ORDER_NOW = False in config to disable.
+2026-02-19 21:38:02 [INFO]   Filled entry: F @ 13.87 x 34.0 -> bracket TP=14.56 STP=13.45
+2026-02-19 21:42:38 [INFO] Interrupted.
+2026-02-19 21:42:38 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-19 21:44:11 [INFO] Fast Paper Trader – Startup
+2026-02-19 21:44:11 [INFO] Loaded 501 tickers from list
+2026-02-19 21:44:38 [INFO] Fast Paper Trader – Startup
+2026-02-19 21:44:38 [INFO] Loaded 501 tickers from list
+2026-02-19 21:44:40 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,847.96
+2026-02-19 21:44:40 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-19 21:44:40 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-19 21:44:45 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-19 22:17:45 [INFO] Interrupted.
+2026-02-19 22:17:45 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-19 22:20:36 [INFO] Fast Paper Trader – Startup
+2026-02-19 22:20:36 [INFO] Loaded 501 tickers from list
+2026-02-19 22:20:38 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,847.96
+2026-02-19 22:20:38 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-19 22:20:38 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-19 22:20:43 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-19 22:20:58 [INFO] Interrupted.
+2026-02-19 22:20:58 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-19.txt
+2026-02-19 22:20:58 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-19 22:23:36 [INFO] Fast Paper Trader – Startup
+2026-02-19 22:23:36 [INFO] Loaded 501 tickers from list
+2026-02-19 22:23:39 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,847.86
+2026-02-19 22:23:39 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-19 22:23:39 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-19 22:23:44 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-20 04:15:31 [INFO]   Signal: OXY @ 51.05 x 8 (pending fill)
+2026-02-20 04:15:32 [INFO]   Filled entry: OXY @ 50.92 x 8.0 -> bracket TP=53.47 STP=49.39
+2026-02-20 06:30:31 [INFO]   Signal: EBAY @ 85.66 x 4 (pending fill)
+2026-02-20 06:30:32 [INFO]   Filled entry: EBAY @ 85.58 x 4.0 -> bracket TP=89.86 STP=83.01
+2026-02-20 06:45:31 [INFO]   Signal: OMC @ 80.74 x 5 (pending fill)
+2026-02-20 06:45:33 [INFO]   Filled entry: OMC @ 80.12 x 5.0 -> bracket TP=84.13 STP=77.72
+2026-02-20 07:30:30 [INFO]   Signal: CF @ 99.89 x 4 (pending fill)
+2026-02-20 07:30:31 [INFO]   Filled entry: CF @ 100.10 x 4.0 -> bracket TP=105.11 STP=97.10
+2026-02-20 08:00:00 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-19.txt
+2026-02-20 08:00:00 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-20 13:19:37 [INFO] Fast Paper Trader – Startup
+2026-02-20 13:19:37 [INFO] Loaded 501 tickers from list
+2026-02-20 13:19:40 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,847.93
+2026-02-20 13:19:40 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-20 13:19:40 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-20 13:19:45 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-20 13:19:45 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-19.txt
+2026-02-20 13:19:45 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-20 21:56:56 [INFO] Fast Paper Trader – Startup
+2026-02-20 21:56:56 [INFO] Loaded 501 tickers from list
+2026-02-20 21:57:04 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,841.11
+2026-02-20 21:57:04 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-20 21:57:04 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-20 21:57:09 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-20 22:02:58 [INFO] Interrupted.
+2026-02-20 22:02:58 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-20.txt
+2026-02-20 22:02:58 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-20 22:17:29 [INFO] Fast Paper Trader – Startup
+2026-02-20 22:17:29 [INFO] Loaded 501 tickers from list
+2026-02-20 22:20:42 [INFO] Fast Paper Trader – Startup
+2026-02-20 22:20:42 [INFO] Loaded 501 tickers from list
+2026-02-20 22:20:45 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,842.57
+2026-02-20 22:20:45 [INFO] Using cached watchlist and metrics: 100 tickers (instant)
+2026-02-20 22:20:45 [INFO] Subscribing to 5-sec bars for 100 tickers...
+2026-02-20 22:20:50 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-21 05:13:10 [INFO] Interrupted.
+2026-02-21 05:13:10 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-20.txt
+2026-02-21 05:13:10 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-21 05:13:21 [INFO] Fast Paper Trader – Startup
+2026-02-21 05:13:21 [INFO] Loaded 501 tickers from list
+2026-02-21 05:13:25 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,837.78
+2026-02-21 05:13:25 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-21 05:13:25 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-21 05:13:30 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-21 05:33:30 [INFO] Interrupted.
+2026-02-21 05:33:30 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-20.txt
+2026-02-21 05:33:30 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-21 06:18:59 [INFO] Fast Paper Trader – Startup
+2026-02-21 06:18:59 [INFO] Loaded 501 tickers from list
+2026-02-21 06:19:03 [INFO] Fast Paper Trader – Startup
+2026-02-21 06:19:03 [INFO] Loaded 501 tickers from list
+2026-02-21 06:19:09 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,836.63
+2026-02-21 06:19:09 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-21 06:19:09 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-21 06:19:14 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-21 08:00:00 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-20.txt
+2026-02-21 08:00:00 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-23 19:09:19 [INFO] Fast Paper Trader – Startup
+2026-02-23 19:09:19 [INFO] Loaded 501 tickers from list
+2026-02-23 19:09:22 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,089.17
+2026-02-23 19:09:55 [INFO] Saved cache for next run. Using 150 tickers (external screen).
+2026-02-23 19:09:55 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-23 19:10:00 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-23 19:12:22 [INFO] Interrupted.
+2026-02-23 19:12:22 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-23.txt
+2026-02-23 19:12:22 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-23 22:31:54 [INFO] Fast Paper Trader – Startup
+2026-02-23 22:31:54 [INFO] Loaded 501 tickers from list
+2026-02-23 22:31:57 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,088.06
+2026-02-23 22:31:57 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-23 22:31:57 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-23 22:32:02 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-24 05:25:30 [INFO]   Signal: PYPL @ 44.38 x 10 (pending fill)
+2026-02-24 05:25:32 [INFO]   Filled entry: PYPL @ 44.35 x 10.0 -> bracket TP=46.57 STP=43.02
+2026-02-24 08:00:00 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-23.txt
+2026-02-24 08:00:00 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-24 21:03:34 [INFO] Fast Paper Trader – Startup
+2026-02-24 21:03:34 [INFO] Loaded 501 tickers from list
+2026-02-24 21:03:38 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,079.42
+2026-02-24 21:03:38 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-24 21:03:38 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-24 21:03:43 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-24 21:15:34 [INFO] Fast Paper Trader – Startup
+2026-02-24 21:15:34 [INFO] Loaded 501 tickers from list
+2026-02-24 21:15:37 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,079.18
+2026-02-24 21:15:37 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-24 21:15:37 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-24 21:15:42 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-24 21:38:02 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-24.txt
+2026-02-24 21:38:02 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-24 21:39:43 [INFO] Fast Paper Trader – Startup
+2026-02-24 21:39:43 [INFO] Loaded 501 tickers from list
+2026-02-24 21:39:46 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,078.89
+2026-02-24 21:39:46 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-24 21:39:46 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-24 21:39:51 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-25 05:46:05 [INFO]   Signal: HSIC @ 84.67 x 5 (pending fill)
+2026-02-25 05:46:06 [INFO]   Filled entry: HSIC @ 84.75 x 5.0 -> bracket TP=88.99 STP=82.21
+2026-02-25 08:00:01 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-24.txt
+2026-02-25 08:00:01 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-25 18:37:04 [INFO] Fast Paper Trader – Startup
+2026-02-25 18:37:04 [INFO] Loaded 501 tickers from list
+2026-02-25 18:37:11 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,080.22
+2026-02-25 18:37:44 [INFO] Saved cache for next run. Using 150 tickers (external screen).
+2026-02-25 18:37:44 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-25 18:37:49 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-25 22:02:27 [INFO] Fast Paper Trader – Startup
+2026-02-25 22:02:27 [INFO] Loaded 501 tickers from list
+2026-02-25 22:03:48 [INFO] Fast Paper Trader – Startup
+2026-02-25 22:03:48 [INFO] Loaded 501 tickers from list
+2026-02-25 22:03:51 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,075.05
+2026-02-25 22:03:51 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-25 22:03:51 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-25 22:03:56 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-25 22:21:22 [INFO] Interrupted.
+2026-02-25 22:21:22 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader\Reports\daily_report_2026-02-25.txt
+2026-02-25 22:21:22 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader\logs
+2026-02-25 22:27:09 [INFO] Fast Paper Trader – Startup
+2026-02-25 22:27:09 [INFO] Loaded 501 tickers from list
+2026-02-25 22:27:12 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,073.60
+2026-02-25 22:27:12 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-25 22:27:12 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-25 22:27:17 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-26 07:34:16 [INFO] Interrupted.
+2026-02-26 07:34:16 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-02-25.txt
+2026-02-26 07:34:16 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-02-26 21:40:23 [INFO] Fast Paper Trader – Startup
+2026-02-26 21:40:23 [INFO] Loaded 501 tickers from list
+2026-02-26 21:40:26 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,074.34
+2026-02-26 21:40:26 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-02-26 21:40:26 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-26 21:40:31 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-27 03:16:06 [INFO]   Signal: Q @ 123.62 x 3 (pending fill)
+2026-02-27 03:16:07 [INFO]   Filled entry: Q @ 123.61 x 3.0 -> bracket TP=128.55 STP=119.90
+2026-02-27 04:31:36 [INFO]   Filled exit: Q @ 119.57 PnL $-12.12 (-3.27%)
+2026-02-27 04:34:06 [INFO]   Signal: Q @ 119.95 x 3 (pending fill)
+2026-02-27 04:34:07 [INFO]   Filled entry: Q @ 120.49 x 3.0 -> bracket TP=125.31 STP=116.88
+2026-02-27 04:53:36 [INFO]   Trail: Q stop moved to breakeven @ 120.49
+2026-02-27 06:45:19 [INFO]   Trail: Q stop moved to 122.30
+2026-02-27 06:45:34 [INFO]   Trail: Q stop moved to 122.50
+2026-02-27 06:47:21 [INFO]   Trail: Q stop moved to 122.51
+2026-02-27 06:47:27 [INFO]   Trail: Q stop moved to 122.54
+2026-02-27 06:47:46 [INFO]   Trail: Q stop moved to 122.74
+2026-02-27 06:48:06 [INFO]   Trail: Q stop moved to 122.76
+2026-02-27 06:48:11 [INFO]   Trail: Q stop moved to 122.81
+2026-02-27 06:48:26 [INFO]   Trail: Q stop moved to 122.82
+2026-02-27 06:48:41 [INFO]   Trail: Q stop moved to 122.87
+2026-02-27 06:49:55 [INFO]   Trail: Q stop moved to 122.96
+2026-02-27 06:50:04 [INFO]   Trail: Q stop moved to 123.06
+2026-02-27 06:51:56 [INFO]   Trail: Q stop moved to 123.07
+2026-02-27 06:52:01 [INFO]   Trail: Q stop moved to 123.12
+2026-02-27 06:55:44 [INFO]   Trail: Q stop moved to 123.23
+2026-02-27 07:45:01 [INFO]   EOD close: placed market sell 3.0 Q
+2026-02-27 07:45:01 [INFO]   Filled exit: Q @ 124.02 PnL $10.59 (2.93%)
+2026-02-27 07:46:05 [INFO]   Signal: Q @ 124.25 x 3 (pending fill)
+2026-02-27 07:46:06 [INFO]   Filled entry: Q @ 124.18 x 3.0 -> bracket TP=129.15 STP=120.45
+2026-02-27 08:00:00 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-02-26.txt
+2026-02-27 08:00:00 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-02-28 00:01:35 [INFO] Fast Paper Trader – Startup
+2026-02-28 00:01:35 [INFO] Loaded 501 tickers from list
+2026-02-28 00:01:40 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,067.95
+2026-02-28 00:02:09 [INFO] Saved cache for next run. Using 150 tickers (external screen).
+2026-02-28 00:02:09 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-02-28 00:02:14 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-02-28 02:26:07 [INFO]   Signal: PSKY @ 12.18 x 37 (pending fill)
+2026-02-28 02:26:08 [INFO]   Filled entry: PSKY @ 12.23 x 37.0 -> bracket TP=12.72 STP=11.86
+2026-02-28 02:34:06 [INFO]   Signal: NFLX @ 91.92 x 4 (pending fill)
+2026-02-28 02:34:10 [INFO]   Filled entry: NFLX @ 91.85 x 4.0 -> bracket TP=95.52 STP=89.09
+2026-02-28 02:43:58 [INFO]   Trail: PSKY stop moved to breakeven @ 12.23
+2026-02-28 02:44:05 [INFO]   Signal: XYZ @ 63.94 x 7 (pending fill)
+2026-02-28 02:44:06 [INFO]   Filled entry: XYZ @ 63.81 x 7.0 -> bracket TP=66.36 STP=61.90
+2026-02-28 02:46:36 [INFO]   Trail: PSKY stop moved to 12.41
+2026-02-28 02:49:36 [INFO]   Trail: PSKY stop moved to 12.44
+2026-02-28 02:49:40 [INFO]   Trail: PSKY stop moved to 12.45
+2026-02-28 02:51:03 [INFO]   Trail: PSKY stop moved to 12.46
+2026-02-28 02:51:26 [INFO]   Trail: PSKY stop moved to 12.48
+2026-02-28 02:51:32 [INFO]   Trail: PSKY stop moved to 12.49
+2026-02-28 02:51:36 [INFO]   Trail: PSKY stop moved to 12.50
+2026-02-28 02:51:52 [INFO]   Trail: PSKY stop moved to 12.51
+2026-02-28 02:53:30 [INFO]   Filled exit: PSKY @ 12.50 PnL $9.99 (2.21%)
+2026-02-28 02:56:05 [INFO]   Signal: PSKY @ 12.48 x 36 (pending fill)
+2026-02-28 02:56:06 [INFO]   Filled entry: PSKY @ 12.48 x 36.0 -> bracket TP=12.98 STP=12.11
+2026-02-28 03:20:15 [INFO]   Filled exit: XYZ @ 61.88 PnL $-13.51 (-3.02%)
+2026-02-28 03:20:22 [INFO]   Trail: PSKY stop moved to breakeven @ 12.48
+2026-02-28 03:24:05 [INFO]   Signal: XYZ @ 61.50 x 7 (pending fill)
+2026-02-28 03:24:09 [INFO]   Filled entry: XYZ @ 61.43 x 7.0 -> bracket TP=63.89 STP=59.59
+2026-02-28 03:26:00 [INFO]   Trail: PSKY stop moved to 12.72
+2026-02-28 03:26:07 [INFO]   Trail: PSKY stop moved to 12.74
+2026-02-28 03:26:55 [INFO]   Trail: PSKY stop moved to 12.76
+2026-02-28 03:27:00 [INFO]   Trail: PSKY stop moved to 12.77
+2026-02-28 03:27:45 [INFO]   Trail: PSKY stop moved to 12.78
+2026-02-28 03:28:05 [INFO]   Trail: PSKY stop moved to 12.79
+2026-02-28 03:28:18 [INFO]   Trail: PSKY stop moved to 12.80
+2026-02-28 03:28:35 [INFO]   Trail: PSKY stop moved to 12.80
+2026-02-28 03:28:57 [INFO]   Trail: PSKY stop moved to 12.81
+2026-02-28 03:29:00 [INFO]   Trail: PSKY stop moved to 12.82
+2026-02-28 03:29:16 [INFO]   Trail: PSKY stop moved to 12.83
+2026-02-28 03:30:10 [INFO]   Trail: PSKY stop moved to 12.85
+2026-02-28 03:30:21 [INFO]   Trail: PSKY stop moved to 12.87
+2026-02-28 03:30:42 [INFO]   Trail: PSKY stop moved to 12.88
+2026-02-28 03:31:21 [INFO]   Trail: PSKY stop moved to 12.92
+2026-02-28 03:31:26 [INFO]   Trail: PSKY stop moved to 12.93
+2026-02-28 03:33:06 [INFO]   Trail: PSKY stop moved to 12.97
+2026-02-28 03:33:50 [INFO]   Trail: PSKY stop moved to 12.98
+2026-02-28 03:35:30 [INFO]   Trail: PSKY stop moved to 12.99
+2026-02-28 03:35:36 [INFO]   Trail: PSKY stop moved to 13.00
+2026-02-28 03:35:45 [INFO]   Trail: PSKY stop moved to 13.01
+2026-02-28 03:35:52 [INFO]   Trail: PSKY stop moved to 13.03
+2026-02-28 03:37:01 [INFO]   Trail: PSKY stop moved to 13.05
+2026-02-28 03:40:30 [INFO]   Trail: PSKY stop moved to 13.09
+2026-02-28 03:51:32 [INFO]   Filled exit: PSKY @ 13.09 PnL $21.96 (4.89%)
+2026-02-28 03:52:06 [INFO]   Signal: PSKY @ 13.17 x 34 (pending fill)
+2026-02-28 03:52:06 [INFO]   Filled entry: PSKY @ 13.14 x 34.0 -> bracket TP=13.67 STP=12.75
+2026-02-28 04:02:30 [INFO]   Trail: NFLX stop moved to breakeven @ 91.85
+2026-02-28 04:08:00 [INFO]   Trail: PSKY stop moved to breakeven @ 13.14
+2026-02-28 04:19:50 [INFO]   Trail: PSKY stop moved to 13.34
+2026-02-28 04:21:05 [INFO]   Trail: PSKY stop moved to 13.35
+2026-02-28 04:21:36 [INFO]   Trail: PSKY stop moved to 13.36
+2026-02-28 04:23:30 [INFO]   Trail: PSKY stop moved to 13.37
+2026-02-28 04:24:33 [INFO]   Trail: PSKY stop moved to 13.39
+2026-02-28 04:26:00 [INFO]   Trail: PSKY stop moved to 13.45
+2026-02-28 04:26:05 [INFO]   Trail: PSKY stop moved to 13.46
+2026-02-28 04:26:10 [INFO]   Trail: PSKY stop moved to 13.51
+2026-02-28 04:26:18 [INFO]   Trail: XYZ stop moved to breakeven @ 61.43
+2026-02-28 04:26:31 [INFO]   Trail: PSKY stop moved to 13.52
+2026-02-28 04:31:12 [INFO]   Filled exit: PSKY @ 13.52 PnL $12.92 (2.89%)
+2026-02-28 04:34:05 [INFO]   Signal: PSKY @ 13.51 x 33 (pending fill)
+2026-02-28 04:34:06 [INFO]   Filled entry: PSKY @ 13.60 x 33.0 -> bracket TP=14.14 STP=13.19
+2026-02-28 04:36:05 [INFO]   Trail: NFLX stop moved to 93.22
+2026-02-28 04:36:16 [INFO]   Trail: NFLX stop moved to 93.24
+2026-02-28 04:36:22 [INFO]   Trail: NFLX stop moved to 93.27
+2026-02-28 04:37:20 [INFO]   Trail: NFLX stop moved to 93.38
+2026-02-28 04:37:27 [INFO]   Trail: NFLX stop moved to 93.40
+2026-02-28 04:37:35 [INFO]   Trail: NFLX stop moved to 93.42
+2026-02-28 04:39:35 [INFO]   Trail: NFLX stop moved to 93.43
+2026-02-28 04:40:35 [INFO]   Trail: NFLX stop moved to 93.54
+2026-02-28 04:45:45 [INFO]   Trail: PSKY stop moved to breakeven @ 13.60
+2026-02-28 05:02:21 [INFO]   Trail: NFLX stop moved to 93.61
+2026-02-28 05:02:25 [INFO]   Trail: NFLX stop moved to 93.75
+2026-02-28 05:21:56 [INFO]   Trail: NFLX stop moved to 93.77
+2026-02-28 05:22:00 [INFO]   Trail: NFLX stop moved to 93.85
+2026-02-28 05:22:22 [INFO]   Trail: NFLX stop moved to 93.87
+2026-02-28 05:22:30 [INFO]   Trail: NFLX stop moved to 93.89
+2026-02-28 05:39:15 [INFO]   Trail: NFLX stop moved to 93.90
+2026-02-28 05:39:20 [INFO]   Trail: NFLX stop moved to 93.93
+2026-02-28 05:39:25 [INFO]   Trail: NFLX stop moved to 93.94
+2026-02-28 05:39:30 [INFO]   Trail: NFLX stop moved to 93.96
+2026-02-28 05:39:40 [INFO]   Trail: NFLX stop moved to 93.97
+2026-02-28 05:40:05 [INFO]   Trail: NFLX stop moved to 94.00
+2026-02-28 05:40:25 [INFO]   Trail: NFLX stop moved to 94.04
+2026-02-28 05:40:30 [INFO]   Trail: NFLX stop moved to 94.05
+2026-02-28 05:40:45 [INFO]   Trail: NFLX stop moved to 94.06
+2026-02-28 05:40:57 [INFO]   Trail: NFLX stop moved to 94.10
+2026-02-28 05:41:00 [INFO]   Trail: NFLX stop moved to 94.11
+2026-02-28 05:41:10 [INFO]   Trail: NFLX stop moved to 94.14
+2026-02-28 05:44:20 [INFO]   Trail: NFLX stop moved to 94.17
+2026-02-28 05:44:30 [INFO]   Trail: NFLX stop moved to 94.21
+2026-02-28 05:44:40 [INFO]   Trail: NFLX stop moved to 94.23
+2026-02-28 05:44:45 [INFO]   Trail: NFLX stop moved to 94.24
+2026-02-28 05:45:20 [INFO]   Trail: NFLX stop moved to 94.25
+2026-02-28 05:45:25 [INFO]   Trail: NFLX stop moved to 94.32
+2026-02-28 05:45:31 [INFO]   Trail: NFLX stop moved to 94.33
+2026-02-28 05:45:40 [INFO]   Trail: NFLX stop moved to 94.34
+2026-02-28 05:45:57 [INFO]   Trail: NFLX stop moved to 94.35
+2026-02-28 06:12:05 [INFO]   Trail: NFLX stop moved to 94.36
+2026-02-28 06:30:20 [INFO]   Trail: NFLX stop moved to 94.38
+2026-02-28 06:30:28 [INFO]   Trail: NFLX stop moved to 94.40
+2026-02-28 06:37:45 [INFO]   Filled exit: PSKY @ 13.59 PnL $-0.33 (-0.07%)
+2026-02-28 06:42:05 [INFO]   Signal: PSKY @ 13.51 x 33 (pending fill)
+2026-02-28 06:42:07 [INFO]   Filled entry: PSKY @ 13.46 x 33.0 -> bracket TP=14.00 STP=13.06
+2026-02-28 07:04:27 [INFO]   Trail: NFLX stop moved to 94.42
+2026-02-28 07:10:20 [INFO]   Trail: NFLX stop moved to 94.44
+2026-02-28 07:10:25 [INFO]   Trail: NFLX stop moved to 94.48
+2026-02-28 07:11:22 [INFO]   Trail: NFLX stop moved to 94.51
+2026-02-28 07:11:25 [INFO]   Trail: NFLX stop moved to 94.52
+2026-02-28 07:11:30 [INFO]   Trail: NFLX stop moved to 94.55
+2026-02-28 07:11:35 [INFO]   Trail: NFLX stop moved to 94.56
+2026-02-28 07:14:05 [INFO]   Trail: NFLX stop moved to 94.57
+2026-02-28 07:14:22 [INFO]   Trail: NFLX stop moved to 94.64
+2026-02-28 07:14:30 [INFO]   Trail: NFLX stop moved to 94.65
+2026-02-28 07:14:40 [INFO]   Trail: NFLX stop moved to 94.68
+2026-02-28 07:14:50 [INFO]   Trail: NFLX stop moved to 94.73
+2026-02-28 07:15:55 [INFO]   Trail: NFLX stop moved to 94.76
+2026-02-28 07:21:15 [INFO]   Trail: NFLX stop moved to 94.82
+2026-02-28 07:21:20 [INFO]   Trail: NFLX stop moved to 94.84
+2026-02-28 07:21:25 [INFO]   Trail: NFLX stop moved to 94.86
+2026-02-28 07:21:40 [INFO]   Trail: NFLX stop moved to 94.89
+2026-02-28 07:21:45 [INFO]   Trail: NFLX stop moved to 94.94
+2026-02-28 07:23:20 [INFO]   Trail: XYZ stop moved to 62.34
+2026-02-28 07:23:33 [INFO]   Trail: XYZ stop moved to 62.35
+2026-02-28 07:23:36 [INFO]   Trail: XYZ stop moved to 62.38
+2026-02-28 07:24:05 [INFO]   Trail: XYZ stop moved to 62.45
+2026-02-28 07:24:15 [INFO]   Trail: NFLX stop moved to 95.03
+2026-02-28 07:24:20 [INFO]   Trail: NFLX stop moved to 95.05
+2026-02-28 07:24:21 [INFO]   Trail: XYZ stop moved to 62.46
+2026-02-28 07:24:38 [INFO]   Trail: XYZ stop moved to 62.48
+2026-02-28 07:24:40 [INFO]   Trail: XYZ stop moved to 62.51
+2026-02-28 07:25:20 [INFO]   Trail: XYZ stop moved to 62.53
+2026-02-28 07:26:05 [INFO]   Trail: NFLX stop moved to 95.10
+2026-02-28 07:26:10 [INFO]   Trail: NFLX stop moved to 95.12
+2026-02-28 07:26:22 [INFO]   Trail: NFLX stop moved to 95.13
+2026-02-28 07:26:25 [INFO]   Trail: NFLX stop moved to 95.15
+2026-02-28 07:28:55 [INFO]   Trail: NFLX stop moved to 95.21
+2026-02-28 07:29:00 [INFO]   Trail: NFLX stop moved to 95.23
+2026-02-28 07:31:20 [INFO]   Trail: XYZ stop moved to 62.59
+2026-02-28 07:31:35 [INFO]   Trail: NFLX stop moved to 95.25
+2026-02-28 07:31:43 [INFO]   Trail: NFLX stop moved to 95.26
+2026-02-28 07:31:43 [INFO]   Trail: XYZ stop moved to 62.60
+2026-02-28 07:31:53 [INFO]   Trail: XYZ stop moved to 62.61
+2026-02-28 07:32:32 [INFO]   Trail: XYZ stop moved to 62.65
+2026-02-28 07:36:01 [INFO]   Trail: XYZ stop moved to 62.67
+2026-02-28 07:36:06 [INFO]   Trail: XYZ stop moved to 62.70
+2026-02-28 07:36:50 [INFO]   Trail: XYZ stop moved to 62.71
+2026-02-28 07:37:00 [INFO]   Trail: NFLX stop moved to 95.30
+2026-02-28 07:37:33 [INFO]   Trail: XYZ stop moved to 62.73
+2026-02-28 07:37:36 [INFO]   Trail: XYZ stop moved to 62.76
+2026-02-28 07:38:06 [INFO]   Trail: XYZ stop moved to 62.77
+2026-02-28 07:38:15 [INFO]   Trail: XYZ stop moved to 62.86
+2026-02-28 07:38:25 [INFO]   Trail: XYZ stop moved to 62.87
+2026-02-28 07:39:00 [INFO]   Trail: XYZ stop moved to 62.89
+2026-02-28 07:39:11 [INFO]   Trail: XYZ stop moved to 62.90
+2026-02-28 07:39:15 [INFO]   Trail: XYZ stop moved to 62.91
+2026-02-28 07:39:20 [INFO]   Trail: XYZ stop moved to 62.94
+2026-02-28 07:39:28 [INFO]   Trail: XYZ stop moved to 62.96
+2026-02-28 07:39:31 [INFO]   Trail: XYZ stop moved to 62.97
+2026-02-28 07:40:15 [INFO]   Trail: XYZ stop moved to 62.98
+2026-02-28 07:40:26 [INFO]   Trail: XYZ stop moved to 63.01
+2026-02-28 07:40:46 [INFO]   Trail: XYZ stop moved to 63.12
+2026-02-28 07:45:00 [INFO]   EOD close: placed market sell 4.0 NFLX
+2026-02-28 07:45:00 [INFO]   EOD close: placed market sell 7.0 XYZ
+2026-02-28 07:45:00 [INFO]   EOD close: placed market sell 33.0 PSKY
+2026-02-28 07:45:00 [INFO]   Filled exit: PSKY @ 13.51 PnL $1.65 (0.37%)
+2026-02-28 07:45:00 [INFO]   Filled exit: XYZ @ 63.86 PnL $17.01 (3.96%)
+2026-02-28 07:45:00 [INFO]   Filled exit: NFLX @ 96.57 PnL $18.88 (5.14%)
+2026-02-28 07:46:06 [INFO]   Signal: XYZ @ 63.87 x 7 (pending fill)
+2026-02-28 07:46:06 [INFO]   Signal: NFLX @ 96.63 x 4 (pending fill)
+2026-02-28 07:46:10 [INFO]   Filled entry: XYZ @ 64.13 x 7.0 -> bracket TP=66.70 STP=62.21
+2026-02-28 07:46:10 [INFO]   Filled entry: NFLX @ 96.34 x 4.0 -> bracket TP=100.19 STP=93.45
+2026-02-28 07:50:05 [INFO]   Signal: PSKY @ 13.33 x 34 (pending fill)
+2026-02-28 07:50:09 [INFO]   Filled entry: PSKY @ 13.39 x 34.0 -> bracket TP=13.93 STP=12.99
+2026-02-28 07:52:29 [INFO] Interrupted.
+2026-02-28 07:52:29 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-02-27.txt
+2026-02-28 07:52:29 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-02 22:22:22 [INFO] Fast Paper Trader – Startup
+2026-03-02 22:22:22 [INFO] Loaded 501 tickers from list
+2026-03-02 22:22:25 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,097.43
+2026-03-02 22:22:25 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-02 22:22:25 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-02 22:22:30 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-02 22:32:43 [INFO] Interrupted.
+2026-03-02 22:32:43 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-02.txt
+2026-03-02 22:32:43 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-02 22:45:57 [INFO] Fast Paper Trader – Startup
+2026-03-02 22:45:57 [INFO] Loaded 501 tickers from list
+2026-03-02 22:46:01 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,098.40
+2026-03-02 22:46:01 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-02 22:46:01 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-02 22:46:06 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-02 22:47:00 [INFO] Fast Paper Trader – Startup
+2026-03-02 22:47:00 [INFO] Loaded 501 tickers from list
+2026-03-02 22:47:04 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,099.03
+2026-03-02 22:47:04 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-02 22:47:04 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-02 22:47:09 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-02 22:49:16 [INFO] Fast Paper Trader – Startup
+2026-03-02 22:49:16 [INFO] Loaded 501 tickers from list
+2026-03-02 22:49:19 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,099.03
+2026-03-02 22:49:19 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-02 22:49:19 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-02 22:49:24 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-02 22:52:14 [INFO] Interrupted.
+2026-03-02 22:52:14 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-02.txt
+2026-03-02 22:52:14 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-02 22:52:20 [INFO] Fast Paper Trader – Startup
+2026-03-02 22:52:20 [INFO] Loaded 501 tickers from list
+2026-03-02 22:52:22 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,099.36
+2026-03-02 22:52:22 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-02 22:52:22 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-02 22:52:27 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-02 22:54:57 [INFO] Interrupted.
+2026-03-02 22:54:57 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-02.txt
+2026-03-02 22:54:57 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-02 22:55:01 [INFO] Fast Paper Trader – Startup
+2026-03-02 22:55:01 [INFO] Loaded 501 tickers from list
+2026-03-02 22:55:04 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,098.98
+2026-03-02 22:55:04 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-02 22:55:04 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-02 22:55:09 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-03 05:48:11 [INFO] Interrupted.
+2026-03-03 05:48:12 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-02.txt
+2026-03-03 05:48:12 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-03 05:48:17 [INFO] Fast Paper Trader – Startup
+2026-03-03 05:48:17 [INFO] Loaded 501 tickers from list
+2026-03-03 05:48:20 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,096.12
+2026-03-03 05:48:21 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-03 05:48:21 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-03 05:48:27 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-03 08:00:01 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-02.txt
+2026-03-03 08:00:01 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-03 21:21:46 [INFO] Fast Paper Trader – Startup
+2026-03-03 21:21:46 [INFO] Loaded 501 tickers from list
+2026-03-03 21:21:49 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,087.31
+2026-03-03 21:22:17 [INFO] Saved cache for next run. Using 150 tickers (external screen).
+2026-03-03 21:22:17 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-03 21:22:22 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-04 06:44:06 [INFO]   Signal: FANG @ 175.86 x 2 (pending fill)
+2026-03-04 06:44:08 [INFO]   Filled entry: FANG @ 175.75 x 2.0 -> bracket TP=182.78 STP=170.48
+2026-03-04 07:22:05 [INFO]   Signal: CF @ 104.95 x 4 (pending fill)
+2026-03-04 07:22:06 [INFO]   Filled entry: CF @ 105.06 x 4.0 -> bracket TP=109.26 STP=101.91
+2026-03-04 07:32:05 [INFO]   Signal: OXY @ 53.64 x 8 (pending fill)
+2026-03-04 07:32:06 [INFO]   Filled entry: OXY @ 53.56 x 8.0 -> bracket TP=55.70 STP=51.95
+2026-03-04 07:45:00 [INFO]   Filled exit: OXY @ 53.65 PnL $0.72 (0.17%)
+2026-03-04 07:45:00 [INFO]   EOD close: placed market sell 2.0 FANG
+2026-03-04 07:45:00 [INFO]   EOD close: placed market sell 4.0 CF
+2026-03-04 07:45:00 [INFO]   Filled exit: CF @ 106.48 PnL $5.68 (1.35%)
+2026-03-04 07:45:00 [INFO]   Filled exit: FANG @ 176.10 PnL $0.70 (0.20%)
+2026-03-04 07:46:06 [INFO]   Signal: CF @ 106.61 x 4 (pending fill)
+2026-03-04 07:46:06 [INFO]   Signal: FANG @ 176.32 x 2 (pending fill)
+2026-03-04 07:46:06 [INFO]   Signal: OXY @ 53.69 x 8 (pending fill)
+2026-03-04 07:46:10 [INFO]   Filled entry: OXY @ 53.68 x 8.0 -> bracket TP=55.83 STP=52.07
+2026-03-04 07:46:10 [INFO]   Filled entry: FANG @ 176.48 x 2.0 -> bracket TP=183.54 STP=171.19
+2026-03-04 07:46:10 [INFO]   Filled entry: CF @ 106.67 x 4.0 -> bracket TP=110.94 STP=103.47
+2026-03-04 07:54:06 [INFO] Fast Paper Trader – Startup
+2026-03-04 07:54:06 [INFO] Loaded 501 tickers from list
+2026-03-04 07:54:12 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,081.41
+2026-03-04 07:54:12 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-04 07:54:12 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-04 07:54:17 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-04 08:00:00 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-03.txt
+2026-03-04 08:00:00 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-04 22:49:05 [INFO] Fast Paper Trader – Startup
+2026-03-04 22:49:05 [INFO] Loaded 501 tickers from list
+2026-03-04 22:49:07 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,084.79
+2026-03-04 22:49:07 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-04 22:49:07 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-04 22:49:12 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-05 06:40:58 [INFO] Interrupted.
+2026-03-05 06:40:58 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-04.txt
+2026-03-05 06:40:58 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-05 06:41:02 [INFO] Fast Paper Trader – Startup
+2026-03-05 06:41:02 [INFO] Loaded 501 tickers from list
+2026-03-05 06:41:07 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,090.54
+2026-03-05 06:41:07 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-05 06:41:07 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-05 06:41:12 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-05 08:00:02 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-04.txt
+2026-03-05 08:00:02 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-05 21:55:57 [INFO] Fast Paper Trader – Startup
+2026-03-05 21:55:57 [INFO] Loaded 501 tickers from list
+2026-03-05 21:58:32 [INFO] Fast Paper Trader – Startup
+2026-03-05 21:58:32 [INFO] Loaded 501 tickers from list
+2026-03-05 21:58:35 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,083.53
+2026-03-05 21:58:40 [INFO] Fast Paper Trader – Startup
+2026-03-05 21:58:40 [INFO] Loaded 501 tickers from list
+2026-03-05 21:58:43 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,083.53
+2026-03-05 21:59:15 [INFO] Saved cache for next run. Using 150 tickers (external screen).
+2026-03-05 21:59:15 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-05_0559.txt
+2026-03-05 21:59:15 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-05 21:59:20 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-06 01:54:06 [INFO]   Signal: TTD @ 31.07 x 14 (pending fill)
+2026-03-06 01:54:08 [INFO]   Filled entry: TTD @ 30.94 x 14.0 -> bracket TP=32.18 STP=30.01
+2026-03-06 02:21:42 [INFO]   Filled exit: TTD @ 30.00 PnL $-13.16 (-3.04%)
+2026-03-06 02:24:05 [INFO]   Signal: TTD @ 30.04 x 14 (pending fill)
+2026-03-06 02:24:06 [INFO]   Filled entry: TTD @ 29.97 x 14.0 -> bracket TP=31.17 STP=29.07
+2026-03-06 04:56:05 [INFO]   Signal: LYB @ 66.17 x 6 (pending fill)
+2026-03-06 04:56:06 [INFO]   Filled entry: LYB @ 66.25 x 6.0 -> bracket TP=68.90 STP=64.26
+2026-03-06 06:02:06 [INFO]   Signal: DOW @ 34.05 x 13 (pending fill)
+2026-03-06 06:02:07 [INFO]   Filled entry: DOW @ 33.92 x 13.0 -> bracket TP=35.28 STP=32.90
+2026-03-06 07:44:59 [INFO]   Filled exit: TTD @ 29.91 PnL $-0.84 (-0.20%)
+2026-03-06 07:44:59 [INFO]   Filled exit: DOW @ 33.61 PnL $-4.03 (-0.91%)
+2026-03-06 07:44:59 [INFO]   Filled exit: LYB @ 65.33 PnL $-5.52 (-1.39%)
+2026-03-06 08:00:01 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-05.txt
+2026-03-06 08:00:01 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-06 21:47:01 [INFO] Fast Paper Trader – Startup
+2026-03-06 21:47:01 [INFO] Loaded 501 tickers from list
+2026-03-06 21:47:03 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,038.67
+2026-03-06 21:47:03 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-06 21:47:03 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-06_0547.txt
+2026-03-06 21:47:03 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-06 21:47:08 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-06 21:47:14 [INFO] Fast Paper Trader – Startup
+2026-03-06 21:47:14 [INFO] Loaded 501 tickers from list
+2026-03-06 21:47:17 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,038.67
+2026-03-06 21:47:17 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-06 21:47:17 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-06_0547.txt
+2026-03-06 21:47:17 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-06 21:47:22 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-07 07:34:05 [INFO]   Signal: LYB @ 67.19 x 6 (pending fill)
+2026-03-07 07:34:06 [INFO]   Filled entry: LYB @ 67.25 x 6.0 -> bracket TP=69.94 STP=65.23
+2026-03-07 07:44:59 [INFO]   Filled exit: LYB @ 66.81 PnL $-2.64 (-0.65%)
+2026-03-07 08:00:01 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-06.txt
+2026-03-07 08:00:01 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-10 06:38:46 [INFO] Fast Paper Trader – Startup
+2026-03-10 06:38:46 [INFO] Loaded 501 tickers from list
+2026-03-10 06:38:49 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,061.51
+2026-03-10 06:39:03 [INFO] Saved cache for next run. Using 150 tickers (external screen).
+2026-03-10 06:39:03 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-09_1539.txt
+2026-03-10 06:39:03 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-10 06:39:08 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-10 07:00:02 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-09.txt
+2026-03-10 07:00:02 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-10 07:01:46 [INFO] Fast Paper Trader – Startup
+2026-03-10 07:01:46 [INFO] Loaded 501 tickers from list
+2026-03-10 07:01:48 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,059.62
+2026-03-10 07:01:48 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-10 07:01:48 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-09_1601.txt
+2026-03-10 07:01:48 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-10 07:01:53 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-10 07:01:53 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-09.txt
+2026-03-10 07:01:53 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-10 21:33:06 [INFO] Fast Paper Trader – Startup
+2026-03-10 21:33:06 [INFO] Loaded 501 tickers from list
+2026-03-10 21:33:09 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,070.17
+2026-03-10 21:33:09 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-10 21:33:09 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-10_0633.txt
+2026-03-10 21:33:09 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-10 21:33:14 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-11 03:44:05 [INFO]   Signal: HPE @ 21.78 x 20 (pending fill)
+2026-03-11 03:44:07 [INFO]   Filled entry: HPE @ 21.78 x 20.0 -> bracket TP=22.65 STP=21.13
+2026-03-11 05:40:05 [INFO]   Signal: DAL @ 59.67 x 7 (pending fill)
+2026-03-11 05:40:07 [INFO]   Filled entry: DAL @ 59.68 x 7.0 -> bracket TP=62.07 STP=57.89
+2026-03-11 06:27:21 [INFO]   Filled exit: HPE @ 21.13 PnL $-13.00 (-2.98%)
+2026-03-11 06:45:00 [INFO]   EOD close: placed market sell 7.0 DAL
+2026-03-11 06:45:03 [INFO]   Filled exit: DAL @ 59.61 PnL $-0.49 (-0.12%)
+2026-03-11 07:00:00 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-10.txt
+2026-03-11 07:00:00 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-11 18:50:47 [INFO] Fast Paper Trader – Startup
+2026-03-11 18:50:47 [INFO] Loaded 501 tickers from list
+2026-03-11 18:50:50 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,062.86
+2026-03-11 18:51:05 [INFO] Saved cache for next run. Using 150 tickers (external screen).
+2026-03-11 18:51:05 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-11_0351.txt
+2026-03-11 18:51:05 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-11 18:51:10 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-11 22:27:16 [INFO] Fast Paper Trader – Startup
+2026-03-11 22:27:16 [INFO] Loaded 501 tickers from list
+2026-03-11 22:27:19 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,062.86
+2026-03-11 22:27:19 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-11 22:27:19 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-11_0727.txt
+2026-03-11 22:27:19 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-11 22:27:24 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-12 07:00:01 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-11.txt
+2026-03-12 07:00:01 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-13 06:23:32 [INFO] Fast Paper Trader – Startup
+2026-03-13 06:23:32 [INFO] Loaded 501 tickers from list
+2026-03-13 06:23:35 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,042.38
+2026-03-13 06:23:35 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-13 06:23:35 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-12_1523.txt
+2026-03-13 06:23:35 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-13 06:23:40 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-13 07:00:00 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-12.txt
+2026-03-13 07:00:00 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-13 21:39:17 [INFO] Fast Paper Trader – Startup
+2026-03-13 21:39:17 [INFO] Loaded 501 tickers from list
+2026-03-13 21:39:19 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,033.10
+2026-03-13 21:39:41 [INFO] Saved cache for next run. Using 150 tickers (external screen).
+2026-03-13 21:39:41 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-13_0639.txt
+2026-03-13 21:39:41 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-13 21:39:46 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-14 05:06:06 [INFO]   Signal: MOS @ 30.21 x 14 (pending fill)
+2026-03-14 05:06:07 [INFO]   Filled entry: MOS @ 30.21 x 14.0 -> bracket TP=31.42 STP=29.30
+2026-03-14 06:23:09 [INFO]   Filled exit: MOS @ 29.30 PnL $-12.74 (-3.01%)
+2026-03-14 06:28:06 [INFO]   Signal: FOXA @ 58.36 x 7 (pending fill)
+2026-03-14 06:28:07 [INFO]   Filled entry: FOXA @ 58.30 x 7.0 -> bracket TP=60.63 STP=56.55
+2026-03-14 06:45:00 [INFO]   EOD close: placed market sell 7.0 FOXA
+2026-03-14 06:45:00 [INFO]   Filled exit: FOXA @ 57.49 PnL $-5.67 (-1.39%)
+2026-03-14 07:00:01 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-13.txt
+2026-03-14 07:00:01 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs
+2026-03-16 23:12:32 [INFO] Fast Paper Trader – Startup
+2026-03-16 23:12:32 [INFO] Loaded 501 tickers from list
+2026-03-16 23:12:35 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,013.64
+2026-03-16 23:12:35 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-16 23:12:35 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-16_0812.txt
+2026-03-16 23:12:35 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-16 23:12:42 [INFO] Fast Paper Trader – Startup
+2026-03-16 23:12:42 [INFO] Loaded 501 tickers from list
+2026-03-16 23:12:44 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,013.64
+2026-03-16 23:12:44 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-16 23:12:44 [INFO] Subscribed tickers (top 100) logged to e:\matts documents\Cursor\Fast paper trader momentum\logs\subscribed_2026-03-16_0812.txt
+2026-03-16 23:12:44 [INFO] Subscribing to 5-sec bars for 100 tickers (capped from 150 by IB limit)...
+2026-03-16 23:12:50 [INFO] Entering main loop. Ctrl+C to stop. Create KILL_SWITCH.txt to stop safely.
+2026-03-17 07:00:01 [INFO] Daily report: e:\matts documents\Cursor\Fast paper trader momentum\Reports\daily_report_2026-03-16.txt
+2026-03-17 07:00:01 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast paper trader momentum\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast paper trader momentum\logs

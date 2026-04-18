@@ -1,0 +1,69 @@
+========================================================================
+  Fast Paper Long/Short – Daily Report  2026-03-23
+========================================================================
+
+
+  Generated: 2026-03-24 07:00
+
+------------------------------------------------------------------------
+  PARAMETERS
+------------------------------------------------------------------------
+
+  First session end (today)     $2,903.12
+  Last session end (today)     $2,903.12
+  Sessions today               1
+
+  Capital / position rules
+    Max positions per day         10
+    Max position per trade        15% of capital
+    Entry order timeout           15 min
+
+  Exit rules
+    TP1                          1.5%  x50%
+    Runner cap                   6%
+    Stop                         2%
+
+------------------------------------------------------------------------
+  DAILY STATS (today)
+------------------------------------------------------------------------
+
+  Trades today                  13
+  P&L today                     $7.75
+  Wins / Losses today           9 / 4
+  Capital at first session end  $2,903.12
+  Capital at last session end   $2,903.12
+  Peak capital (today)          $2,918.52
+
+------------------------------------------------------------------------
+  ROLLING / ALL-TIME STATS
+------------------------------------------------------------------------
+
+  Trading days with trades      1
+  Total trades                  13
+  Initial capital (reference)   $2,918.52
+  Final capital (from logs)     $2,926.27
+  Total P&L                    $7.75
+  Return                       0.27%
+  Avg daily P&L                 $7.75
+  Best day                     2026-03-23  P&L $7.75
+  Worst day                    2026-03-23  P&L $7.75
+  Max drawdown                 $15.40 (0.5%)
+  Win rate                     69.2% (9 wins / 4 losses)
+
+------------------------------------------------------------------------
+  CLUSTERING & RISK
+------------------------------------------------------------------------
+
+  Worst 5-day rolling P&L      $0.00  (ending )
+  Max stops in one day         0 (approx: PnL <= -2.5%)
+  Stops per day distribution   0 stops: 1 days, 1: 0, 2: 0, 3+: 0
+  Longest losing streak        3 trades  P&L $-2.81
+  Worst 10 consecutive trades  P&L $0.00  (0.0% of capital at start of run)
+  Theoretical one-day loss     3.8% of capital (all positions stop, before slippage)
+
+------------------------------------------------------------------------
+  INTRADAY DRAWDOWN
+------------------------------------------------------------------------
+
+  Max intraday drawdown        $15.40
+  Max single-day intraday DD  $15.40  on 2026-03-23

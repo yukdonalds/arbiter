@@ -1,0 +1,600 @@
+2026-03-17 20:33:28 [INFO] Fast Paper Long/Short – Startup
+2026-03-17 20:33:28 [INFO] Loaded 501 tickers from list
+2026-03-17 20:33:31 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,012.72
+2026-03-17 20:33:47 [INFO] Saved cache for next run. Using 150 tickers (external screen).
+2026-03-17 20:33:47 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-17 20:33:52 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 20:33:52 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-17 20:35:00 [INFO] Fast Paper Long/Short – Startup
+2026-03-17 20:35:00 [INFO] Loaded 501 tickers from list
+2026-03-17 20:35:03 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,012.72
+2026-03-17 20:35:03 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-17 20:35:03 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-17 20:35:08 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 20:35:08 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-17 20:36:58 [INFO] Fast Paper Long/Short – Startup
+2026-03-17 20:36:58 [INFO] Loaded 501 tickers from list
+2026-03-17 20:37:01 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,012.61
+2026-03-17 20:37:01 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-17 20:37:01 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-17 20:37:06 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 20:37:06 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-17 20:38:53 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 20:38:53 [INFO] Daily report: E:\matts documents\Cursor\Fast paper long short\Reports\daily_report_2026-03-17.txt
+2026-03-17 20:38:53 [INFO] Disconnected. Session log: E:\matts documents\Cursor\Fast paper long short\logs\session.log; trades/equity in E:\matts documents\Cursor\Fast paper long short\logs
+2026-03-17 20:38:53 [INFO] Daily report: E:\matts documents\Cursor\Fast paper long short\Reports\daily_report_2026-03-17.txt
+2026-03-17 20:38:53 [INFO] Disconnected. Session log: E:\matts documents\Cursor\Fast paper long short\logs\session.log; trades/equity in E:\matts documents\Cursor\Fast paper long short\logs
+2026-03-17 20:38:53 [INFO] Daily report: e:\matts documents\Cursor\Fast Paper Long Short\Reports\daily_report_2026-03-17.txt
+2026-03-17 20:38:53 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast Paper Long Short\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast Paper Long Short\logs
+2026-03-17 20:39:12 [INFO] Fast Paper Long/Short – Startup
+2026-03-17 20:39:12 [INFO] Loaded 501 tickers from list
+2026-03-17 20:41:38 [INFO] Fast Paper Long/Short – Startup
+2026-03-17 20:41:38 [INFO] Loaded 501 tickers from list
+2026-03-17 20:41:40 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,012.61
+2026-03-17 20:41:40 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-17 20:41:40 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-17 20:41:45 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 20:41:45 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-17 20:42:23 [INFO] Fast Paper Long/Short – Startup
+2026-03-17 20:42:23 [INFO] Loaded 501 tickers from list
+2026-03-17 20:42:25 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,012.55
+2026-03-17 20:42:25 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-17 20:42:25 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-17 20:42:30 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 20:42:30 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-17 20:46:50 [INFO] Interrupted.
+2026-03-17 20:46:50 [INFO] Daily report: e:\matts documents\Cursor\Fast Paper Long Short\Reports\daily_report_2026-03-17.txt
+2026-03-17 20:46:50 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast Paper Long Short\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast Paper Long Short\logs
+2026-03-17 22:58:42 [INFO] Fast Paper Long/Short – Startup
+2026-03-17 22:58:42 [INFO] Loaded 501 tickers from list
+2026-03-17 22:58:45 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,012.17
+2026-03-17 22:58:45 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-17 22:58:45 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-17 22:58:49 [INFO] Fast Paper Long/Short – Startup
+2026-03-17 22:58:49 [INFO] Loaded 501 tickers from list
+2026-03-17 22:58:52 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,012.17
+2026-03-17 22:58:52 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-17 22:58:52 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-17 22:58:57 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 22:58:57 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-17 22:59:10 [INFO] Interrupted.
+2026-03-17 22:59:10 [INFO] Daily report: e:\matts documents\Cursor\Fast Paper Long Short\Reports\daily_report_2026-03-17.txt
+2026-03-17 22:59:10 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast Paper Long Short\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast Paper Long Short\logs
+2026-03-17 22:59:33 [INFO] Fast Paper Long/Short – Startup
+2026-03-17 22:59:33 [INFO] Loaded 501 tickers from list
+2026-03-17 22:59:35 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,012.17
+2026-03-17 22:59:35 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-17 22:59:35 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-17 22:59:40 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 22:59:40 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-17 23:04:41 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 23:09:43 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 23:14:44 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 23:19:45 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 23:24:47 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 23:29:48 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 23:34:49 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 23:39:50 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 23:44:52 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 23:49:53 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 23:54:54 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-17 23:59:56 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 00:04:57 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 00:09:58 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 00:14:59 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 00:20:00 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 00:25:01 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 00:30:03 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 00:35:04 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 00:40:05 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 00:45:06 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 00:50:07 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 00:55:08 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:00:10 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:05:11 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:10:12 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:15:13 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:20:14 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:25:15 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:30:16 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:35:18 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:40:19 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:45:20 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:50:21 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 01:55:22 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:00:24 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:05:25 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:10:26 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:15:27 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:20:28 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:25:30 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:30:31 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:35:32 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:40:33 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:45:34 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:50:35 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 02:55:36 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:00:38 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:05:39 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:10:40 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:15:41 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:20:42 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:25:43 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:30:44 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:35:46 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:40:47 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:45:48 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:50:49 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 03:55:50 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:00:51 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:05:52 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:10:54 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:15:55 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:20:56 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:25:57 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:30:58 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:35:59 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:41:01 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:46:02 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:51:03 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 04:56:04 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:01:05 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:06:06 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:11:07 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:16:08 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:21:10 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:26:11 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:31:12 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:36:13 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:41:14 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:46:15 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:51:16 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 05:56:17 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 06:01:18 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 06:06:20 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 06:11:21 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 06:16:22 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 06:21:23 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 06:26:25 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 06:31:26 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 06:36:27 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 06:41:28 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 06:44:43 [INFO] Interrupted.
+2026-03-18 06:44:43 [INFO] Daily report: e:\matts documents\Cursor\Fast Paper Long Short\Reports\daily_report_2026-03-17.txt
+2026-03-18 06:44:43 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast Paper Long Short\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast Paper Long Short\logs
+2026-03-18 06:50:36 [INFO] Fast Paper Long/Short – Startup
+2026-03-18 06:50:36 [INFO] Loaded 501 tickers from list
+2026-03-18 06:50:38 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,016.80
+2026-03-18 06:50:38 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-18 06:50:38 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-18 06:50:43 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 06:50:43 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-18 06:55:44 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 07:00:01 [INFO] Daily report: e:\matts documents\Cursor\Fast Paper Long Short\Reports\daily_report_2026-03-17.txt
+2026-03-18 07:00:01 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast Paper Long Short\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast Paper Long Short\logs
+2026-03-18 23:13:53 [INFO] Fast Paper Long/Short – Startup
+2026-03-18 23:13:53 [INFO] Loaded 501 tickers from list
+2026-03-18 23:13:57 [INFO] Fast Paper Long/Short – Startup
+2026-03-18 23:13:57 [INFO] Loaded 501 tickers from list
+2026-03-18 23:14:00 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,013.19
+2026-03-18 23:14:00 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-18 23:14:00 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-18 23:14:05 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 23:14:05 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-18 23:14:07 [INFO]   Signal: MRNA LONG @ 54.36 x 8 (pending fill)
+2026-03-18 23:14:07 [INFO]   Signal: FCX SHORT @ 58.20 x 7 (pending fill)
+2026-03-18 23:14:09 [INFO]   Signal: RF SHORT @ 25.54 x 17 (pending fill)
+2026-03-18 23:14:09 [INFO]   Signal: TFC SHORT @ 44.95 x 9 (pending fill)
+2026-03-18 23:14:09 [INFO]   Signal: FISV SHORT @ 58.58 x 7 (pending fill)
+2026-03-18 23:14:45 [INFO]   Signal: UBER LONG @ 78.01 x 3 (pending fill)
+2026-03-18 23:14:45 [INFO] BLOCKED: UBER (already in positions or pending)
+2026-03-18 23:14:45 [INFO]   Signal: DDOG LONG @ 129.20 x 2 (pending fill)
+2026-03-18 23:14:45 [INFO] BLOCKED: DDOG (already in positions or pending)
+2026-03-18 23:14:45 [INFO]   Signal: SMCI LONG @ 31.75 x 9 (pending fill)
+2026-03-18 23:14:45 [INFO] BLOCKED: SMCI (already in positions or pending)
+2026-03-18 23:14:45 [INFO]   Signal: PLTR LONG @ 155.80 x 1 (pending fill)
+2026-03-18 23:14:45 [INFO] BLOCKED: PLTR (already in positions or pending)
+2026-03-18 23:14:45 [INFO]   Signal: NVDA LONG @ 182.89 x 1 (pending fill)
+2026-03-18 23:18:06 [INFO] Fast Paper Long/Short – Startup
+2026-03-18 23:18:06 [INFO] Loaded 501 tickers from list
+2026-03-18 23:18:08 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,011.71
+2026-03-18 23:18:08 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-18 23:18:08 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-18 23:18:13 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 23:18:13 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-18 23:22:26 [INFO] Fast Paper Long/Short – Startup
+2026-03-18 23:22:26 [INFO] Loaded 501 tickers from list
+2026-03-18 23:22:29 [INFO] Connected. Account: DUP864580, NetLiquidation: $3,011.67
+2026-03-18 23:22:29 [INFO] Using cached watchlist and metrics: 150 tickers (instant)
+2026-03-18 23:22:29 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-18 23:22:34 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 23:22:34 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-18 23:27:35 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 23:32:36 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 23:37:38 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 23:42:39 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 23:47:40 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 23:52:41 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-18 23:57:42 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:02:44 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:07:45 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:12:47 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:17:48 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:22:50 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:27:51 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:30:05 [INFO]   Signal: TTD SHORT @ 23.26 x 12 (pending fill)
+2026-03-19 00:30:05 [INFO]   Signal: DAL LONG @ 64.55 x 4 (pending fill)
+2026-03-19 00:30:05 [INFO]   Signal: NCLH LONG @ 20.14 x 14 (pending fill)
+2026-03-19 00:30:05 [INFO]   Signal: LUV LONG @ 40.80 x 7 (pending fill)
+2026-03-19 00:30:05 [INFO]   Signal: UBER LONG @ 77.23 x 3 (pending fill)
+2026-03-19 00:30:05 [INFO]   Signal: DASH LONG @ 168.84 x 1 (pending fill)
+2026-03-19 00:30:05 [INFO]   Signal: BX LONG @ 111.45 x 2 (pending fill)
+2026-03-19 00:30:05 [INFO]   Signal: HAL LONG @ 35.40 x 8 (pending fill)
+2026-03-19 00:30:05 [INFO]   Signal: HOOD LONG @ 76.05 x 3 (pending fill)
+2026-03-19 00:30:05 [INFO]   Signal: BKR LONG @ 56.95 x 5 (pending fill)
+2026-03-19 00:30:08 [INFO]   Filled entry: TTD SHORT @ 23.22 x 12.0 -> TP1=22.64 (8 sh), RUN_CAP=21.83 (4 sh), STP=23.92
+2026-03-19 00:30:10 [INFO]   Filled entry: NCLH LONG @ 20.09 x 14.0 -> TP1=20.59 (10 sh), RUN_CAP=21.30 (4 sh), STP=19.49
+2026-03-19 00:30:11 [INFO]   Filled entry: LUV LONG @ 40.93 x 7.0 -> TP1=41.95 (5 sh), RUN_CAP=43.39 (2 sh), STP=39.70
+2026-03-19 00:30:11 [INFO]   Filled entry: HOOD LONG @ 76.60 x 3.0 -> TP1=78.51 (2 sh), RUN_CAP=81.20 (1 sh), STP=74.30
+2026-03-19 00:30:11 [INFO]   Filled entry: DASH LONG @ 169.32 x 1.0 -> TP1=173.55 (0 sh), RUN_CAP=179.48 (1 sh), STP=164.24
+2026-03-19 00:30:11 [INFO]   Filled entry: BKR LONG @ 57.10 x 5.0 -> TP1=58.53 (4 sh), RUN_CAP=60.53 (1 sh), STP=55.39
+2026-03-19 00:30:14 [INFO]   Filled entry: HAL LONG @ 35.43 x 8.0 -> TP1=36.32 (6 sh), RUN_CAP=37.56 (2 sh), STP=34.37
+2026-03-19 00:30:21 [INFO]   Filled entry: UBER LONG @ 76.88 x 3.0 -> TP1=78.80 (2 sh), RUN_CAP=81.49 (1 sh), STP=74.57
+2026-03-19 00:31:21 [INFO]   Filled entry: DAL LONG @ 64.49 x 4.0 -> TP1=66.10 (3 sh), RUN_CAP=68.36 (1 sh), STP=62.56
+2026-03-19 00:31:43 [INFO]   Filled entry: BX LONG @ 111.01 x 2.0 -> TP1=113.79 (1 sh), RUN_CAP=117.67 (1 sh), STP=107.68
+2026-03-19 00:32:52 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:35:23 [INFO]   Filled exit: TTD SHORT @ 23.93 PnL $-2.84 (-3.06%)
+2026-03-19 00:36:05 [INFO]   Signal: UAL LONG @ 92.53 x 3 (pending fill)
+2026-03-19 00:36:06 [INFO]   Filled entry: UAL LONG @ 92.80 x 3.0 -> TP1=95.12 (2 sh), RUN_CAP=98.37 (1 sh), STP=90.02
+2026-03-19 00:37:53 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:41:15 [INFO]   Trail: BX LONG stop moved to breakeven @ 111.01
+2026-03-19 00:42:54 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:46:00 [INFO]   Trail: UAL LONG stop moved to breakeven @ 92.80
+2026-03-19 00:47:28 [INFO]   Filled TP1: BX LONG @ 113.79 x 1 PnL $2.78 (2.50%)
+2026-03-19 00:47:30 [INFO]   Trail: BX LONG stop moved to 112.17
+2026-03-19 00:47:45 [INFO]   Trail: BX LONG stop moved to 112.20
+2026-03-19 00:47:49 [INFO]   Trail: BX LONG stop moved to 112.25
+2026-03-19 00:47:55 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:48:00 [INFO]   Trail: BX LONG stop moved to 112.28
+2026-03-19 00:48:05 [INFO]   Trail: BX LONG stop moved to 112.37
+2026-03-19 00:48:10 [INFO]   Trail: BX LONG stop moved to 112.47
+2026-03-19 00:48:24 [INFO]   Trail: BX LONG stop moved to 112.56
+2026-03-19 00:48:29 [INFO]   Trail: BX LONG stop moved to 112.68
+2026-03-19 00:48:34 [INFO]   Trail: BX LONG stop moved to 112.77
+2026-03-19 00:49:29 [INFO]   Trail: BX LONG stop moved to 112.78
+2026-03-19 00:50:25 [INFO]   Trail: BX LONG stop moved to 112.81
+2026-03-19 00:50:29 [INFO]   Trail: BX LONG stop moved to 112.88
+2026-03-19 00:50:35 [INFO]   Trail: BX LONG stop moved to 112.95
+2026-03-19 00:50:40 [INFO]   Trail: BX LONG stop moved to 113.01
+2026-03-19 00:50:50 [INFO]   Trail: BX LONG stop moved to 113.10
+2026-03-19 00:51:05 [INFO]   Trail: BX LONG stop moved to 113.39
+2026-03-19 00:52:25 [INFO]   Trail: BX LONG stop moved to 113.49
+2026-03-19 00:52:40 [INFO]   Trail: BX LONG stop moved to 113.50
+2026-03-19 00:52:45 [INFO]   Trail: BX LONG stop moved to 113.61
+2026-03-19 00:52:50 [INFO]   Trail: BX LONG stop moved to 113.62
+2026-03-19 00:52:55 [INFO]   Trail: BX LONG stop moved to 113.63
+2026-03-19 00:52:56 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 00:53:00 [INFO]   Trail: BX LONG stop moved to 113.70
+2026-03-19 00:53:04 [INFO]   Trail: BX LONG stop moved to 113.74
+2026-03-19 00:53:10 [INFO]   Trail: BX LONG stop moved to 113.80
+2026-03-19 00:53:25 [INFO]   Trail: BX LONG stop moved to 113.90
+2026-03-19 00:53:30 [INFO]   Trail: BX LONG stop moved to 113.91
+2026-03-19 00:53:40 [INFO]   Trail: BX LONG stop moved to 113.93
+2026-03-19 00:53:50 [INFO]   Trail: BX LONG stop moved to 113.95
+2026-03-19 00:54:20 [INFO]   Trail: BX LONG stop moved to 113.97
+2026-03-19 00:54:30 [INFO]   Trail: BX LONG stop moved to 113.98
+2026-03-19 00:54:50 [INFO]   Trail: BX LONG stop moved to 114.00
+2026-03-19 00:55:10 [INFO]   Trail: BX LONG stop moved to 114.03
+2026-03-19 00:55:15 [INFO]   Trail: BX LONG stop moved to 114.19
+2026-03-19 00:55:40 [INFO]   Trail: BX LONG stop moved to 114.20
+2026-03-19 00:55:45 [INFO]   Trail: BX LONG stop moved to 114.21
+2026-03-19 00:56:00 [INFO]   Trail: BX LONG stop moved to 114.24
+2026-03-19 00:57:58 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 01:02:59 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 01:08:00 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 01:10:23 [INFO]   Filled exit: BX LONG @ 114.14 PnL $3.13 (2.82%)
+2026-03-19 01:10:36 [INFO]   Signal: WSM LONG @ 193.93 x 1 (pending fill)
+2026-03-19 01:10:38 [INFO]   Filled entry: WSM LONG @ 194.87 x 1.0 -> TP1=199.74 (0 sh), RUN_CAP=206.56 (1 sh), STP=189.02
+2026-03-19 01:13:01 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 01:17:23 [INFO]   Filled exit: WSM LONG @ 188.78 PnL $-6.09 (-3.13%)
+2026-03-19 01:18:02 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-19 01:18:06 [INFO]   Signal: APH SHORT @ 131.34 x 1 (pending fill)
+2026-03-19 01:18:07 [INFO]   Filled entry: APH SHORT @ 131.28 x 1.0 -> TP1=128.00 (0 sh), RUN_CAP=123.40 (1 sh), STP=135.22
+2026-03-19 01:23:03 [INFO] Bias: SHORT (0.03) via SPY
+2026-03-19 01:28:04 [INFO] Bias: SHORT (0.04) via SPY
+2026-03-19 01:33:06 [INFO] Bias: SHORT (0.05) via SPY
+2026-03-19 01:38:07 [INFO] Bias: SHORT (0.06) via SPY
+2026-03-19 01:43:08 [INFO] Bias: SHORT (0.07) via SPY
+2026-03-19 01:48:09 [INFO] Bias: SHORT (0.06) via SPY
+2026-03-19 01:53:10 [INFO] Bias: SHORT (0.07) via SPY
+2026-03-19 01:58:11 [INFO] Bias: SHORT (0.06) via SPY
+2026-03-19 02:03:13 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 02:05:45 [INFO]   Trail: NCLH LONG stop moved to breakeven @ 20.09
+2026-03-19 02:08:14 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 02:13:15 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 02:18:16 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 02:20:10 [INFO]   Trail: HAL LONG stop moved to breakeven @ 35.43
+2026-03-19 02:23:17 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-19 02:28:18 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-19 02:33:20 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 02:38:21 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 02:43:22 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 02:48:23 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 02:53:24 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 02:58:25 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 03:03:26 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 03:08:27 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 03:13:29 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 03:18:30 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 03:23:31 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 03:28:32 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 03:33:33 [INFO] Bias: SHORT (0.00) via SPY
+2026-03-19 03:38:05 [INFO]   Trail: BKR LONG stop moved to breakeven @ 57.10
+2026-03-19 03:38:34 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 03:43:35 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 03:48:36 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 03:53:37 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 03:58:38 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 04:03:39 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-19 04:07:33 [INFO]   Filled TP1: HAL LONG @ 36.32 x 6 PnL $5.34 (2.51%)
+2026-03-19 04:07:36 [INFO]   Trail: HAL LONG stop moved to 35.79
+2026-03-19 04:07:45 [INFO]   Trail: HAL LONG stop moved to 35.79
+2026-03-19 04:08:10 [INFO]   Trail: HAL LONG stop moved to 35.81
+2026-03-19 04:08:40 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-19 04:09:50 [INFO]   Trail: HAL LONG stop moved to 35.84
+2026-03-19 04:13:41 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-19 04:14:30 [INFO]   Trail: APH SHORT stop moved to breakeven @ 131.28
+2026-03-19 04:18:43 [INFO] Bias: SHORT (0.03) via SPY
+2026-03-19 04:23:44 [INFO] Bias: SHORT (0.03) via SPY
+2026-03-19 04:28:45 [INFO] Bias: SHORT (0.03) via SPY
+2026-03-19 04:33:46 [INFO] Bias: SHORT (0.03) via SPY
+2026-03-19 04:38:47 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 04:43:48 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 04:48:49 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 04:53:50 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 04:58:51 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 05:03:52 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 05:08:53 [INFO] Bias: LONG (0.00) via SPY
+2026-03-19 05:13:55 [INFO] Bias: LONG (0.00) via SPY
+2026-03-19 05:18:56 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 05:23:57 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 05:28:58 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 05:33:59 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-19 05:36:54 [INFO]   Trail: UAL LONG stop moved to 93.69
+2026-03-19 05:36:58 [INFO]   Filled TP1: UAL LONG @ 95.12 x 2 PnL $4.64 (2.50%)
+2026-03-19 05:36:59 [INFO]   Trail: UAL LONG stop moved to 93.70
+2026-03-19 05:37:05 [INFO]   Trail: UAL LONG stop moved to 93.79
+2026-03-19 05:39:00 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-19 05:44:01 [INFO] Bias: SHORT (0.03) via SPY
+2026-03-19 05:49:02 [INFO] Bias: SHORT (0.03) via SPY
+2026-03-19 05:51:34 [INFO]   Trail: APH SHORT stop moved to 129.80
+2026-03-19 05:51:40 [INFO]   Trail: APH SHORT stop moved to 129.77
+2026-03-19 05:51:45 [INFO]   Trail: APH SHORT stop moved to 129.75
+2026-03-19 05:51:54 [INFO]   Trail: APH SHORT stop moved to 129.74
+2026-03-19 05:52:10 [INFO]   Trail: APH SHORT stop moved to 129.69
+2026-03-19 05:52:15 [INFO]   Trail: APH SHORT stop moved to 129.68
+2026-03-19 05:52:30 [INFO]   Trail: APH SHORT stop moved to 129.67
+2026-03-19 05:52:50 [INFO]   Trail: APH SHORT stop moved to 129.62
+2026-03-19 05:52:55 [INFO]   Trail: APH SHORT stop moved to 129.59
+2026-03-19 05:52:57 [INFO]   Filled exit: NCLH LONG @ 20.08 PnL $-0.04 (-0.05%)
+2026-03-19 05:53:00 [INFO]   Trail: APH SHORT stop moved to 129.51
+2026-03-19 05:53:09 [INFO]   Trail: APH SHORT stop moved to 129.50
+2026-03-19 05:53:20 [INFO]   Trail: APH SHORT stop moved to 129.48
+2026-03-19 05:53:35 [INFO]   Trail: APH SHORT stop moved to 129.47
+2026-03-19 05:53:40 [INFO]   Trail: APH SHORT stop moved to 129.42
+2026-03-19 05:54:03 [INFO] Bias: SHORT (0.04) via SPY
+2026-03-19 05:54:05 [INFO]   Signal: TTD SHORT @ 23.62 x 1 (pending fill)
+2026-03-19 05:54:06 [INFO]   Filled entry: TTD SHORT @ 23.61 x 1.0 -> TP1=23.02 (0 sh), RUN_CAP=22.19 (1 sh), STP=24.32
+2026-03-19 05:54:15 [INFO]   Trail: APH SHORT stop moved to 129.41
+2026-03-19 05:54:19 [INFO]   Trail: APH SHORT stop moved to 129.31
+2026-03-19 05:59:05 [INFO] Bias: SHORT (0.05) via SPY
+2026-03-19 06:00:05 [INFO]   Trail: APH SHORT stop moved to 129.26
+2026-03-19 06:00:54 [INFO]   Trail: APH SHORT stop moved to 129.24
+2026-03-19 06:04:06 [INFO] Bias: SHORT (0.06) via SPY
+2026-03-19 06:07:34 [INFO]   Trail: APH SHORT stop moved to 129.22
+2026-03-19 06:07:44 [INFO]   Trail: APH SHORT stop moved to 129.20
+2026-03-19 06:09:07 [INFO] Bias: SHORT (0.05) via SPY
+2026-03-19 06:11:45 [INFO]   Trail: APH SHORT stop moved to 129.17
+2026-03-19 06:11:50 [INFO]   Trail: APH SHORT stop moved to 129.13
+2026-03-19 06:12:15 [INFO]   Trail: APH SHORT stop moved to 129.08
+2026-03-19 06:12:19 [INFO]   Trail: APH SHORT stop moved to 129.07
+2026-03-19 06:12:50 [INFO]   Trail: APH SHORT stop moved to 129.06
+2026-03-19 06:12:55 [INFO]   Trail: APH SHORT stop moved to 129.04
+2026-03-19 06:13:29 [INFO]   Filled exit: UAL LONG @ 93.79 PnL $0.99 (1.07%)
+2026-03-19 06:14:06 [INFO]   Signal: DG SHORT @ 126.82 x 1 (pending fill)
+2026-03-19 06:14:07 [INFO]   Filled entry: DG SHORT @ 126.79 x 1.0 -> TP1=123.62 (0 sh), RUN_CAP=119.18 (1 sh), STP=130.59
+2026-03-19 06:14:08 [INFO] Bias: SHORT (0.06) via SPY
+2026-03-19 06:16:55 [INFO]   Trail: APH SHORT stop moved to 129.03
+2026-03-19 06:19:09 [INFO] Bias: SHORT (0.06) via SPY
+2026-03-19 06:20:14 [INFO]   Trail: APH SHORT stop moved to 129.02
+2026-03-19 06:20:19 [INFO]   Trail: APH SHORT stop moved to 128.99
+2026-03-19 06:20:24 [INFO]   Trail: APH SHORT stop moved to 128.95
+2026-03-19 06:20:30 [INFO]   Trail: APH SHORT stop moved to 128.94
+2026-03-19 06:21:05 [INFO]   Trail: APH SHORT stop moved to 128.93
+2026-03-19 06:21:10 [INFO]   Trail: APH SHORT stop moved to 128.84
+2026-03-19 06:21:15 [INFO]   Trail: APH SHORT stop moved to 128.78
+2026-03-19 06:23:05 [INFO]   Trail: APH SHORT stop moved to 128.76
+2026-03-19 06:23:30 [INFO]   Trail: APH SHORT stop moved to 128.75
+2026-03-19 06:23:34 [INFO]   Trail: APH SHORT stop moved to 128.69
+2026-03-19 06:24:04 [INFO]   Trail: APH SHORT stop moved to 128.67
+2026-03-19 06:24:09 [INFO]   Trail: APH SHORT stop moved to 128.61
+2026-03-19 06:24:10 [INFO] Bias: SHORT (0.06) via SPY
+2026-03-19 06:24:24 [INFO]   Trail: APH SHORT stop moved to 128.56
+2026-03-19 06:24:34 [INFO]   Trail: APH SHORT stop moved to 128.55
+2026-03-19 06:29:11 [INFO] Bias: SHORT (0.07) via SPY
+2026-03-19 06:30:40 [INFO]   Trail: APH SHORT stop moved to 128.49
+2026-03-19 06:30:50 [INFO]   Trail: APH SHORT stop moved to 128.42
+2026-03-19 06:30:55 [INFO]   Trail: APH SHORT stop moved to 128.39
+2026-03-19 06:31:40 [INFO]   Trail: APH SHORT stop moved to 128.38
+2026-03-19 06:34:04 [INFO]   Trail: APH SHORT stop moved to 128.37
+2026-03-19 06:34:12 [INFO] Bias: SHORT (0.07) via SPY
+2026-03-19 06:39:13 [INFO] Bias: SHORT (0.07) via SPY
+2026-03-19 06:44:15 [INFO] Bias: SHORT (0.08) via SPY
+2026-03-19 06:45:01 [INFO]   EOD close: placed market close TTD (pos -9.0)
+2026-03-19 06:45:01 [INFO]   EOD close: placed market close NCLH (pos 10.0)
+2026-03-19 06:45:01 [INFO]   EOD close: placed market close LUV (pos 7.0)
+2026-03-19 06:45:01 [INFO]   EOD close: placed market close HOOD (pos 3.0)
+2026-03-19 06:45:01 [INFO]   EOD close: placed market close DASH (pos 1.0)
+2026-03-19 06:45:01 [INFO]   EOD close: placed market close BKR (pos 5.0)
+2026-03-19 06:45:01 [INFO]   EOD close: placed market close HAL (pos 2.0)
+2026-03-19 06:45:01 [INFO]   EOD close: placed market close UBER (pos 3.0)
+2026-03-19 06:45:01 [INFO]   EOD close: placed market close DAL (pos 4.0)
+2026-03-19 06:45:01 [INFO]   EOD close: placed market close APH (pos -1.0)
+2026-03-19 06:45:01 [INFO]   EOD close: placed market close DG (pos -1.0)
+2026-03-19 06:45:02 [INFO]   Filled exit: TTD SHORT @ 23.89 PnL $-2.52 (-1.19%)
+2026-03-19 06:45:02 [INFO]   Filled exit: LUV LONG @ 40.17 PnL $-5.32 (-1.86%)
+2026-03-19 06:45:02 [INFO]   Filled exit: HAL LONG @ 36.03 PnL $1.20 (1.69%)
+2026-03-19 06:45:02 [INFO]   Filled exit: BKR LONG @ 57.32 PnL $1.10 (0.39%)
+2026-03-19 06:45:02 [INFO]   Filled exit: DASH LONG @ 165.31 PnL $-4.01 (-2.37%)
+2026-03-19 06:45:02 [INFO]   Filled exit: DAL LONG @ 63.79 PnL $-2.80 (-1.09%)
+2026-03-19 06:45:02 [INFO]   Filled exit: APH SHORT @ 127.04 PnL $4.24 (3.23%)
+2026-03-19 06:45:02 [INFO]   Filled exit: DG SHORT @ 126.80 PnL $-0.01 (-0.01%)
+2026-03-19 06:45:03 [INFO]   Filled exit: UBER LONG @ 76.82 PnL $-0.18 (-0.08%)
+2026-03-19 06:45:03 [INFO]   Filled exit: HOOD LONG @ 75.30 PnL $-3.90 (-1.70%)
+2026-03-19 06:49:16 [INFO] Bias: SHORT (0.08) via SPY
+2026-03-19 06:54:17 [INFO] Bias: SHORT (0.08) via SPY
+2026-03-19 06:59:18 [INFO] Bias: SHORT (0.08) via SPY
+2026-03-19 07:00:00 [INFO] Daily report: e:\matts documents\Cursor\Fast Paper Long Short\Reports\daily_report_2026-03-18.txt
+2026-03-19 07:00:00 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast Paper Long Short\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast Paper Long Short\logs
+2026-03-19 20:08:28 [INFO] Fast Paper Long/Short – Startup
+2026-03-19 20:08:28 [INFO] Loaded 501 tickers from list
+2026-03-19 20:08:34 [INFO] Fast Paper Long/Short – Startup
+2026-03-19 20:08:34 [INFO] Loaded 501 tickers from list
+2026-03-19 20:08:54 [INFO] Fast Paper Long/Short – Startup
+2026-03-19 20:08:54 [INFO] Loaded 501 tickers from list
+2026-03-19 20:08:57 [INFO] Connected. Account: DUP864580, NetLiquidation: $2,963.51
+2026-03-19 20:09:38 [INFO] Saved cache for next run. Using 150 tickers (external screen).
+2026-03-19 20:09:38 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF SPY)...
+2026-03-19 20:09:43 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 20:09:43 [INFO] Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.
+2026-03-19 20:14:44 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 20:19:45 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 20:24:47 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 20:29:48 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 20:34:49 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 20:39:50 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 20:44:51 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 20:49:52 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 20:54:54 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 20:59:55 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 21:04:56 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 21:09:57 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 21:14:59 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 21:20:00 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 21:25:01 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 21:30:02 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 21:35:04 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 21:40:05 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 21:45:06 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 21:50:07 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-03-19 21:55:09 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 22:00:10 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 22:05:11 [INFO] Bias: LONG (0.50) via SPY
+2026-03-19 22:10:13 [INFO] Bias: SHORT (0.00) via SPY
+2026-03-19 22:15:14 [INFO] Bias: SHORT (0.00) via SPY
+2026-03-19 22:20:15 [INFO] Bias: SHORT (0.00) via SPY
+2026-03-19 22:25:16 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 22:30:17 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 22:35:19 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 22:40:20 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 22:45:21 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 22:50:22 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 22:55:24 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 23:00:25 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 23:05:27 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 23:10:28 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 23:15:29 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 23:20:30 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 23:25:31 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 23:30:33 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 23:35:34 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 23:40:35 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-19 23:45:36 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-19 23:50:37 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-19 23:55:39 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 00:00:40 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 00:05:41 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 00:10:42 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 00:15:44 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 00:20:45 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 00:25:47 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 00:30:48 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 00:35:49 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 00:40:50 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 00:45:51 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 00:50:52 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 00:55:54 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 01:00:55 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 01:05:56 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 01:10:57 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 01:15:58 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 01:21:00 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 01:26:01 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 01:31:02 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 01:36:03 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 01:41:04 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 01:46:05 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 01:51:07 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 01:56:08 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 02:01:09 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 02:06:10 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 02:11:11 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 02:16:13 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 02:21:14 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 02:26:15 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 02:31:16 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 02:36:17 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 02:41:18 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 02:46:19 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 02:51:20 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 02:56:22 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 03:01:23 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 03:06:24 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 03:11:25 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 03:16:26 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 03:21:28 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 03:26:29 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 03:31:30 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 03:36:31 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 03:41:32 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 03:46:34 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 03:51:35 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 03:56:36 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:01:37 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:06:38 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:11:39 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:16:40 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:21:42 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:26:43 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:31:44 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:36:45 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:41:47 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:46:48 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:51:49 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 04:56:50 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 05:01:51 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 05:06:52 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 05:11:54 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 05:16:55 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 05:21:56 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 05:26:57 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 05:31:58 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 05:37:00 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 05:42:01 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 05:47:02 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 05:52:03 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 05:57:04 [INFO] Bias: SHORT (0.02) via SPY
+2026-03-20 06:02:06 [INFO] Bias: SHORT (0.00) via SPY
+2026-03-20 06:07:07 [INFO] Bias: LONG (0.01) via SPY
+2026-03-20 06:12:08 [INFO] Bias: LONG (0.02) via SPY
+2026-03-20 06:17:09 [INFO] Bias: LONG (0.02) via SPY
+2026-03-20 06:22:10 [INFO] Bias: LONG (0.02) via SPY
+2026-03-20 06:27:12 [INFO] Bias: LONG (0.50) via SPY
+2026-03-20 06:32:13 [INFO] Bias: SHORT (0.00) via SPY
+2026-03-20 06:37:14 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 06:42:15 [INFO] Bias: SHORT (0.00) via SPY
+2026-03-20 06:47:16 [INFO] Bias: SHORT (0.00) via SPY
+2026-03-20 06:52:17 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 06:57:19 [INFO] Bias: SHORT (0.01) via SPY
+2026-03-20 07:00:01 [INFO] Daily report: e:\matts documents\Cursor\Fast Paper Long Short\Reports\daily_report_2026-03-19.txt
+2026-03-20 07:00:01 [INFO] Disconnected. Session log: e:\matts documents\Cursor\Fast Paper Long Short\logs\session.log; trades/equity in e:\matts documents\Cursor\Fast Paper Long Short\logs

@@ -1,0 +1,91 @@
+========================================================================
+  v2.6 P&L INTRADAY – IB 15m BARS (2022-01-01 to 2024-12-31)
+========================================================================
+
+
+  Generated: 2026-02-13 22:50
+
+  Data source: multi-year database data/ [2022-2024]
+
+------------------------------------------------------------------------
+  PARAMETERS
+------------------------------------------------------------------------
+
+  Initial capital              $4,000.00
+  Backtest range               2022-01-01 to 2024-12-31
+
+  Capital / position rules
+    Max stocks per day           10
+    Max position per trade       15% of capital
+    Position sizing              min(15%, 1/N) per trade; total <= 100%
+    Min triggers to trade day    1
+
+  Exit rules (bar sequence from bar 1; bar 0 = entry bar, not checked)
+    Target                       5%
+    Stop                         3%
+    Ambiguity (target & stop same bar)  always counted as Stop Hit
+
+------------------------------------------------------------------------
+  REALISM SETTINGS (slippage, noise, commissions)
+------------------------------------------------------------------------
+
+  Slippage (worse fill on entry and exit)
+    Base slippage                 0.20% (entry +%, exit −%)
+    Volatile-day slippage        0.50% when day range >= 3%
+
+  Extra fill noise (random adverse)
+    Adverse fill noise            [0, 0.30%] on entry and exit (uniform)
+
+  Target miss (realism)
+    Target-miss probability       10% of target hits → exit at close instead of target
+
+  Gap-through stop (stop slippage)
+    Gap-through probability       30% of stop hits → worse fill
+    If first open < stop          fill = min(stop, first open)
+    Else                          fill = stop × (1 − 0.50%)
+
+  Commissions (IBKR-style)
+    Per share                     $0.0035
+    Min per side                  $1.00
+    Max per side                  0.50% of trade value
+
+  Reproducibility
+    Random seed                   42
+
+------------------------------------------------------------------------
+  RESULTS SUMMARY
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+  RESULTS SUMMARY
+------------------------------------------------------------------------
+
+  Trading days with trades     599
+  Total trades                 2765
+  Initial capital              $4,000.00
+  Final capital                $1,231,570.89
+  Total P&L                    $1,227,570.89
+  Return                       30689.27%
+  Avg daily P&L                $2,049.37
+  Best day                     2024-11-07  P&L $23,524.02
+  Worst day                    2023-08-10  P&L $-1,331.34
+  Max drawdown                 $1,362.21 (0.2%)
+  Win rate                     89.1% (2464 wins / 301 losses)
+
+------------------------------------------------------------------------
+  CLUSTERING & RISK (quick wins)
+------------------------------------------------------------------------
+
+  Worst 5-day rolling P&L      $-754.65  (ending 2023-10-24)
+  Max stops in one day         4
+  Stops per day distribution   0 stops: 527 days, 1: 66, 2: 5, 3+: 1
+  Longest losing streak        5 trades  P&L $-95.94
+  Worst 10 consecutive trades  P&L $-1,160.84  (-1.0% of capital at start of run)
+  Theoretical one-day loss     4.5% of capital (all positions stop, before slippage)
+
+------------------------------------------------------------------------
+  INTRADAY DRAWDOWN
+------------------------------------------------------------------------
+
+  Max intraday drawdown        $20,567.73 (1.6%)
+  Max single-day intraday DD   $21,905.53  on 2024-11-20
