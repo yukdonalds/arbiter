@@ -1,7 +1,7 @@
 # -----------------------------
 # Fast Paper Long/Short – IBKR connection
 # -----------------------------
-import random
+import time
 from ib_insync import IB, Stock
 import config
 
@@ -11,22 +11,61 @@ def make_stock(symbol: str) -> Stock:
     return Stock(symbol, "SMART", "USD")
 
 
+def _managed_accounts_clean(ib: IB) -> list[str]:
+    accounts = []
+    for acc in ib.managedAccounts() or []:
+        s = str(acc or "").strip()
+        if s:
+            accounts.append(s)
+    return accounts
+
+
+def resolve_account_id(ib: IB, account_id: str = "") -> str:
+    explicit = str(account_id or "").strip()
+    if explicit:
+        return explicit
+    cfg_account = str(getattr(config, "IB_ACCOUNT", "") or "").strip()
+    if cfg_account:
+        return cfg_account
+    accounts = _managed_accounts_clean(ib)
+    return accounts[0] if accounts else ""
+
+
 def connect_ib() -> IB:
     ib = IB()
-    client_id = random.randint(1, 32)
-    ib.connect(config.IB_HOST, config.IB_PORT, clientId=client_id)
+    # Avoid sub-account auto-sync requests; some TWS sessions return blank groups.
+    ib.MaxSyncedSubAccounts = 0
+    client_id = int(getattr(config, "IB_CLIENT_ID", 1) or 1)
+    connect_timeout = float(getattr(config, "IB_CONNECT_TIMEOUT_SEC", 20.0) or 20.0)
+    preferred_account = str(getattr(config, "IB_ACCOUNT", "") or "").strip()
+    ib.connect(
+        config.IB_HOST,
+        config.IB_PORT,
+        clientId=client_id,
+        timeout=connect_timeout,
+        account=preferred_account or "",
+    )
     return ib
 
 
 def get_account_value(ib: IB, account_id: str = "") -> float:
-    """Return NetLiquidation in USD. Returns 0 if no USD value found."""
-    account_id = account_id or ""
-    if not account_id and ib.managedAccounts():
-        account_id = ib.managedAccounts()[0]
-    try:
-        summary = ib.accountSummary(account_id)
-    except Exception:
-        summary = ib.accountValues(account_id)
+    """
+    Return NetLiquidation in USD using non-blocking cached account values.
+    Returns 0 if no USD value is available yet.
+    """
+    account_id = resolve_account_id(ib, account_id)
+    if not account_id:
+        return 0.0
+    summary = ib.accountValues(account_id)
+    if not summary:
+        warmup_sec = float(getattr(config, "IB_ACCOUNT_VALUES_WARMUP_SEC", 4.0) or 4.0)
+        poll_sec = float(getattr(config, "IB_ACCOUNT_VALUES_POLL_SEC", 0.2) or 0.2)
+        deadline = time.time() + max(0.5, warmup_sec)
+        while time.time() < deadline:
+            ib.sleep(max(0.05, poll_sec))
+            summary = ib.accountValues(account_id)
+            if summary:
+                break
     for tag in ("NetLiquidation", "TotalCashValue", "EquityWithLoanValue"):
         for av in summary:
             if av.tag != tag:
@@ -42,7 +81,9 @@ def get_account_value(ib: IB, account_id: str = "") -> float:
 
 def get_position_signed(ib: IB, account_id: str, ticker: str) -> float:
     """Return signed position size for ticker (positive=long, negative=short, 0=flat)."""
-    account_id = account_id or (ib.managedAccounts()[0] if ib.managedAccounts() else "")
+    account_id = resolve_account_id(ib, account_id)
+    if not account_id:
+        return 0.0
     try:
         positions = ib.positions(account_id)
     except Exception:
@@ -63,7 +104,9 @@ def get_position_size(ib: IB, account_id: str, ticker: str) -> float:
 
 def get_all_positions(ib: IB, account_id: str = "") -> list[tuple[str, float]]:
     """Return list of (symbol, position) for all stock positions. position is signed (negative = short)."""
-    account_id = account_id or (ib.managedAccounts()[0] if ib.managedAccounts() else "")
+    account_id = resolve_account_id(ib, account_id)
+    if not account_id:
+        return []
     out = []
     try:
         positions = ib.positions(account_id)

@@ -8,7 +8,7 @@ import pytz
 from ib_insync import MarketOrder, Order
 
 import config
-from ib_connection import make_stock, get_position_signed, get_all_positions
+from ib_connection import make_stock, get_position_signed, get_all_positions, resolve_account_id
 
 EASTERN = pytz.timezone("America/New_York")
 
@@ -38,7 +38,7 @@ def place_market_entry_side(ib, ticker: str, shares: float, side: str, account_i
     if side not in ("LONG", "SHORT"):
         raise ValueError(f"Invalid side: {side}")
     contract = make_stock(ticker)
-    account_id = account_id or (ib.managedAccounts()[0] if ib.managedAccounts() else "")
+    account_id = resolve_account_id(ib, account_id)
     action = "BUY" if side == "LONG" else "SELL"
     order = MarketOrder(action, shares)
     order.account = account_id
@@ -64,7 +64,7 @@ def place_marketable_limit_entry_side(
     if side not in ("LONG", "SHORT"):
         raise ValueError(f"Invalid side: {side}")
     contract = make_stock(ticker)
-    account_id = account_id or (ib.managedAccounts()[0] if ib.managedAccounts() else "")
+    account_id = resolve_account_id(ib, account_id)
     action = "BUY" if side == "LONG" else "SELL"
     limit_price = round(float(limit_price), 2)
 
@@ -81,7 +81,7 @@ def place_marketable_limit_entry_side(
 
 def place_market_close(ib, ticker: str, account_id: str = "") -> None:
     """Close any open position without flipping (sell longs, buy-to-cover shorts)."""
-    account_id = account_id or (ib.managedAccounts()[0] if ib.managedAccounts() else "")
+    account_id = resolve_account_id(ib, account_id)
     pos = get_position_signed(ib, account_id, ticker)
     qty = int(abs(pos))
     if qty <= 0:
@@ -104,7 +104,7 @@ def place_stop_order_side(ib, ticker: str, shares: float, stop_price: float, sid
     side = (side or "").upper()
     if side not in ("LONG", "SHORT"):
         return None
-    account_id = account_id or (ib.managedAccounts()[0] if ib.managedAccounts() else "")
+    account_id = resolve_account_id(ib, account_id)
     pos = get_position_signed(ib, account_id, ticker)
     if (side == "LONG" and pos <= 0) or (side == "SHORT" and pos >= 0):
         return None
@@ -140,7 +140,7 @@ def place_bracket_exits_side(ib, ticker: str, shares: float, fill_price: float, 
         raise ValueError(f"Invalid side: {side}")
 
     contract = make_stock(ticker)
-    account_id = account_id or (ib.managedAccounts()[0] if ib.managedAccounts() else "")
+    account_id = resolve_account_id(ib, account_id)
     close_h = getattr(config, "CLOSE_POSITIONS_HOUR", 15)
     close_m = getattr(config, "CLOSE_POSITIONS_MINUTE", 45)
     gtd = _eod_time_str(close_h, close_m - 1) if close_m > 0 else _eod_time_str(close_h - 1, 59)
@@ -203,7 +203,7 @@ def place_partial_runner_exits_side(
         raise ValueError(f"Invalid side: {side}")
 
     contract = make_stock(ticker)
-    account_id = account_id or (ib.managedAccounts()[0] if ib.managedAccounts() else "")
+    account_id = resolve_account_id(ib, account_id)
     close_h = getattr(config, "CLOSE_POSITIONS_HOUR", 15)
     close_m = getattr(config, "CLOSE_POSITIONS_MINUTE", 45)
     gtd = _eod_time_str(close_h, close_m - 1) if close_m > 0 else _eod_time_str(close_h - 1, 59)
@@ -315,7 +315,7 @@ def cancel_gats_that_would_short(ib, account_id: str = "") -> None:
     Kept for compatibility with older behavior.
     In this long/short runner we avoid GAT entry/exit orders, so this is usually a no-op.
     """
-    account_id = account_id or (ib.managedAccounts()[0] if ib.managedAccounts() else "")
+    account_id = resolve_account_id(ib, account_id)
     positions = dict(get_all_positions(ib, account_id))
     for trade in ib.openTrades():
         o = getattr(trade, "order", None)

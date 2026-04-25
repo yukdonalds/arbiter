@@ -26,6 +26,10 @@ SESSION_LOG_FILE = os.path.join(LOG_DIR, "session.log")
 IB_HOST = "127.0.0.1"
 IB_PORT = 7497
 IB_CLIENT_ID = 1
+# Set this to your exact IB account id (recommended, e.g. "DU1234567").
+# Leave as "" only if managedAccounts reliably returns a single valid account.
+IB_ACCOUNT = "DUP864580"
+IB_CONNECT_TIMEOUT_SEC = 20
 MARKET_DATA_TYPE = 1
 
 # Paths
@@ -58,6 +62,21 @@ MIN_BIAS_STRENGTH = 0.30
 BIAS_EMA_FAST = 20
 BIAS_EMA_SLOW = 50
 BIAS_SLOPE_LOOKBACK = 5
+
+# --- SPY regime engine (capital multiplier only; uses ETF bars already in BarBuilder) ---
+REGIME_ENGINE_ENABLED = True
+# Equal weights → regime_score is mean of components in [0, 1].
+REGIME_WEIGHT_TREND = 1.0
+REGIME_WEIGHT_VOL = 1.0
+REGIME_WEIGHT_ER = 1.0
+# Aggregate bars (BAR_MINUTES): ~40 bars ≈ 80 minutes at 2m.
+REGIME_TREND_LOOKBACK = 40
+REGIME_ER_LOOKBACK = 40
+REGIME_ATR_PERIOD = 14
+REGIME_VOL_BASELINE_BARS = 64
+# Map abs(N-bar return %) into [0,1]; lower = need stronger move to score as “trending”.
+REGIME_TREND_SCALE_PCT = 1.25
+REGIME_LOG_VERBOSE = False  # if True, one REGIME line per `process_signals` (live) when engine is on
 
 # v2.7 signal – aggressive momentum (relaxed volatility & VWAP for explosive moves)
 PRICE_MIN, PRICE_MAX = 5.0, 200.0

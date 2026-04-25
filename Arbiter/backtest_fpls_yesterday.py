@@ -10,7 +10,7 @@ Run: python backtest_fpls_yesterday.py [--from YYYY-MM-DD] [--to YYYY-MM-DD]
   data only (yfinance or IB). Top WATCHLIST_TOP_N by score. No lookahead.
 - Fetches 5-sec bars from IBKR for SPY + tickers for each trading day (see config
   BACKTEST_IB_5SEC_ONLY: no yfinance intraday mix when True; cache must look like ~5s bars).
-- Replays bar-by-bar: bias, SPY MA20 trend filter, 2-bar confirmation, signals, execution.
+- Replays bar-by-bar: bias, SPY MA20 trend filter, 2-bar confirmation, SPY regime sizing, signals, execution.
 - Entry/execution rules mirror Arbiter Launch `process_signals`: ENTRY_CUTOFF_* (default 14:00 ET),
   MARKET_OPEN_*, adaptive time sizing, loss-streak sizing, late-day bias block, ATR/score filters,
   MAX_DAILY_LOSS_PCT, subscription-sized universe (MAX_REALTIME_SUBSCRIPTIONS).
@@ -40,6 +40,7 @@ from bar_builder import BarBuilder
 from market_bias import get_market_bias_from_closes
 from signal_engine import check_v26_bar_side, rank_and_cap
 from position_sizing import size_per_trade
+from regime_engine import compute_regime_from_barbuilder
 from metrics_cache import load_cached_metrics, load_cached_watchlist
 from parallel_fetch import build_watchlist_parallel_for_date, fetch_daily_metrics_parallel_for_date
 from daily_report import generate_backtest_report
@@ -643,6 +644,7 @@ def run_backtest(
     condition_counts = {"liquidity": 0, "price": 0, "momentum": 0, "volatility": 0, "structural": 0}
     confirmation_counts = {"strict": 0, "fast_track": 0}
     spy_soft_penalties = 0
+    last_regime_snapshot: dict = {}
     session_start_capital = float(start_capital)
     trades_filled_today = 0
     loss_count_today = 0
@@ -926,7 +928,7 @@ def run_backtest(
 
     def _process_signals(t_et):
         """Mirror Arbiter Launch `process_signals` gates and sizing (instant fill for backtest)."""
-        nonlocal capital, n_filled, spy_soft_penalties, trades_filled_today
+        nonlocal capital, n_filled, spy_soft_penalties, trades_filled_today, last_regime_snapshot
         if not signals_this_bar:
             return
 
@@ -971,6 +973,15 @@ def run_backtest(
 
         spy_trend = _compute_spy_trend_from_barbuilder(bar_builder, ETF_SYMBOL)
         spy_dir = (spy_trend.get("direction") or "NEUTRAL").upper()
+
+        regime_state = compute_regime_from_barbuilder(bar_builder, ETF_SYMBOL)
+        regime_mult = (
+            float(regime_state.get("size_multiplier", 1.0))
+            if getattr(config, "REGIME_ENGINE_ENABLED", True)
+            else 1.0
+        )
+        last_regime_snapshot.clear()
+        last_regime_snapshot.update(dict(regime_state))
 
         size_cap = capital_now * config.MAX_CAPITAL_PCT_USED
 
@@ -1028,7 +1039,7 @@ def run_backtest(
                 continue
 
             dollar, _ = size_per_trade(len(ranked), size_cap, entry_price)
-            dollar *= effective_strength * max(0.2, float(size_multiplier))
+            dollar *= effective_strength * max(0.2, float(size_multiplier) * regime_mult)
             if dollar <= 0:
                 continue
             shares = max(1, int(dollar / entry_price))
@@ -1228,6 +1239,7 @@ def run_backtest(
         "spy_soft_penalties": spy_soft_penalties,
         "fill_model": fill_model,
         "events_processed": len(events),
+        "regime_last": dict(last_regime_snapshot),
     }
     return trades_out, end_capital, total_pnl, diagnostics
 

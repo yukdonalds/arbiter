@@ -13,12 +13,21 @@ Directional v2.6:
 import os
 import time
 import logging
+import traceback
 from datetime import datetime, time as dtime
 
 import pytz
 
 import config
-from ib_connection import connect_ib, get_account_value, get_position_signed, get_all_positions, disconnect_ib, make_stock
+from ib_connection import (
+    connect_ib,
+    get_account_value,
+    get_position_signed,
+    get_all_positions,
+    disconnect_ib,
+    make_stock,
+    resolve_account_id,
+)
 from bar_builder import BarBuilder
 from market_bias import get_market_bias_from_closes
 from signal_engine import check_v26_bar_side, rank_and_cap
@@ -51,6 +60,7 @@ from metrics_cache import (
 from parallel_fetch import build_watchlist_parallel
 from external_screen import build_watchlist_external
 from universe_rescan import prior_trading_session_date, rescan_universe_for_day
+from regime_engine import compute_regime_from_barbuilder
 
 EASTERN = pytz.timezone("America/New_York")
 
@@ -173,11 +183,23 @@ def run():
         return
     log_info(f"Loaded {len(tickers)} tickers from list")
 
-    ib = connect_ib()
-    account_id = ib.managedAccounts()[0] if ib.managedAccounts() else ""
-    ib.reqMarketDataType(getattr(config, "MARKET_DATA_TYPE", 3))
-    ib.sleep(2)
-    capital = get_account_value(ib, account_id)
+    try:
+        log_info("IB startup: connecting...")
+        ib = connect_ib()
+        log_info("IB startup: connected socket; resolving account...")
+        account_id = resolve_account_id(ib)
+        if not account_id:
+            raise RuntimeError(
+                "No usable IB account id found. Set IB_ACCOUNT in config.py or verify TWS account access."
+            )
+        log_info(f"IB startup: using account {account_id}")
+        ib.reqMarketDataType(getattr(config, "MARKET_DATA_TYPE", 3))
+        ib.sleep(2)
+        log_info("IB startup: reading account values...")
+        capital = get_account_value(ib, account_id)
+    except Exception as e:
+        log_info(f"IB startup failed: {e}")
+        return
     log_info(f"Connected. Account: {account_id}, NetLiquidation: ${capital:,.2f}")
 
     init_trade_log()
@@ -749,6 +771,19 @@ def run():
                         boundary,
                     )
 
+    def _wrap_rt_bar(symbol: str):
+        """So a bug in one ticker's bar path cannot kill the whole session (see ~first RTH bar)."""
+
+        def _handler(bars_list, has_new_bar):
+            try:
+                on_5sec_bar(symbol, bars_list, has_new_bar)
+            except Exception as e:
+                log_info(
+                    f"on_5sec_bar({symbol}) error (continuing): {e}\n{traceback.format_exc()}"
+                )
+
+        return _handler
+
     def place_bracket_on_entry_fill(ticker: str, filled: float, avg_price: float, entry_info: dict | None = None) -> bool:
         nonlocal trades_filled_today
         if filled <= 0 or avg_price <= 0:
@@ -1088,10 +1123,17 @@ def run():
     ib.execDetailsEvent += on_exec_details
     ib.orderStatusEvent += on_order_status
 
-    def process_signals():
-        nonlocal n_signals_today, signals_this_bar
-        if not signals_this_bar:
-            return
+    def _safe_cancel_entry_order(ticker: str, trade) -> None:
+        """ib_insync Trade has no .cancel — use IB.cancelOrder (see session.log errors)."""
+        try:
+            o = getattr(trade, "order", None)
+            if o is not None:
+                ib.cancelOrder(o)
+        except Exception as e:
+            log_info(f"  Cancel order {ticker}: {e}")
+
+    def _process_signals_impl():
+        nonlocal n_signals_today, signals_this_bar, peak_capital
         now = now_et()
         # Hard entry cutoff (configurable; default 14:00 ET).
         ec_h = int(getattr(config, "ENTRY_CUTOFF_HOUR", 14))
@@ -1144,6 +1186,18 @@ def run():
         spy_trend = _compute_spy_trend_from_barbuilder(bar_builder)
         spy_dir = (spy_trend.get("direction") or "NEUTRAL").upper()
 
+        regime_state = compute_regime_from_barbuilder(bar_builder)
+        regime_mult = (
+            float(regime_state.get("size_multiplier", 1.0))
+            if getattr(config, "REGIME_ENGINE_ENABLED", True)
+            else 1.0
+        )
+        if getattr(config, "REGIME_ENGINE_ENABLED", True) and getattr(config, "REGIME_LOG_VERBOSE", False):
+            log_info(
+                f"REGIME SPY {regime_state.get('label')} "
+                f"score={float(regime_state.get('regime_score', 0.0)):.2f} mult={regime_mult:.2f}"
+            )
+
         for rank_pos, sig in enumerate(ranked, 1):
             if len(positions_today) + len(pending_entry_trades) >= config.MAX_POSITIONS:
                 break
@@ -1195,7 +1249,7 @@ def run():
             entry_price = float(sig["bar"]["close"])
             capital_for_sizing = capital_now * config.MAX_CAPITAL_PCT_USED
             dollar, _ = size_per_trade(len(ranked), capital_for_sizing, entry_price)
-            dollar *= effective_strength * max(0.2, float(size_multiplier))
+            dollar *= effective_strength * max(0.2, float(size_multiplier) * regime_mult)
             if dollar <= 0 or entry_price <= 0:
                 log_info(f"BLOCKED: {ticker} {side} (dollar={dollar:.0f} or price=0)")
                 continue
@@ -1245,6 +1299,14 @@ def run():
             except Exception as e:
                 log_info(f"  Order failed {ticker}: {e}")
 
+    def process_signals():
+        if not signals_this_bar:
+            return
+        try:
+            _process_signals_impl()
+        except Exception as e:
+            log_info(f"process_signals error (session continues): {e}\n{traceback.format_exc()}")
+
     # --- Subscriptions (ensure ETF is always subscribed) ---
     max_subs = int(getattr(config, "MAX_REALTIME_SUBSCRIPTIONS", 100))
     to_subscribe = list(stream_tickers[:max_subs])
@@ -1258,7 +1320,7 @@ def run():
     for sym in to_subscribe:
         try:
             bars = ib.reqRealTimeBars(make_stock(sym), 5, "TRADES", False)
-            bars.updateEvent += lambda b, hasNew, s=sym: on_5sec_bar(s, b, hasNew)
+            bars.updateEvent += _wrap_rt_bar(sym)
             realtime_streams[sym] = bars
         except Exception:
             pass
@@ -1273,49 +1335,76 @@ def run():
     eod_close_done = False
     eod_closes_placed: set[str] = set()
 
-    log_info('Entering main loop. Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.')
+    _sd_h = int(getattr(config, "SHUTDOWN_HOUR", 16))
+    _sd_m = int(getattr(config, "SHUTDOWN_MINUTE", 0))
+    _t0 = now_et()
+    log_info(
+        f"Entering main loop. US/Eastern now={_t0.strftime('%Y-%m-%d %H:%M:%S')} — "
+        f"runs until {_sd_h:02d}:{_sd_m:02d} ET, then report + disconnect. "
+        f'Ctrl+C to stop. Create "KILL_SWITCH.txt" to stop safely.'
+    )
+    if is_after(_sd_h, _sd_m):
+        log_info(
+            "WARNING: Eastern time is already at/after configured shutdown; this launch will not enter the live loop. "
+            "For a full US session, start Arbiter before that time (config SHUTDOWN_HOUR / SHUTDOWN_MINUTE) or the prior calendar evening in your local zone."
+        )
+
+    session_exit_reason = "us_eastern_shutdown_reached"
     try:
         while not is_after(config.SHUTDOWN_HOUR, config.SHUTDOWN_MINUTE):
-            if is_kill_switch():
-                log_info("Kill switch detected. Stopping.")
-                break
+            try:
+                if is_kill_switch():
+                    log_info("Kill switch detected. Stopping.")
+                    session_exit_reason = "kill_switch"
+                    break
 
-            _update_bias_if_due(force=False)
+                _update_bias_if_due(force=False)
 
-            now = now_et()
-            if (now.hour, now.minute) >= (close_hour, close_minute):
-                positions = get_all_positions(ib, account_id)
-                for ticker, pos in positions:
-                    if ticker in eod_closes_placed:
-                        continue
-                    if pos == 0:
-                        continue
-                    try:
-                        place_market_close(ib, ticker, account_id)
-                        eod_closes_placed.add(ticker)
-                        log_info(f"  EOD close: placed market close {ticker} (pos {pos})")
-                    except Exception as e:
-                        log_info(f"  EOD close failed {ticker}: {e}")
-                if not [p for _, p in positions if p != 0]:
-                    eod_close_done = True
+                now = now_et()
+                if (now.hour, now.minute) >= (close_hour, close_minute):
+                    positions = get_all_positions(ib, account_id)
+                    for ticker, pos in positions:
+                        if ticker in eod_closes_placed:
+                            continue
+                        if pos == 0:
+                            continue
+                        try:
+                            place_market_close(ib, ticker, account_id)
+                            eod_closes_placed.add(ticker)
+                            log_info(f"  EOD close: placed market close {ticker} (pos {pos})")
+                        except Exception as e:
+                            log_info(f"  EOD close failed {ticker}: {e}")
+                    if not [p for _, p in positions if p != 0]:
+                        eod_close_done = True
 
-            for ticker, info in list(pending_entry_trades.items()):
-                if (now - info["placed_at"]).total_seconds() >= timeout_sec:
-                    try:
-                        info["trade"].cancel()
-                    except Exception as e:
-                        log_info(f"  Cancel order {ticker}: {e}")
-                    tickers_cancelled_today.add(ticker)
-                    del pending_entry_trades[ticker]
-                    log_info(f"  Entry order timeout ({timeout_sec}s): cancelled {ticker}, can retry later (bumped down)")
+                for ticker, info in list(pending_entry_trades.items()):
+                    if (now - info["placed_at"]).total_seconds() >= timeout_sec:
+                        _safe_cancel_entry_order(ticker, info["trade"])
+                        tickers_cancelled_today.add(ticker)
+                        del pending_entry_trades[ticker]
+                        log_info(
+                            f"  Entry order timeout ({timeout_sec}s): cancelled {ticker}, can retry later (bumped down)"
+                        )
 
-            ib.sleep(2)
-            t = now_et()
-            if t.minute % config.BAR_MINUTES == 0 and t.second >= 5 and signals_this_bar:
-                process_signals()
+                try:
+                    ib.sleep(2)
+                except Exception as se:
+                    log_info(f"ib.sleep/IB: {se}\n{traceback.format_exc()}")
+                    time.sleep(2)
+
+                t = now_et()
+                if t.minute % config.BAR_MINUTES == 0 and t.second >= 5 and signals_this_bar:
+                    process_signals()
+            except Exception as loop_ex:
+                log_info(f"Main loop iteration error (continuing): {loop_ex}\n{traceback.format_exc()}")
     except KeyboardInterrupt:
+        session_exit_reason = "keyboard_interrupt"
         log_info("Interrupted.")
+    except Exception as outer_ex:
+        session_exit_reason = f"fatal: {outer_ex!r}"
+        log_info(f"Main loop outer error: {outer_ex}\n{traceback.format_exc()}")
     finally:
+        log_info(f"Session end reason: {session_exit_reason}")
         capital = get_account_value(ib, account_id)
         peak_capital = max(peak_capital, capital)
         # Best-effort: cancel real-time bar streams created by this run

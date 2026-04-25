@@ -1,17 +1,17 @@
 =====================================================================================
-  Fast Paper Long/Short – BACKTEST Report  2026-04-17 to 2026-04-17
+  Fast Paper Long/Short – BACKTEST Report  2026-04-02 to 2026-04-02
 =====================================================================================
 
   *** BACKTEST – not live trading ***
 
-  Generated: 2026-04-18 17:50
+  Generated: 2026-04-18 18:20
 
 -------------------------------------------------------------------------------------
   BACKTEST RANGE
 -------------------------------------------------------------------------------------
 
-  Date from                     2026-04-17
-  Date to                       2026-04-17
+  Date from                     2026-04-02
+  Date to                       2026-04-02
   Trading days requested        1
   Trading days replayed         1
 
@@ -29,40 +29,40 @@
   BACKTEST RESULTS
 -------------------------------------------------------------------------------------
 
-  Total trades                  31
-  Avg trades / replay day       31.00
-  Wins / Losses                 16 / 15
-  Win rate                      51.6%
+  Total trades                  23
+  Avg trades / replay day       23.00
+  Wins / Losses                 6 / 17
+  Win rate                      26.1%
   Start capital                 $20,001.74
-  End capital                   $19,936.20
-  Total P&L                     $-65.54
-  Return                        -0.33%
-  Avg daily P&L                 $-65.54
-  Best day                      2026-04-17  P&L $-65.54
-  Worst day                     2026-04-17  P&L $-65.54
-  Max drawdown                  $65.54 (0.3%)
-  Exit reason mix               EOD:10, STP:13, TP1:8
+  End capital                   $19,856.45
+  Total P&L                     $-145.29
+  Return                        -0.73%
+  Avg daily P&L                 $-145.29
+  Best day                      2026-04-02  P&L $-145.29
+  Worst day                     2026-04-02  P&L $-145.29
+  Max drawdown                  $145.29 (0.7%)
+  Exit reason mix               EOD:10, STP:8, TP:2, TP1:3
 
 -------------------------------------------------------------------------------------
   CLUSTERING & RISK
 -------------------------------------------------------------------------------------
 
-  Worst 5-day rolling P&L       $-65.54  (ending 2026-04-17)
-  Max stops in one day          6 (approx: PnL <= -2.5%)
+  Worst 5-day rolling P&L       $-145.29  (ending 2026-04-02)
+  Max stops in one day          7 (approx: PnL <= -2.5%)
   Stops per day distribution    0 stops: 0 days, 1: 0, 2: 0, 3+: 1
-  Longest losing streak         13 trades  P&L $-114.15
-  Worst 10 consecutive trades   P&L $-99.25  (-0.5%)
+  Longest losing streak         6 trades  P&L $-116.75
+  Worst 10 consecutive trades   P&L $-136.87  (-0.7%)
   Theoretical one-day loss      3.8% of capital
 
 -------------------------------------------------------------------------------------
   DIAGNOSTICS
 -------------------------------------------------------------------------------------
 
-  Bias distribution             LONG: 36, SHORT: 21, NEUTRAL: 21
-  Signal hits (long / short)    5319 / 3244
-  Confirmations (strict/fast)   154 / 4019
+  Bias distribution             LONG: 49, SHORT: 8, NEUTRAL: 21
+  Signal hits (long / short)    5712 / 2654
+  Confirmations (strict/fast)   312 / 2946
   SPY soft penalties            0
   Fill model                    live_parity
   Events processed              468000
-  Per-condition hits            {'liquidity': 220, 'price': 21985, 'momentum': 2984,
-    'volatility': 22332, 'structural': 10712}
+  Per-condition hits            {'liquidity': 9, 'price': 22267, 'momentum': 859,
+    'volatility': 22327, 'structural': 10637}
