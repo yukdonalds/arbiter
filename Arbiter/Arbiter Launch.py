@@ -33,6 +33,7 @@ from market_bias import get_market_bias_from_closes
 from signal_engine import check_v26_bar_side, rank_and_cap
 from position_sizing import size_per_trade
 from order_execution import (
+    actual_fill_price_from_ib,
     place_bracket_exits_side,
     place_market_close,
     place_partial_runner_exits_side,
@@ -547,6 +548,7 @@ def run():
             trail_be_mfe = float(getattr(config, "TRAIL_BREAKEVEN_MFE_PCT", 2.0))
             trail_act_mfe = float(getattr(config, "TRAIL_ACTIVATE_MFE_PCT", 3.0))
             trail_dist_pct = float(getattr(config, "TRAIL_DISTANCE_PCT", 1.5))
+            hard_be_trigger_pct = 0.8
             stop_trade = info.get("stop_trade")
             if stop_trade and ep > 0:
                 try:
@@ -590,6 +592,28 @@ def run():
                     high_se = float(info.get("high_since_entry", ep))
                     low_se = float(info.get("low_since_entry", ep))
                     mfe_pct, _ = _mfe_mae_pct(side, ep, high_se, low_se)
+                    cur_price = float(getattr(bar, "close", ep) or ep)
+                    unrealized_pct = (
+                        ((cur_price - ep) / ep * 100.0)
+                        if side == "LONG"
+                        else ((ep - cur_price) / ep * 100.0)
+                    )
+
+                    if unrealized_pct >= hard_be_trigger_pct:
+                        be_stop = ep * (1.001 if side == "LONG" else 0.999)
+                        current_stop = float(info.get("current_stop_price") or 0.0)
+                        should_move = (
+                            (side == "LONG" and be_stop > current_stop)
+                            or (side == "SHORT" and (current_stop <= 0 or be_stop < current_stop))
+                        )
+                        if should_move:
+                            ib.cancelOrder(stop_trade.order)
+                            new_sl = place_stop_order_side(ib, sym, shares, be_stop, side, account_id)
+                            info["stop_trade"] = new_sl
+                            stop_trade = new_sl
+                            info["current_stop_price"] = be_stop
+                            info["stop_at_breakeven"] = True
+                            log_info(f"  Break-even lock: {sym} {side} stop moved to {be_stop:.2f} at {unrealized_pct:.2f}%")
 
                     if mfe_pct >= trail_be_mfe and not info.get("stop_at_breakeven"):
                         ib.cancelOrder(stop_trade.order)
@@ -1062,17 +1086,15 @@ def run():
 
             action = getattr(trade.order, "action", None)
             filled = float(getattr(trade.orderStatus, "filled", 0) or 0)
-            avg_price = float(
-                getattr(trade.orderStatus, "avgFillPrice", 0)
-                or getattr(getattr(fill, "execution", None), "price", 0)
-                or 0
-            )
+            avg_price = float(actual_fill_price_from_ib(trade, fill) or 0)
 
             # Entry fill
             if ticker in pending_entry_trades:
                 entry_side = (pending_entry_trades[ticker].get("side") or "LONG").upper()
                 entry_action = "BUY" if entry_side == "LONG" else "SELL"
                 if action == entry_action:
+                    if avg_price <= 0:
+                        return
                     place_bracket_on_entry_fill(ticker, filled, avg_price)
                     return
 

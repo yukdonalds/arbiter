@@ -4,7 +4,7 @@
 
   *** BACKTEST – not live trading ***
 
-  Generated: 2026-04-18 17:50
+  Generated: 2026-04-26 12:46
 
 -------------------------------------------------------------------------------------
   BACKTEST RANGE
@@ -29,29 +29,29 @@
   BACKTEST RESULTS
 -------------------------------------------------------------------------------------
 
-  Total trades                  31
-  Avg trades / replay day       31.00
-  Wins / Losses                 16 / 15
-  Win rate                      51.6%
-  Start capital                 $20,001.74
-  End capital                   $19,936.20
-  Total P&L                     $-65.54
-  Return                        -0.33%
-  Avg daily P&L                 $-65.54
-  Best day                      2026-04-17  P&L $-65.54
-  Worst day                     2026-04-17  P&L $-65.54
-  Max drawdown                  $65.54 (0.3%)
-  Exit reason mix               EOD:10, STP:13, TP1:8
+  Total trades                  29
+  Avg trades / replay day       29.00
+  Wins / Losses                 15 / 14
+  Win rate                      51.7%
+  Start capital                 $19,787.79
+  End capital                   $19,651.85
+  Total P&L                     $-135.94
+  Return                        -0.69%
+  Avg daily P&L                 $-135.94
+  Best day                      2026-04-17  P&L $-135.94
+  Worst day                     2026-04-17  P&L $-135.94
+  Max drawdown                  $135.94 (0.7%)
+  Exit reason mix               EOD:10, STP:12, TP1:7
 
 -------------------------------------------------------------------------------------
   CLUSTERING & RISK
 -------------------------------------------------------------------------------------
 
-  Worst 5-day rolling P&L       $-65.54  (ending 2026-04-17)
+  Worst 5-day rolling P&L       $-135.94  (ending 2026-04-17)
   Max stops in one day          6 (approx: PnL <= -2.5%)
   Stops per day distribution    0 stops: 0 days, 1: 0, 2: 0, 3+: 1
-  Longest losing streak         13 trades  P&L $-114.15
-  Worst 10 consecutive trades   P&L $-99.25  (-0.5%)
+  Longest losing streak         9 trades  P&L $-181.32
+  Worst 10 consecutive trades   P&L $-183.37  (-0.9%)
   Theoretical one-day loss      3.8% of capital
 
 -------------------------------------------------------------------------------------
@@ -59,10 +59,10 @@
 -------------------------------------------------------------------------------------
 
   Bias distribution             LONG: 36, SHORT: 21, NEUTRAL: 21
-  Signal hits (long / short)    5319 / 3244
-  Confirmations (strict/fast)   154 / 4019
+  Signal hits (long / short)    5426 / 3243
+  Confirmations (strict/fast)   159 / 4096
   SPY soft penalties            0
   Fill model                    live_parity
   Events processed              468000
-  Per-condition hits            {'liquidity': 220, 'price': 21985, 'momentum': 2984,
-    'volatility': 22332, 'structural': 10712}
+  Per-condition hits            {'liquidity': 301, 'price': 21913, 'momentum': 3189,
+    'volatility': 22389, 'structural': 10757}

@@ -281,5 +281,7 @@ def rank_and_cap(signals: list[dict], max_n: int = 10) -> list[dict]:
         score = float(x.get("score", 0) or 0)
         return (-rel_vol, -price_score, -score)  # descending
     sorted_s = sorted(signals, key=_sort_key)
-    return sorted_s[:max_n]
+    # Edge filter: only top-3 ranked signals are eligible for order generation.
+    effective_cap = min(max_n, 3)
+    return sorted_s[:effective_cap]
 

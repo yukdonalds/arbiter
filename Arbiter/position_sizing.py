@@ -2,6 +2,7 @@
 # Fast Paper Long/Short – Position sizing
 # -----------------------------
 import config
+import math
 
 
 def size_per_trade(n_signals_today: int, capital: float, entry_price: float) -> tuple[float, float]:
@@ -10,6 +11,8 @@ def size_per_trade(n_signals_today: int, capital: float, entry_price: float) -> 
     n = min(n_signals_today, config.MAX_POSITIONS)
     size_pct = min(config.MAX_POSITION_PCT, 1.0 / n)
     dollar = size_pct * capital
-    shares = dollar / entry_price
+    calculated_shares = dollar / entry_price
+    min_shares = math.ceil(800.0 / entry_price)
+    shares = max(calculated_shares, float(min_shares))
     return dollar, shares
 

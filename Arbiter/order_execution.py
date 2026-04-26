@@ -13,6 +13,24 @@ from ib_connection import make_stock, get_position_signed, get_all_positions, re
 EASTERN = pytz.timezone("America/New_York")
 
 
+def actual_fill_price_from_ib(trade, fill) -> float:
+    """
+    Resolve the actual IB average fill price for an entry.
+    Priority:
+    1) fill.avgFillPrice (when present on Fill)
+    2) trade.orderStatus.avgFillPrice
+    3) fill.execution.price
+    """
+    fill_avg = float(getattr(fill, "avgFillPrice", 0) or 0)
+    if fill_avg > 0:
+        return fill_avg
+    status_avg = float(getattr(getattr(trade, "orderStatus", None), "avgFillPrice", 0) or 0)
+    if status_avg > 0:
+        return status_avg
+    exec_price = float(getattr(getattr(fill, "execution", None), "price", 0) or 0)
+    return exec_price
+
+
 def runner_secure_stop_price(entry_price: float, side: str) -> float:
     """
     Return the runner stop price that guarantees net profit after TP1.
@@ -145,6 +163,10 @@ def place_bracket_exits_side(ib, ticker: str, shares: float, fill_price: float, 
     close_m = getattr(config, "CLOSE_POSITIONS_MINUTE", 45)
     gtd = _eod_time_str(close_h, close_m - 1) if close_m > 0 else _eod_time_str(close_h - 1, 59)
 
+    fill_price = float(fill_price or 0.0)
+    if fill_price <= 0:
+        raise ValueError("fill_price must be > 0 (use actual IB avg fill price)")
+
     if side == "LONG":
         take_profit_price = round(fill_price * (1 + config.TARGET_PCT), 2)
         stop_price = round(fill_price * (1 - config.STOP_PCT), 2)
@@ -201,6 +223,9 @@ def place_partial_runner_exits_side(
     side = (side or "").upper()
     if side not in ("LONG", "SHORT"):
         raise ValueError(f"Invalid side: {side}")
+    fill_price = float(fill_price or 0.0)
+    if fill_price <= 0:
+        raise ValueError("fill_price must be > 0 (use actual IB avg fill price)")
 
     contract = make_stock(ticker)
     account_id = resolve_account_id(ib, account_id)
