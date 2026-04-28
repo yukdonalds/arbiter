@@ -1,0 +1,114 @@
+=====================================================================================
+  Fast Paper Long/Short – Daily Report  2026-04-27
+=====================================================================================
+
+  Generated: 2026-04-28 07:44
+
+-------------------------------------------------------------------------------------
+  RULES
+-------------------------------------------------------------------------------------
+
+  Capital / position limits
+    Max positions per day         10
+    Max position per trade        15% of capital
+    Entry order timeout           15 min
+
+  Exit rules
+    TP1                          1.5%  x50%
+    Runner cap                   6%
+    Stop                         2%
+
+-------------------------------------------------------------------------------------
+  TODAY - BROKER EQUITY (daily_equity.csv) vs TRADE LOG (trades.csv)
+-------------------------------------------------------------------------------------
+
+  Broker line: Net Liq from each session row in daily_equity (last print of run, from
+    IB).
+  Prior close to session close   $19,787.79 -> $19,787.80
+  Broker day change (Net Liq)    $0.01  (sessions logged: 1)
+  Peak equity (day, from log)    $19,813.68
+
+  Closed-trade rows today        18  (one row per partial TP1 and per final exit)
+  Sum of booked P&L (rows)       $42.12
+  Wins / losses (on row P&L)     14 / 4
+  Session counter trades_exited  16  (position exits; can be < trade rows if TP1
+    split)
+
+  Reconciliation gap             $-42.11   (= broker day change minus sum trade P&L)
+    Identity (always): broker day change = sum trade P&L + gap.
+      Check: $0.01 = $42.12 + ($-42.11)
+    If broker change is ~0 but trade sum is large, gap is ~negative trade sum by
+     arithmetic
+      (not two unrelated mistakes). Means Net Liq snapshot did not move like the
+       trade book.
+
+-------------------------------------------------------------------------------------
+  SNAPSHOT (cumulative, through report date)
+-------------------------------------------------------------------------------------
+
+    Avg trade rows / trading day  13.88
+    Win rate (today, row P&L)     77.8%
+    Return vs prior close          +0.21%  (sum trade rows / prior close)
+    Avg daily P&L (trade log)      $-5.03
+    Best / worst day (by date)     2026-04-27 $42.12  |  2026-04-22 $-69.17
+    Max drawdown (model)          $183.09 (0.9%)
+    Exit reason mix (today)        EOD:4, STP:11, TP1:3
+
+-------------------------------------------------------------------------------------
+  ROLLING / ALL-TIME (trade log + broker equity log)
+-------------------------------------------------------------------------------------
+
+  Trading days with activity      8
+  Total closed-trade rows         111
+  Sum of trade-log P&L            $-40.21
+  Implied equity (1st snapshot + sum P&L)  $2,803.43  (ignores funding jumps)
+  First broker snapshot            $2,843.64  (2026-04-01)
+  Latest broker snapshot         $19,787.80  (2026-04-27)
+  Return, trade sum / 1st snap     -1.41%  (not meaningful if account was reset)
+  Return, broker first-to-last     N/A (equity log has funding/resets; do not use
+    first-to-last pct as strategy return)
+  Avg daily P&L (trade log)      $-5.03
+  Best / worst day                2026-04-27  $42.12  |  2026-04-22  $-69.17
+  Max drawdown (model)            $183.09 (0.9%)
+  Win rate                        62.6% (67 wins / 40 losses)
+
+-------------------------------------------------------------------------------------
+  CLUSTERING & RISK
+-------------------------------------------------------------------------------------
+
+  Worst 5-day rolling P&L      $-100.54  (ending 2026-04-24)
+  Max stops in one day         4 (approx: PnL <= -2.5%)
+  Stops per day distribution   0 stops: 3 days, 1: 4, 2: 0, 3+: 1
+  Longest losing streak        6 trades  P&L $-82.84
+  Worst 10 consecutive trades  P&L $-79.73  (-2.8% of capital at start of run)
+  Theoretical one-day loss     3.8% of capital (all positions stop, before slippage)
+
+-------------------------------------------------------------------------------------
+  INTRADAY DRAWDOWN
+-------------------------------------------------------------------------------------
+
+  Max intraday drawdown        $93.45
+  Max single-day intraday DD  $93.45  on 2026-04-22
+
+-------------------------------------------------------------------------------------
+  NARRATIVE SUMMARY
+-------------------------------------------------------------------------------------
+
+  On 2026-04-27 trades.csv recorded 18 closed-trade row(s) totaling $42.12 booked P&L
+  (+0.21% vs prior close if rows are accurate), a 77.8% session win rate (14 wins / 4
+  losses). Today's exit mix: EOD:4, STP:11, TP1:3. 11 exit(s) tagged STP - compare to
+  intraday path and the configured stop if you are diagnosing chop versus trend.
+  Broker day change ($0.01) minus summed trade P&L ($42.12) = $-42.11. Common causes:
+  other positions or cash in the account, unsettled timing, fees, or imputed/rounded
+  fills in the trade log. If net liquidation is almost flat but trade rows show
+  material P&L, compare to IB Trades/Activity; the log is a strategy book, not always
+  equal to end-of-day broker net liquidation.
+
+  Rolling context (through this report date, from logs above): cumulative return
+  -1.41%, max drawdown $183.09 (0.9%), all-time win rate 62.6% (67W / 40L), avg daily
+  P&L $-5.03 across 8 trading day(s) with activity. Calendar best 2026-04-27
+  ($42.12); worst 2026-04-22 ($-69.17).
+
+  Verdict (read with the numeric sections; not investment advice): elevated stop
+  participation vs. total exits - worth a quick scan for whipsaw or gap risk if that
+  pattern repeats.

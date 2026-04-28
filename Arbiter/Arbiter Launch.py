@@ -921,6 +921,15 @@ def run():
             date_str = now_et().strftime("%Y-%m-%d")
             entry_price = float(info["entry_price"])
 
+            if exit_price <= 0 or exit_price != exit_price:
+                log_info(
+                    f"  TP1 fill ignored for trade log: {ticker} invalid exit price {exit_price!r} "
+                    "(not writing trades.csv row; check fill price from IB)"
+                )
+                info["tp1_shares"] = max(0.0, float(info.get("tp1_shares") or 0.0) - qty)
+                pending_trades[ticker] = info
+                return
+
             if side == "SHORT":
                 pnl_d = (entry_price - exit_price) * qty
                 pnl_pct = ((entry_price - exit_price) / entry_price * 100.0) if entry_price else 0.0
@@ -1024,6 +1033,20 @@ def run():
         mfe_pct, mae_pct = _mfe_mae_pct(side, ep, high_se, low_se)
         hit_3_before_3 = mfe_pct >= 3 and mae_pct > -3
         slippage_entry = ((ep - sp) / sp * 100.0) if sp else 0.0
+
+        if exit_price <= 0 or exit_price != exit_price:
+            log_info(
+                f"  Final exit: {ticker} invalid exit price {exit_price!r} - "
+                "not writing trades.csv (reconcile from IB); clearing state"
+            )
+            positions_today.discard(ticker)
+            try:
+                if tp1_trade and getattr(getattr(tp1_trade, "orderStatus", None), "status", "") != "Filled":
+                    ib.cancelOrder(tp1_trade.order)
+            except Exception:
+                pass
+            del pending_trades[ticker]
+            return
 
         log_trade(
             date_str,

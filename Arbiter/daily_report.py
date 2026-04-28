@@ -6,11 +6,16 @@ Generate a daily report when the session ends. Reads logs/trades.csv and
 logs/daily_equity.csv for daily stats (today) and rolling/all-time stats.
 Report saved to Reports/daily_report_YYYY-MM-DD.txt and optionally mirrored
 to config.REPORT_MIRROR_DIR when set.
+
+Daily account P&L headline uses broker Net Liquidation change by default
+(config REPORT_DAILY_PNL_PRIMARY = "broker") so headline numbers align with IB;
+trade rows remain the strategy model for execution review.
 """
 
 import csv
 import os
 import textwrap
+from collections import defaultdict
 from datetime import datetime
 
 import config
@@ -130,6 +135,83 @@ def _equity_log_path() -> str:
     return os.path.join(config.LOG_DIR, "daily_equity.csv")
 
 
+def _daily_regime_path() -> str:
+    return os.path.join(config.LOG_DIR, "daily_regime.csv")
+
+
+def _load_regime_row_for_date(date_only: str) -> dict | None:
+    path = _daily_regime_path()
+    if not os.path.isfile(path):
+        return None
+    last: dict | None = None
+    with open(path, "r", newline="", encoding="utf-8") as f:
+        r = csv.DictReader(f)
+        for row in r:
+            if (row.get("Date") or "")[:10] == date_only[:10]:
+                last = row
+    return last
+
+
+def _equity_series_has_funding_jump(equity_rows: list[dict]) -> bool:
+    """True if consecutive broker snapshots look like funding/reset, not P&L drift."""
+    if len(equity_rows) < 2:
+        return False
+    # Sort by date string then order in file (already append order)
+    for i in range(1, len(equity_rows)):
+        prev = float(equity_rows[i - 1].get("Equity", 0) or 0)
+        curr = float(equity_rows[i].get("Equity", 0) or 0)
+        if prev <= 0:
+            continue
+        jump = abs(curr - prev)
+        if jump > 2000 and jump / prev > 0.15:
+            return True
+    return False
+
+
+def _equity_last_close_by_date(equity_rows: list[dict]) -> dict[str, float]:
+    """Calendar date -> session-close Equity from daily_equity.csv (last row per date)."""
+    by_date: dict[str, list] = defaultdict(list)
+    for r in equity_rows:
+        d = (r.get("Date") or "")[:10]
+        if d:
+            by_date[d].append(r)
+    return {d: float(rows[-1].get("Equity", 0)) for d, rows in by_date.items()}
+
+
+def _avg_broker_daily_delta_to_date(equity_rows: list[dict], date_cap: str) -> float:
+    """Mean day-over-day Net Liq change for dates <= date_cap (ordered dates in log only)."""
+    close_map = _equity_last_close_by_date(equity_rows)
+    ds = sorted(d for d in close_map if d <= date_cap[:10])
+    if len(ds) < 2:
+        return 0.0
+    deltas = []
+    raw = []
+    for i in range(1, len(ds)):
+        prev_e = close_map[ds[i - 1]]
+        delta = close_map[ds[i]] - prev_e
+        raw.append(delta)
+        # Omit funding / reset steps so they don't dominate the average.
+        if prev_e > 0 and abs(delta) > 2000 and abs(delta) / prev_e > 0.15:
+            continue
+        deltas.append(delta)
+    if deltas:
+        return sum(deltas) / len(deltas)
+    if raw:
+        return sum(raw) / len(raw)
+    return 0.0
+
+
+def _scan_trade_rows_for_issues(day_trades: list[dict]) -> list[str]:
+    """Human-readable flags for obviously bad bookkeeping rows (e.g. $0 exit price)."""
+    out: list[str] = []
+    for t in day_trades:
+        sym = t.get("Ticker", "?")
+        x = float(t.get("ExitPrice", 0) or 0)
+        if x <= 0 and (t.get("EntryPrice") or 0) and float(t.get("Shares", 0) or 0) > 0:
+            out.append(f"{sym}: exit price {x:.2f} (booked P&L likely wrong)")
+    return out
+
+
 def _load_trades() -> list[dict]:
     """Load all rows from trades.csv as list of dicts."""
     path = _trade_log_path()
@@ -142,6 +224,8 @@ def _load_trades() -> list[dict]:
             try:
                 row["PnL_Dollars"] = float(row.get("PnL_Dollars", 0))
                 row["PnL_Pct"] = float(row.get("PnL_Pct", 0))
+                row["ExitPrice"] = float(row.get("ExitPrice", 0) or 0)
+                row["EntryPrice"] = float(row.get("EntryPrice", 0) or 0)
             except (ValueError, TypeError):
                 continue
             out.append(row)
@@ -224,6 +308,13 @@ def _rolling_stats(trades: list[dict], equity_rows: list[dict], initial_capital:
             "max_intraday_dd": 0.0,
             "max_single_day_intraday_dd": 0.0,
             "max_single_day_intraday_dd_date": "",
+            "broker_equity_first": 0.0,
+            "broker_equity_last": 0.0,
+            "broker_date_first": "",
+            "broker_date_last": "",
+            "broker_curve_pct": 0.0,
+            "equity_series_has_jump": False,
+            "trade_implied_final_equity": 0.0,
         }
 
     from collections import defaultdict
@@ -349,6 +440,19 @@ def _rolling_stats(trades: list[dict], equity_rows: list[dict], initial_capital:
                 max_single_day_intraday_dd = day_max_dd
                 max_single_day_intraday_dd_date = d
 
+    broker_equity_first = float(equity_rows[0].get("Equity", 0)) if equity_rows else initial_capital
+    broker_equity_last = float(equity_rows[-1].get("Equity", 0)) if equity_rows else initial_capital + total_pnl
+    broker_date_first = (equity_rows[0].get("Date") or "")[:10] if equity_rows else ""
+    broker_date_last = (equity_rows[-1].get("Date") or "")[:10] if equity_rows else ""
+    equity_series_has_jump = _equity_series_has_funding_jump(equity_rows) if equity_rows else False
+    trade_implied_final_equity = initial_capital + total_pnl
+    if equity_rows and broker_equity_first > 0:
+        broker_curve_pct = (broker_equity_last - broker_equity_first) / broker_equity_first * 100
+    elif (not equity_rows) and initial_capital > 0:
+        broker_curve_pct = (trade_implied_final_equity - initial_capital) / initial_capital * 100
+    else:
+        broker_curve_pct = 0.0
+
     return {
         "n_days": n_days,
         "n_trades": n_trades,
@@ -375,7 +479,14 @@ def _rolling_stats(trades: list[dict], equity_rows: list[dict], initial_capital:
         "max_intraday_dd": max_intraday_dd,
         "max_single_day_intraday_dd": max_single_day_intraday_dd,
         "max_single_day_intraday_dd_date": max_single_day_intraday_dd_date,
-        "final_capital": initial_capital + total_pnl,
+        "broker_equity_first": broker_equity_first,
+        "broker_equity_last": broker_equity_last,
+        "broker_date_first": broker_date_first,
+        "broker_date_last": broker_date_last,
+        "broker_curve_pct": broker_curve_pct,
+        "equity_series_has_jump": equity_series_has_jump,
+        "trade_implied_final_equity": trade_implied_final_equity,
+        "final_capital": broker_equity_last if equity_rows else trade_implied_final_equity,
     }
 
 
@@ -435,7 +546,9 @@ def generate_daily_report(
     win_rate_today = (wins_today / decisive_today * 100.0) if decisive_today else 0.0
     day_return_pct = (daily_pnl / day_open_capital * 100.0) if day_open_capital else 0.0
     capital_delta_today = day_close_capital - day_open_capital
+    broker_return_pct = (capital_delta_today / day_open_capital * 100.0) if day_open_capital else 0.0
     pnl_recon_gap = capital_delta_today - daily_pnl
+    # Identity: capital_delta_today == daily_pnl + pnl_recon_gap (always, by definition)
     best_day = roll.get("best_date") or "N/A"
     worst_day = roll.get("worst_date") or "N/A"
 
@@ -447,12 +560,37 @@ def generate_daily_report(
         exit_counts[reason] = exit_counts.get(reason, 0) + 1
     exit_mix_today = ", ".join(f"{k}:{v}" for k, v in sorted(exit_counts.items())) if exit_counts else "N/A"
 
+    day_trades_list = [t for t in trades if (t.get("Date") or "")[:10] == date_only]
+    trade_row_issues = _scan_trade_rows_for_issues(day_trades_list)
+    regime_row = _load_regime_row_for_date(date_only)
+    regime_exited = None
+    regime_filled = None
+    if regime_row:
+        try:
+            regime_exited = int(float(regime_row.get("trades_exited") or 0))
+            regime_filled = int(float(regime_row.get("trades_filled") or 0))
+        except (ValueError, TypeError):
+            pass
+
+    primary_src_label = str(getattr(config, "REPORT_DAILY_PNL_PRIMARY", "broker")).strip().lower()
+    use_broker_primary = primary_src_label != "trade_log"
+    primary_dollars = capital_delta_today if use_broker_primary else daily_pnl
+    primary_pct = broker_return_pct if use_broker_primary else day_return_pct
+    avg_broker_daily_delta = _avg_broker_daily_delta_to_date(equity_to_date, date_only)
+
     theoretical_one_day_pct = (
         getattr(config, "MAX_POSITIONS", 10)
         * getattr(config, "MAX_POSITION_PCT", 0.15)
         * getattr(config, "STOP_PCT", 0.03)
         * 100
     )
+
+    roll_broker_ret_str = (
+        "N/A (equity log has funding/resets; do not use first-to-last pct as strategy return)"
+        if roll.get("equity_series_has_jump")
+        else f"{roll['broker_curve_pct']:.2f}%"
+    )
+    roll_trade_implied = roll.get("trade_implied_final_equity", initial_capital + roll.get("total_pnl", 0))
 
     title_line = f"  Fast Paper Long/Short – Daily Report  {report_date[:10]}"
     if len(title_line) > REPORT_LINE_WIDTH:
@@ -465,12 +603,8 @@ def generate_daily_report(
         "",
         f"  Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}",
         "",
-        *_report_section_heading("PARAMETERS"),
-        f"  Opening capital (today)      ${day_open_capital:,.2f}",
-        f"  Closing capital (today)      ${day_close_capital:,.2f}",
-        f"  Sessions today               {n_sessions_today}",
-        "",
-        "  Capital / position rules",
+        *_report_section_heading("RULES"),
+        "  Capital / position limits",
         f"    Max positions per day         {getattr(config, 'MAX_POSITIONS', 10)}",
         f"    Max position per trade        {getattr(config, 'MAX_POSITION_PCT', 0.15) * 100:.0f}% of capital",
         f"    Entry order timeout           {getattr(config, 'ENTRY_ORDER_TIMEOUT_SECONDS', 900) // 60} min",
@@ -480,44 +614,96 @@ def generate_daily_report(
         f"  x{getattr(config, 'PARTIAL_TP_FRACTION', 0.0) * 100:.0f}%",
         f"    Runner cap                   {getattr(config, 'RUNNER_CAP_PCT', getattr(config, 'TARGET_PCT', 0.05)) * 100:.0f}%",
         f"    Stop                         {getattr(config, 'STOP_PCT', 0.03) * 100:.0f}%",
+        f"    Report daily P&L primary     {getattr(config, 'REPORT_DAILY_PNL_PRIMARY', 'broker')} "
+        f"(broker = IB Net Liq vs prior close)",
         "",
-        *_report_section_heading("DAILY STATS (today)"),
-        f"  Trades today                  {n_trades_today}",
-        f"  P&L today                     ${daily_pnl:,.2f}",
-        f"  Wins / Losses today           {wins_today} / {losses_today}",
-        f"  Opening capital (today)       ${day_open_capital:,.2f}",
-        f"  Closing capital (today)       ${day_close_capital:,.2f}",
-        f"  Peak capital (today)          ${day_peak_capital:,.2f}",
-        f"  Capital delta (close-open)    ${capital_delta_today:,.2f}",
-        f"  Reconciliation gap (delta-P&L) ${pnl_recon_gap:,.2f}",
+        *_report_section_heading("PRIMARY — DAILY ACCOUNT P&L (what you care about vs IB)"),
+        (
+            f"  Daily account P&L              ${primary_dollars:,.2f}  ({primary_pct:+.2f}% vs prior close)"
+            if use_broker_primary
+            else f"  Daily model P&L (trade rows)   ${primary_dollars:,.2f}  ({primary_pct:+.2f}% vs prior close)"
+        ),
+        (
+            "    Source: broker Net Liquidation change from daily_equity.csv (aligned with IB statement)."
+            if use_broker_primary
+            else "    Source: sum of trades.csv rows for this date (strategy bookkeeping)."
+        ),
+        (
+            f"  Strategy model (trade rows)    ${daily_pnl:,.2f}  ({day_return_pct:+.2f}% vs prior close)"
+            if use_broker_primary
+            else f"  Broker Net Liq change          ${capital_delta_today:,.2f}  ({broker_return_pct:+.2f}% vs prior close)"
+        ),
+        (
+            "    Use broker row above as headline account performance; compare trade sum for execution fidelity."
+            if use_broker_primary
+            else "    Trade-log primary mode: compare broker line below when validating vs IB."
+        ),
+        *(
+            [
+                f"  Avg broker daily delta (log)   ${avg_broker_daily_delta:,.2f}  "
+                f"(mean NL step between dated snapshots through this report)"
+            ]
+            if equity_to_date
+            else []
+        ),
         "",
-        "  Snapshot (backtest-style)",
-        f"    Total trades                 {n_trades_today}",
-        f"    Avg trades / day             {avg_trades_per_day:.2f}",
-        f"    Wins / Losses                {wins_today} / {losses_today}",
-        f"    Win rate                     {win_rate_today:.1f}%",
-        f"    Opening capital (today)      ${day_open_capital:,.2f}",
-        f"    Closing capital (today)      ${day_close_capital:,.2f}",
-        f"    Total P&L                    ${daily_pnl:,.2f}",
-        f"    Return                       {day_return_pct:.2f}%",
-        f"    Avg daily P&L                ${roll['avg_daily_pnl']:,.2f}",
-        f"    Best day                     {best_day}  P&L ${roll['best_pnl']:,.2f}",
-        f"    Worst day                    {worst_day}  P&L ${roll['worst_pnl']:,.2f}",
-        f"    Max drawdown                 ${roll['max_dd']:,.2f} ({roll['max_dd_pct']:.1f}%)",
-        f"    Exit reason mix              {exit_mix_today}",
+        *_report_section_heading("TODAY - BROKER EQUITY (daily_equity.csv) vs TRADE LOG (trades.csv)"),
+        "  Broker line: Net Liq from each session row in daily_equity (last print of run, from IB).",
+        f"  Prior close to session close   ${day_open_capital:,.2f} -> ${day_close_capital:,.2f}",
+        f"  Broker day change (Net Liq)    ${capital_delta_today:,.2f}  (sessions logged: {n_sessions_today})",
+        f"  Peak equity (day, from log)    ${day_peak_capital:,.2f}",
         "",
-        *_report_section_heading("ROLLING / ALL-TIME STATS"),
-        f"  Trading days with trades      {roll['n_days']}",
-        f"  Total trades                  {roll['n_trades']}",
-        f"  Initial capital (reference)   ${initial_capital:,.2f}",
-        f"  Final capital (from logs)     ${roll.get('final_capital', initial_capital + roll['total_pnl']):,.2f}",
-        f"  Total P&L                    ${roll['total_pnl']:,.2f}",
-        f"  Return                       {roll['ret_pct']:.2f}%",
-        f"  Avg daily P&L                 ${roll['avg_daily_pnl']:,.2f}",
-        f"  Best day                     {roll['best_date']}  P&L ${roll['best_pnl']:,.2f}",
-        f"  Worst day                    {roll['worst_date']}  P&L ${roll['worst_pnl']:,.2f}",
-        f"  Max drawdown                 ${roll['max_dd']:,.2f} ({roll['max_dd_pct']:.1f}%)",
-        f"  Win rate                     {roll['win_rate']:.1f}% ({roll['wins']} wins / {roll['losses']} losses)",
+        f"  Closed-trade rows today        {n_trades_today}  (one row per partial TP1 and per final exit)",
+        f"  Sum of booked P&L (rows)       ${daily_pnl:,.2f}",
+        f"  Wins / losses (on row P&L)     {wins_today} / {losses_today}",
+    ]
+    if regime_exited is not None:
+        lines.append(
+            f"  Session counter trades_exited  {regime_exited}  (position exits; can be < trade rows if TP1 split)"
+        )
+    if regime_filled is not None and regime_filled != regime_exited:
+        lines.append(f"  Session counter trades_filled  {regime_filled}")
+    lines += [
+        "",
+        f"  Reconciliation gap             ${pnl_recon_gap:,.2f}   (= broker day change minus sum trade P&L)",
+        "    Identity (always): broker day change = sum trade P&L + gap.",
+        f"      Check: ${capital_delta_today:,.2f} = ${daily_pnl:,.2f} + (${pnl_recon_gap:,.2f})",
+        "    If broker change is ~0 but trade sum is large, gap is ~negative trade sum by arithmetic",
+        "      (not two unrelated mistakes). Means Net Liq snapshot did not move like the trade book.",
+        "",
+    ]
+    if trade_row_issues:
+        lines.append("  Trade-log quality flags (fix these or recon will not match broker):")
+        for msg in trade_row_issues:
+            lines.append(f"    - {msg}")
+        lines.append("")
+    lines += [
+        *_report_section_heading("SNAPSHOT (cumulative, through report date)"),
+        f"    Avg trade rows / trading day  {avg_trades_per_day:.2f}",
+        f"    Win rate (today, row P&L)     {win_rate_today:.1f}%" if n_trades_today else "    Win rate (today)               n/a",
+        f"    Return (broker / account)     {broker_return_pct:+.2f}%  (Net Liq change / prior close)",
+        f"    Return (trade row model)      {day_return_pct:+.2f}%  (sum rows / prior close)",
+        f"    Avg daily P&L (trade log)      ${roll['avg_daily_pnl']:,.2f}",
+        f"    Best / worst day (by date)     {best_day} ${roll['best_pnl']:,.2f}  |  {worst_day} ${roll['worst_pnl']:,.2f}",
+        f"    Max drawdown (model)          ${roll['max_dd']:,.2f} ({roll['max_dd_pct']:.1f}%)",
+        f"    Exit reason mix (today)        {exit_mix_today}",
+        "",
+        *_report_section_heading("ROLLING / ALL-TIME (trade log + broker equity log)"),
+        f"  Trading days with activity      {roll['n_days']}",
+        f"  Total closed-trade rows         {roll['n_trades']}",
+        f"  Sum of trade-log P&L            ${roll['total_pnl']:,.2f}",
+        f"  Implied equity (1st snapshot + sum P&L)  ${roll_trade_implied:,.2f}  (ignores funding jumps)",
+        f"  First broker snapshot            ${roll['broker_equity_first']:,.2f}  ({roll['broker_date_first']})",
+        f"  Latest broker snapshot         ${roll['broker_equity_last']:,.2f}  ({roll['broker_date_last']})",
+        f"  Return, trade sum / 1st snap     {roll['ret_pct']:.2f}%  (not meaningful if account was reset)",
+        f"  Return, broker first-to-last     {roll_broker_ret_str}",
+        f"  Avg daily P&L (trade log)      ${roll['avg_daily_pnl']:,.2f}",
+        f"  Avg daily broker delta (log)  ${avg_broker_daily_delta:,.2f}  (mean Net Liq step, through this report)"
+        if equity_to_date
+        else f"  Avg daily broker delta (log)  n/a  (no equity history to this date)",
+        f"  Best / worst day                {roll['best_date']}  ${roll['best_pnl']:,.2f}  |  {roll['worst_date']}  ${roll['worst_pnl']:,.2f}",
+        f"  Max drawdown (model)            ${roll['max_dd']:,.2f} ({roll['max_dd_pct']:.1f}%)",
+        f"  Win rate                        {roll['win_rate']:.1f}% ({roll['wins']} wins / {roll['losses']} losses)",
         "",
         *_report_section_heading("CLUSTERING & RISK"),
         f"  Worst 5-day rolling P&L      ${roll['worst_5d_pnl']:,.2f}  (ending {roll['worst_5d_end_date']})",
@@ -541,8 +727,8 @@ def generate_daily_report(
         )
     else:
         day_story = (
-            f"On {date_only} the system took {n_trades_today} trades for ${daily_pnl:,.2f} P&L "
-            f"({day_return_pct:+.2f}% vs. opening capital)"
+            f"Daily broker move (Net Liq vs prior close): ${capital_delta_today:,.2f} ({broker_return_pct:+.2f}%). "
+            f"Trade-log model sum: ${daily_pnl:,.2f} ({day_return_pct:+.2f}%) across {n_trades_today} closed-trade row(s)"
         )
         if decisive_today:
             day_story += (
@@ -551,24 +737,46 @@ def generate_daily_report(
         day_story += f". Today's exit mix: {exit_mix_today}."
         if stp_exits:
             day_story += (
-                f" {stp_exits} exit(s) tagged STP—compare to intraday path and the configured stop "
+                f" {stp_exits} exit(s) tagged STP - compare to intraday path and the configured stop "
                 "if you are diagnosing chop versus trend."
             )
     recon_tail = ""
-    if abs(pnl_recon_gap) >= 0.01:
+    if trade_row_issues:
         recon_tail = (
-            f" Capital reconciliation: delta minus booked trade P&L is ${pnl_recon_gap:,.2f} "
-            "(fees, marks, open exposure, or timing can explain gaps)."
+            " Broker equity vs trade-log sum diverges until bad rows are corrected "
+            f"(gap ${pnl_recon_gap:,.2f}). "
+            + " ".join(trade_row_issues)
+        )
+    elif abs(pnl_recon_gap) >= 1.0:
+        recon_tail = (
+            f" Model vs account: broker day change (${capital_delta_today:,.2f}) minus trade row sum (${daily_pnl:,.2f}) "
+            f"= ${pnl_recon_gap:,.2f} (this is not a random second error; it is the book-keeping difference). "
+            " For headline P&L this report uses the broker (Net Liq) line in PRIMARY above. "
+            "Gaps come from fills, fees, lot math, or imputed prices in the log. "
+        )
+        if abs(capital_delta_today) < 2.0 and abs(daily_pnl) > 5.0:
+            recon_tail += (
+                " If net liquidation is almost flat but trade rows show material P&L, compare to IB Trades/Activity; "
+                "the log is a strategy book, not always equal to end-of-day broker net liquidation."
+            )
+    elif abs(pnl_recon_gap) >= 0.01:
+        recon_tail = (
+            f" Small reconciliation residual ${pnl_recon_gap:,.2f} "
+            "(rounding, fees, or marks)."
         )
     decisive_all = roll["wins"] + roll["losses"]
     wr_all = f"{roll['win_rate']:.1f}% ({roll['wins']}W / {roll['losses']}L)" if decisive_all else "n/a (no decisive closes yet)"
     verdict_body = (
-        "idle book—capital was not put into new closed trades; whether that was ideal depends on tape quality versus your edge."
+        "idle book - capital was not put into new closed trades; whether that was ideal depends on tape quality versus your edge."
         if n_trades_today == 0
         else (
-            "elevated stop participation vs. total exits—worth a quick scan for whipsaw or gap risk if that pattern repeats."
-            if stp_exits >= max(2, (n_trades_today + 1) // 2)
-            else "outcomes are fully summarized in the tables; use exit mix and intraday DD lines to judge regime fit."
+            "repair trades.csv rows flagged above; analytics stay misleading until broker-truth exits are logged."
+            if trade_row_issues
+            else (
+                "elevated stop participation vs. total exits - worth a quick scan for whipsaw or gap risk if that pattern repeats."
+                if stp_exits >= max(2, (n_trades_today + 1) // 2)
+                else "outcomes are fully summarized in the tables; use exit mix and intraday DD lines to judge regime fit."
+            )
         )
     )
     lines.append("")

@@ -2,17 +2,13 @@
   Fast Paper Long/Short – Daily Report  2026-04-21
 =====================================================================================
 
-  Generated: 2026-04-22 06:00
+  Generated: 2026-04-28 07:36
 
 -------------------------------------------------------------------------------------
-  PARAMETERS
+  RULES
 -------------------------------------------------------------------------------------
 
-  Opening capital (today)      $20,003.48
-  Closing capital (today)      $19,970.88
-  Sessions today               1
-
-  Capital / position rules
+  Capital / position limits
     Max positions per day         10
     Max position per trade        15% of capital
     Entry order timeout           15 min
@@ -23,48 +19,51 @@
     Stop                         2%
 
 -------------------------------------------------------------------------------------
-  DAILY STATS (today)
+  TODAY - BROKER EQUITY (daily_equity.csv) vs TRADE LOG (trades.csv)
 -------------------------------------------------------------------------------------
 
-  Trades today                  14
-  P&L today                     $-12.14
-  Wins / Losses today           8 / 5
-  Opening capital (today)       $20,003.48
-  Closing capital (today)       $19,970.88
-  Peak capital (today)          $20,006.09
-  Capital delta (close-open)    $-32.60
-  Reconciliation gap (delta-P&L) $-20.46
+  Prior close to session close   $20,003.48 -> $19,970.88
+  Broker equity change (day)     $-32.60  (sessions logged: 1)
+  Peak equity (day, from log)    $20,006.09
 
-  Snapshot (backtest-style)
-    Total trades                 14
-    Avg trades / day             13.75
-    Wins / Losses                8 / 5
-    Win rate                     61.5%
-    Opening capital (today)      $20,003.48
-    Closing capital (today)      $19,970.88
-    Total P&L                    $-12.14
-    Return                       -0.06%
-    Avg daily P&L                $-0.79
-    Best day                     2026-04-02  P&L $17.71
-    Worst day                    2026-04-21  P&L $-12.14
-    Max drawdown                 $21.05 (0.7%)
-    Exit reason mix              EOD:6, STP:8
+  Closed-trade rows today        14  (one row per partial TP1 and per final exit)
+  Sum of booked P&L (rows)       $-12.14
+  Wins / losses (on row P&L)     8 / 5
+  Session counter trades_exited  14  (position exits; can be < trade rows if TP1
+    split)
+
+  Reconciliation: broker day change minus sum trade P&L = $-20.46
+    Zero when booked exits match broker cash; non-zero = see narrative below.
 
 -------------------------------------------------------------------------------------
-  ROLLING / ALL-TIME STATS
+  SNAPSHOT (cumulative, through report date)
 -------------------------------------------------------------------------------------
 
-  Trading days with trades      4
-  Total trades                  55
-  Initial capital (reference)   $2,843.64
-  Final capital (from logs)     $2,840.48
-  Total P&L                    $-3.16
-  Return                       -0.11%
-  Avg daily P&L                 $-0.79
-  Best day                     2026-04-02  P&L $17.71
-  Worst day                    2026-04-21  P&L $-12.14
-  Max drawdown                 $21.05 (0.7%)
-  Win rate                     62.3% (33 wins / 20 losses)
+    Avg trade rows / trading day  13.75
+    Win rate (today, row P&L)     61.5%
+    Return vs prior close          -0.06%  (sum trade rows / prior close)
+    Avg daily P&L (trade log)      $-0.79
+    Best / worst day (by date)     2026-04-02 $17.71  |  2026-04-21 $-12.14
+    Max drawdown (model)          $21.05 (0.7%)
+    Exit reason mix (today)        EOD:6, STP:8
+
+-------------------------------------------------------------------------------------
+  ROLLING / ALL-TIME (trade log + broker equity log)
+-------------------------------------------------------------------------------------
+
+  Trading days with activity      4
+  Total closed-trade rows         55
+  Sum of trade-log P&L            $-3.16
+  Implied equity (1st snapshot + sum P&L)  $2,840.48  (ignores funding jumps)
+  First broker snapshot            $2,843.64  (2026-04-01)
+  Latest broker snapshot         $19,970.88  (2026-04-21)
+  Return, trade sum / 1st snap     -0.11%  (not meaningful if account was reset)
+  Return, broker first-to-last     N/A (equity log has funding/resets; do not use
+    first-to-last pct as strategy return)
+  Avg daily P&L (trade log)      $-0.79
+  Best / worst day                2026-04-02  $17.71  |  2026-04-21  $-12.14
+  Max drawdown (model)            $21.05 (0.7%)
+  Win rate                        62.3% (33 wins / 20 losses)
 
 -------------------------------------------------------------------------------------
   CLUSTERING & RISK
@@ -88,11 +87,13 @@
   NARRATIVE SUMMARY
 -------------------------------------------------------------------------------------
 
-  On 2026-04-21 the system took 14 trades for $-12.14 P&L (-0.06% vs. opening
-  capital), a 61.5% session win rate (8 wins / 5 losses). Today's exit mix: EOD:6,
-  STP:8. 8 exit(s) tagged STP—compare to intraday path and the configured stop if you
-  are diagnosing chop versus trend. Capital reconciliation: delta minus booked trade
-  P&L is $-20.46 (fees, marks, open exposure, or timing can explain gaps).
+  On 2026-04-21 trades.csv recorded 14 closed-trade row(s) totaling $-12.14 booked
+  P&L (-0.06% vs prior close if rows are accurate), a 61.5% session win rate (8 wins
+  / 5 losses). Today's exit mix: EOD:6, STP:8. 8 exit(s) tagged STP - compare to
+  intraday path and the configured stop if you are diagnosing chop versus trend.
+  Broker day change ($-32.60) minus summed trade P&L ($-12.14) = $-20.46. Common
+  causes: other positions or cash in the account, unsettled timing, fees, or
+  imputed/rounded fills in the trade log.
 
   Rolling context (through this report date, from logs above): cumulative return
   -0.11%, max drawdown $21.05 (0.7%), all-time win rate 62.3% (33W / 20L), avg daily
@@ -100,5 +101,5 @@
   ($17.71); worst 2026-04-21 ($-12.14).
 
   Verdict (read with the numeric sections; not investment advice): elevated stop
-  participation vs. total exits—worth a quick scan for whipsaw or gap risk if that
+  participation vs. total exits - worth a quick scan for whipsaw or gap risk if that
   pattern repeats.

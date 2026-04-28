@@ -22,6 +22,11 @@ REPORT_MIRROR_DIR = (
 )
 SESSION_LOG_FILE = os.path.join(LOG_DIR, "session.log")
 
+# Daily report headline & return %:
+# "broker" = Net Liquidation change vs prior logged close (matches IB account day-to-day).
+# "trade_log" = sum of trades.csv rows only (strategy model; use for execution-quality review).
+REPORT_DAILY_PNL_PRIMARY = "broker"
+
 # IBKR connection (paper)
 IB_HOST = "127.0.0.1"
 IB_PORT = 7497
@@ -100,7 +105,7 @@ BREAKOUT_THRESHOLD = 0.015
 # Momentum volume gate used by signal engine
 MIN_VOLUME_MULTIPLIER = 0.9
 # Keep momentum confirmation strict (high-probability setups only).
-REQUIRE_MOMENTUM_CONFIRMATION = False
+REQUIRE_MOMENTUM_CONFIRMATION = True
 # Optional SL widening trigger for high-vol names
 VOLATILITY_SL_THRESHOLD = 5.0
 VOLATILITY_SL_BUFFER_PCT = 0.05
@@ -109,11 +114,11 @@ SUPPORT_RESISTANCE_PROXIMITY_PCT = 0.1
 SUPPORT_RESISTANCE_LOOKBACK_BARS = 20
 
 SCORE_WEIGHTS = (2.0, 10.0, 1.0)
-MAX_SIGNALS_PER_DAY = 20
+MAX_SIGNALS_PER_DAY = 8
 MIN_SIGNALS_TO_TRADE = 1
 
 MAX_POSITION_PCT = 0.15
-MAX_POSITIONS = 10
+MAX_POSITIONS = 6
 MAX_CAPITAL_PCT_USED = 0.98
 # Cancel unfilled entry orders after this many seconds; ticker can be tried again (bumped down)
 ENTRY_ORDER_TIMEOUT_SECONDS = 900  # 15 min
