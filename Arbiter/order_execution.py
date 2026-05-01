@@ -286,6 +286,13 @@ def place_partial_runner_exits_side(
         stop_price = round(fill_price * (1.0 + sl_frac), 2)
         exit_action = "BUY"
 
+    min_profit_dollars = float(getattr(config, "MIN_PROFIT_DOLLARS", 0.0) or 0.0)
+    tp1_expected_pnl = abs(float(tp1_price) - float(fill_price)) * float(tp1_qty)
+    if tp1_qty > 0 and min_profit_dollars > 0 and tp1_expected_pnl < min_profit_dollars:
+        # Skip fee-inefficient partial exits that cannot beat fixed commission drag.
+        tp1_qty = 0
+        runner_qty = total_qty
+
     tp1_trade = None
     if tp1_qty > 0:
         tp1 = Order()

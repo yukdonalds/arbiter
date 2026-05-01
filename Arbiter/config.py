@@ -103,7 +103,7 @@ VOLUME_LOOKBACK = 20
 CONFIRMATION_BUFFER = 0.10
 BREAKOUT_THRESHOLD = 0.015
 # Momentum volume gate used by signal engine
-MIN_VOLUME_MULTIPLIER = 0.9
+MIN_VOLUME_MULTIPLIER = 1.1
 # Keep momentum confirmation strict (high-probability setups only).
 REQUIRE_MOMENTUM_CONFIRMATION = True
 # Optional SL widening trigger for high-vol names
@@ -116,10 +116,21 @@ SUPPORT_RESISTANCE_LOOKBACK_BARS = 20
 SCORE_WEIGHTS = (2.0, 10.0, 1.0)
 MAX_SIGNALS_PER_DAY = 8
 MIN_SIGNALS_TO_TRADE = 1
+MAX_TRADES_PER_DAY = 6
+# Score-gated selection engine.
+MIN_TRADE_SCORE = 55.0
+LOSS_DAY_MIN_TRADE_SCORE = 70.0
+TOP_TRADES_TO_TAKE = 3
 
 MAX_POSITION_PCT = 0.15
 MAX_POSITIONS = 6
 MAX_CAPITAL_PCT_USED = 0.98
+# Position-size floor to avoid fee-inefficient micro trades.
+MIN_POSITION_DOLLARS = 1500.0
+# Require sufficient expected move before entry (decimal fraction: 0.005 = 0.5%).
+MIN_EXPECTED_MOVE_PCT = 0.005
+# Minimum ATR% gate (decimal fraction: 0.008 = 0.8%).
+MIN_ATR_PCT = 0.008
 # Cancel unfilled entry orders after this many seconds; ticker can be tried again (bumped down)
 ENTRY_ORDER_TIMEOUT_SECONDS = 900  # 15 min
 
@@ -134,8 +145,12 @@ TRAIL_DISTANCE_PCT = 2.5
 # --- Exits: partial TP + runner (FPLS) ---
 # Take partial profits, then manage remainder with trailing stop.
 PARTIAL_TP_PCT = 0.015          # +1.5% (LONG) / -1.5% (SHORT) – lock gains on drifting stocks
-PARTIAL_TP_FRACTION = 0.50      # take 50% off at TP1, leave more for runner
+PARTIAL_TP_FRACTION = 0.00      # fee-defense mode: disable TP1 split to reduce commission-heavy extra exits
 RUNNER_CAP_PCT = 0.065          # cap remainder at +6.5% / -6.5% (optional "TP2")
+# Do not place partial TP if expected dollars are too small to beat fees.
+MIN_PROFIT_DOLLARS = 6.0
+# Optional weak-symbol blacklist for low-range names.
+LOW_RANGE_BLACKLIST = ["BEN", "TTD", "NCLH", "KDP", "HOOD", "ON"]
 # Runner "breakeven" buffer: when moving stop after TP1, use entry±0.5% so runner is net winner
 RUNNER_SECURE_GAIN_BUFFER_PCT = 0.005
 
@@ -181,7 +196,7 @@ ALLOW_TRADES_IN_NEUTRAL = True
 
 # --- Debugging ---
 # If True, print per-ticker condition booleans + key inputs as signals are evaluated.
-DEBUG_SIGNAL_CONDITIONS = True
+DEBUG_SIGNAL_CONDITIONS = False
 # If True, relax filters so you can confirm signal generation is working (use temporarily).
 DEBUG_RELAX_FILTERS = False
 

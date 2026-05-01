@@ -1,4 +1,4 @@
-# -----------------------------
+  # -----------------------------
 # Fast Paper Long/Short – Runner
 # -----------------------------
 """
@@ -10,6 +10,7 @@ Directional v2.6:
 - Execute long and short brackets (TP/SL) with correct PnL
 """
 
+import csv
 import os
 import time
 import logging
@@ -986,6 +987,8 @@ def run():
                 win_count_today += 1
             else:
                 loss_count_today += 1
+            score = float(info.get("score") or 0.0)
+            log_info(f"TRADE | {ticker} | score={score:.2f} | pnl={pnl_d:.2f}")
             log_info(f"  Filled TP1: {ticker} {side} @ {exit_price:.2f} x {qty:.0f} PnL ${pnl_d:.2f} ({pnl_pct:.2f}%)")
             # Reduce remaining TP1 shares so we don't double count.
             info["tp1_shares"] = max(0.0, float(info.get("tp1_shares") or 0.0) - qty)
@@ -1098,6 +1101,8 @@ def run():
         except Exception:
             pass
         del pending_trades[ticker]
+        score = float(info.get("score") or 0.0)
+        log_info(f"TRADE | {ticker} | score={score:.2f} | pnl={pnl_d:.2f}")
         log_info(f"  Filled exit: {ticker} {side} @ {exit_price:.2f} PnL ${pnl_d:.2f} ({pnl_pct:.2f}%)")
 
     def on_exec_details(trade, fill):
@@ -1178,171 +1183,471 @@ def run():
             log_info(f"  Cancel order {ticker}: {e}")
 
     def _process_signals_impl():
-        nonlocal n_signals_today, signals_this_bar, peak_capital
-        now = now_et()
-        # Hard entry cutoff (configurable; default 14:00 ET).
-        ec_h = int(getattr(config, "ENTRY_CUTOFF_HOUR", 14))
-        ec_m = int(getattr(config, "ENTRY_CUTOFF_MINUTE", 0))
-        if (now.hour, now.minute) >= (ec_h, ec_m):
-            signals_this_bar.clear()
-            return
+        nonlocal n_signals_today, signals_this_bar, peak_capital, trades_filled_today
+        exit_reason = "complete"
+        funnel = {
+            "raw": 0,
+            "ranked_sorted": 0,
+            "filtered_count": 0,
+            "final": 0,
+            "fallback_to_1": False,
+            "min_score_used": None,
+            "orders_attempted": 0,
+            "orders_placed": 0,
+            "blocks": {},  # reason -> count
+        }
 
-        # --- ADAPTIVE TIME FILTER ---
-        late_day = (now.hour, now.minute) >= (13, 30)
-        size_threshold_scale = 1.0
-        # Ensure minimum trade flow if nothing has filled by 11:00 ET.
-        if trades_filled_today == 0 and (now.hour, now.minute) > (11, 0):
-            size_threshold_scale = 0.8
+        def _block(reason: str, n: int = 1) -> None:
+            funnel["blocks"][reason] = funnel["blocks"].get(reason, 0) + n
 
-        # --- SOFT LOSS CONTROL (NO BLOCKS) ---
-        loss_size_multiplier = 0.7 if loss_count_today >= 3 else 1.0
+        def _blocks_fmt() -> str:
+            if not funnel["blocks"]:
+                return "{}"
+            parts = [f"{k}={v}" for k, v in sorted(funnel["blocks"].items())]
+            return "{" + ", ".join(parts) + "}"
 
-        # Timing filter: skip first 15 minutes of regular session (09:30-09:44 ET).
-        if (now.hour, now.minute) < (9, 45):
-            # Drop any premarket-formed candidates so we don't fire a stale burst at 9:30.
-            signals_this_bar.clear()
-            return
-        # Existing market-open gate remains in place.
-        mo_h = int(getattr(config, "MARKET_OPEN_HOUR", 9))
-        mo_m = int(getattr(config, "MARKET_OPEN_MINUTE", 30))
-        if (now.hour, now.minute) < (mo_h, mo_m):
-            signals_this_bar.clear()
-            return
+        try:
+            now = now_et()
+            if not signals_this_bar:
+                exit_reason = "no_signals_this_bar"
+                log_info("FUNNEL early return: no signals_this_bar")
+                return
 
-        ranked = rank_and_cap(signals_this_bar, config.MAX_SIGNALS_PER_DAY)
-        signals_this_bar.clear()
-
-        ranked = sorted(ranked, key=lambda s: s["ticker"] in tickers_cancelled_today)
-        if len(ranked) < config.MIN_SIGNALS_TO_TRADE:
-            return
-        if len(positions_today) >= config.MAX_POSITIONS:
-            return
-
-        capital_now = get_account_value(ib, account_id)
-        if capital_now <= 0:
-            return
-        peak_capital = max(peak_capital, capital_now)
-        if start_capital and (start_capital - capital_now) / start_capital >= config.MAX_DAILY_LOSS_PCT:
-            log_info("Max daily loss reached. No new orders.")
-            return
-
-        date_str = now.strftime("%Y-%m-%d")
-        time_str = now.strftime("%H:%M:%S")
-        spy_trend = _compute_spy_trend_from_barbuilder(bar_builder)
-        spy_dir = (spy_trend.get("direction") or "NEUTRAL").upper()
-
-        regime_state = compute_regime_from_barbuilder(bar_builder)
-        regime_mult = (
-            float(regime_state.get("size_multiplier", 1.0))
-            if getattr(config, "REGIME_ENGINE_ENABLED", True)
-            else 1.0
-        )
-        if getattr(config, "REGIME_ENGINE_ENABLED", True) and getattr(config, "REGIME_LOG_VERBOSE", False):
             log_info(
-                f"REGIME SPY {regime_state.get('label')} "
-                f"score={float(regime_state.get('regime_score', 0.0)):.2f} mult={regime_mult:.2f}"
+                f"FUNNEL start: signals_this_bar={len(signals_this_bar)} "
+                f"time={now.strftime('%Y-%m-%d %H:%M:%S')} "
+                f"trades_filled_today={trades_filled_today} "
+                f"positions_today={len(positions_today)} "
+                f"pending_entry_trades={len(pending_entry_trades)} "
+                f"total_pnl_today={float(total_pnl_today):.2f}"
             )
 
-        for rank_pos, sig in enumerate(ranked, 1):
-            if len(positions_today) + len(pending_entry_trades) >= config.MAX_POSITIONS:
-                break
-            ticker = sig["ticker"]
-            size_multiplier = 1.0
-            if ticker in positions_today or ticker in pending_entry_trades:
-                log_info(f"BLOCKED: {ticker} (already in positions or pending)")
-                continue
-
-            side = (sig.get("side") or "LONG").upper()
-            if side == "SHORT" and not getattr(config, "ENABLE_SHORTS", True):
-                log_info(f"BLOCKED: {ticker} {side} (shorts disabled)")
-                continue
-
-            # --- SOFT SPY BIAS FILTER (DO NOT BLOCK TRADES) ---
-            if spy_dir != "NEUTRAL" and side != spy_dir:
-                size_multiplier *= 0.6
-                log_info(f"SOFT FILTER: {ticker} {side} against SPY ({spy_dir})")
-
-            # Sizing: NEUTRAL = full size (1.0); LONG/SHORT = scale by bias strength
-            bias_dir = (sig.get("bias_dir") or "NEUTRAL").upper()
-            raw_strength = float(sig.get("bias_strength") or 0.0)
-
-            # Late day = require stronger conditions (not full block)
-            late_day_strength_threshold = 0.35 * size_threshold_scale
-            if spy_dir != "NEUTRAL" and late_day and raw_strength < late_day_strength_threshold:
-                log_info(f"BLOCKED: {ticker} {side} (late day weak bias: {raw_strength:.3f})")
-                continue
-
-            # Soft weak-bias handling (no hard block unless near-zero signal quality).
-            weak_bias_threshold = 0.10 * size_threshold_scale
-            if raw_strength < weak_bias_threshold:
-                size_multiplier *= 0.6
-            size_multiplier *= loss_size_multiplier
-
-            # --- VOLATILITY / EXPANSION FILTER ---
-            atr_pct = float(sig.get("atr_pct") or 0.0)
-            if atr_pct < (1.2 * size_threshold_scale):
-                sig["score"] = float(sig.get("score") or 0.0) * 0.8
-
-            # --- SCORE FILTER (light touch) ---
-            score = float(sig.get("score") or 0)
-            if score < -15:
-                log_info(f"BLOCKED: {ticker} {side} (poor score: {score:.2f})")
-                continue
-
-            effective_strength = 1.0 if bias_dir == "NEUTRAL" else max(raw_strength, 0.01)
-
-            entry_price = float(sig["bar"]["close"])
-            capital_for_sizing = capital_now * config.MAX_CAPITAL_PCT_USED
-            dollar, _ = size_per_trade(len(ranked), capital_for_sizing, entry_price)
-            dollar *= effective_strength * max(0.2, float(size_multiplier) * regime_mult)
-            if dollar <= 0 or entry_price <= 0:
-                log_info(f"BLOCKED: {ticker} {side} (dollar={dollar:.0f} or price=0)")
-                continue
-            shares = max(1, int(dollar / entry_price))
-
-            try:
-                # Marketable limit orders to cap slippage.
-                limit_price = round(entry_price * (1.001 if side == "LONG" else 0.999), 2)
-                trade = place_marketable_limit_entry_side(ib, ticker, shares, side, limit_price, account_id)
-                placed_at = now_et()
-                pending_entry_trades[ticker] = {
-                    "trade": trade,
-                    "placed_at": placed_at,
-                    "side": side,
-                    "bias_dir": sig.get("bias_dir", "NEUTRAL"),
-                    "bias_strength": raw_strength,
-                    "signal_price": entry_price,
-                    "signal_time": time_str,
-                    "pct_change_1d": sig.get("pct_change_1d", 0),
-                    "rel_vol": sig.get("rel_vol", 0),
-                    "atr_pct": sig.get("atr_pct", 0),
-                    "dist_vwap_pct": sig.get("dist_vwap_pct", 0),
-                    "score": sig.get("score", 0),
-                    "rank_position": rank_pos,
-                    "shares": shares,
-                    "target": entry_price * (1 + config.TARGET_PCT) if side == "LONG" else entry_price * (1 - config.TARGET_PCT),
-                    "stop": entry_price * (1 - config.STOP_PCT) if side == "LONG" else entry_price * (1 + config.STOP_PCT),
-                }
-                log_signal(
-                    date_str,
-                    time_str,
-                    ticker,
-                    side,
-                    sig.get("bias_dir", "NEUTRAL"),
-                    raw_strength,
-                    sig.get("pct_change_1d", 0),
-                    sig.get("rel_vol", 0),
-                    sig.get("atr_pct", 0),
-                    sig.get("dist_vwap_pct", 0),
-                    sig.get("score", 0),
-                    rank_pos,
-                    entry_price,
-                    filled=False,
+            # Hard entry cutoff (configurable; default 14:00 ET).
+            ec_h = int(getattr(config, "ENTRY_CUTOFF_HOUR", 14))
+            ec_m = int(getattr(config, "ENTRY_CUTOFF_MINUTE", 0))
+            if (now.hour, now.minute) >= (ec_h, ec_m):
+                exit_reason = "entry_cutoff"
+                signals_this_bar.clear()
+                log_info(
+                    f"FUNNEL early return: entry cutoff reached (now >= {ec_h:02d}:{ec_m:02d} ET)"
                 )
-                n_signals_today += 1
-                log_info(f"  Signal: {ticker} {side} @ {entry_price:.2f} x {shares} (pending fill)")
-            except Exception as e:
-                log_info(f"  Order failed {ticker}: {e}")
+                return
+
+            # --- ADAPTIVE TIME FILTER ---
+            late_day = (now.hour, now.minute) >= (13, 30)
+            # Keep baseline threshold scale; do not relax conditions to force midday trade flow.
+            size_threshold_scale = 1.0
+
+            # --- SOFT LOSS CONTROL (NO BLOCKS) ---
+            loss_size_multiplier = 0.7 if loss_count_today >= 3 else 1.0
+
+            # Timing filter: skip first 15 minutes of regular session (09:30-09:44 ET).
+            if (now.hour, now.minute) < (9, 45):
+                exit_reason = "first_15_min_gate"
+                # Drop any premarket-formed candidates so we don't fire a stale burst at 9:30.
+                signals_this_bar.clear()
+                log_info("FUNNEL early return: first 15 min gate (before 09:45 ET)")
+                return
+            # Existing market-open gate remains in place.
+            mo_h = int(getattr(config, "MARKET_OPEN_HOUR", 9))
+            mo_m = int(getattr(config, "MARKET_OPEN_MINUTE", 30))
+            if (now.hour, now.minute) < (mo_h, mo_m):
+                exit_reason = "before_market_open"
+                signals_this_bar.clear()
+                log_info(
+                    f"FUNNEL early return: before market open (<{mo_h:02d}:{mo_m:02d} ET)"
+                )
+                return
+
+            sorted_signals = list(signals_this_bar)
+            signals_this_bar.clear()
+            funnel["raw"] = len(sorted_signals)
+
+            sorted_signals = sorted(
+                sorted_signals, key=lambda x: float(x.get("score", 0.0) or 0.0), reverse=True
+            )
+            funnel["ranked_sorted"] = len(sorted_signals)
+
+            base_min_score = 55.0
+            min_score = 70.0 if float(total_pnl_today) < 0 else base_min_score
+            funnel["min_score_used"] = float(min_score)
+            top_take = int(getattr(config, "TOP_TRADES_TO_TAKE", 3) or 3)
+            scores = [float(s.get("score", 0.0) or 0.0) for s in sorted_signals]
+            if scores:
+                log_info(f"SCORE STATS: max={max(scores):.1f} avg={sum(scores)/len(scores):.1f}")
+
+            for i, sig in enumerate(sorted_signals[:5], 1):
+                tkr = sig.get("ticker", "?")
+                side = (sig.get("side") or "LONG").upper()
+                sc = float(sig.get("score", 0.0) or 0.0)
+                atr_pct = float(sig.get("atr_pct") or 0.0)
+                rel_vol = float(sig.get("rel_vol") or 0.0)
+                bias_strength = float(sig.get("bias_strength") or 0.0)
+                pct_1d = float(sig.get("pct_change_1d") or 0.0)
+                log_info(
+                    f"FUNNEL top5 [{i}/5]: {tkr} {side} score={sc:.1f} rank={i} "
+                    f"atr_pct={atr_pct:.2f} rel_vol={rel_vol:.2f} "
+                    f"bias_strength={bias_strength:.3f} pct_change_1d={pct_1d:.2f}"
+                )
+
+            filtered = [
+                s for s in sorted_signals if float(s.get("score", 0.0) or 0.0) >= min_score
+            ]
+            funnel["filtered_count"] = len(filtered)
+            # fallback: if nothing qualifies, take best 1
+            funnel["fallback_to_1"] = False
+            if not filtered and sorted_signals:
+                filtered = sorted_signals[:1]
+                funnel["fallback_to_1"] = True
+            ranked = filtered[: max(1, top_take)]
+            funnel["final"] = len(ranked)
+
+            log_info(
+                f"FUNNEL score filter: min_score_used={min_score:.1f} "
+                f"filtered_count={funnel['filtered_count']} "
+                f"fallback_to_1={funnel['fallback_to_1']} "
+                f"final_ranked_count={funnel['final']} top_take={top_take}"
+            )
+
+            min_sig_trade = int(getattr(config, "MIN_SIGNALS_TO_TRADE", 1) or 1)
+            if funnel["final"] < min_sig_trade:
+                log_info(
+                    f"FUNNEL note: MIN_SIGNALS_TO_TRADE unmet (final={funnel['final']} < {min_sig_trade}); "
+                    f"live path does not gate on this"
+                )
+
+            if len(ranked) == 0:
+                exit_reason = "ranked_empty"
+                log_info("FUNNEL early return: ranked empty after score filter")
+                return
+            if trades_filled_today >= int(getattr(config, "MAX_TRADES_PER_DAY", 6)):
+                exit_reason = "max_trades_per_day"
+                log_info("FUNNEL early return: MAX_TRADES_PER_DAY")
+                return
+            if len(positions_today) >= config.MAX_POSITIONS:
+                exit_reason = "max_positions"
+                log_info("FUNNEL early return: MAX_POSITIONS")
+                return
+
+            capital_now = get_account_value(ib, account_id)
+            if capital_now <= 0:
+                exit_reason = "capital_now_nonpositive"
+                log_info(f"FUNNEL early return: capital_now <= 0 ({capital_now:.2f})")
+                return
+            peak_capital = max(peak_capital, capital_now)
+            if start_capital and (start_capital - capital_now) / start_capital >= config.MAX_DAILY_LOSS_PCT:
+                exit_reason = "daily_loss_limit"
+                log_info("FUNNEL early return: daily loss limit")
+                log_info("Max daily loss reached. No new orders.")
+                return
+
+            date_str = now.strftime("%Y-%m-%d")
+            time_str = now.strftime("%H:%M:%S")
+            spy_trend = _compute_spy_trend_from_barbuilder(bar_builder)
+            spy_dir = (spy_trend.get("direction") or "NEUTRAL").upper()
+
+            regime_state = compute_regime_from_barbuilder(bar_builder)
+            regime_mult = (
+                float(regime_state.get("size_multiplier", 1.0))
+                if getattr(config, "REGIME_ENGINE_ENABLED", True)
+                else 1.0
+            )
+            if getattr(config, "REGIME_ENGINE_ENABLED", True) and getattr(
+                config, "REGIME_LOG_VERBOSE", False
+            ):
+                log_info(
+                    f"REGIME SPY {regime_state.get('label')} "
+                    f"score={float(regime_state.get('regime_score', 0.0)):.2f} mult={regime_mult:.2f}"
+                )
+
+            max_trades_day = int(getattr(config, "MAX_TRADES_PER_DAY", 6))
+
+            def _diag_sizing_numbers(sig_inner: dict, side_inner: str) -> dict:
+                """Mirror soft multipliers + dollar math used for orders (late-day is a hard continue, not sm)."""
+                sm = 1.0
+                if spy_dir != "NEUTRAL" and side_inner != spy_dir:
+                    sm *= 0.6
+                bias_dir_i = (sig_inner.get("bias_dir") or "NEUTRAL").upper()
+                raw_strength_i = float(sig_inner.get("bias_strength") or 0.0)
+                weak_bias_threshold_i = 0.10 * size_threshold_scale
+                if raw_strength_i < weak_bias_threshold_i:
+                    sm *= 0.6
+                sm *= loss_size_multiplier
+                score_i = float(sig_inner.get("score") or 0)
+                if bias_dir_i == "NEUTRAL":
+                    eff_i = 1.0
+                else:
+                    eff_i = 0.75 + 0.25 * min(max(raw_strength_i, 0.0), 1.0)
+                risk_m_i = max(0.5, min(1.0, float(sm) * float(regime_mult)))
+                entry_price_i = float((sig_inner.get("bar") or {}).get("close") or 0.0)
+                capital_for_sizing_i = capital_now * config.MAX_CAPITAL_PCT_USED
+                dr_i, _ = size_per_trade(len(ranked), capital_for_sizing_i, entry_price_i)
+                df_i = dr_i * eff_i * risk_m_i
+                min_d_i = float(getattr(config, "MIN_POSITION_DOLLARS", 1500.0) or 1500.0)
+                if 0 < df_i < min_d_i and capital_for_sizing_i >= min_d_i:
+                    df_i = min_d_i
+                return {
+                    "score": score_i,
+                    "entry_price": entry_price_i,
+                    "capital_now": capital_now,
+                    "capital_for_sizing": capital_for_sizing_i,
+                    "len_ranked": len(ranked),
+                    "bias_strength": raw_strength_i,
+                    "effective_strength": eff_i,
+                    "size_multiplier": sm,
+                    "regime_mult": regime_mult,
+                    "dollar_raw": dr_i,
+                    "dollar_final": df_i,
+                    "min_position_dollars": min_d_i,
+                }
+
+            _blocked_csv_path = os.path.join(config.LOG_DIR, "blocked_candidates.csv")
+            _blocked_fields = [
+                "Date",
+                "Time",
+                "ticker",
+                "side",
+                "score",
+                "entry_price",
+                "capital_now",
+                "capital_for_sizing",
+                "len_ranked",
+                "bias_strength",
+                "effective_strength",
+                "size_multiplier",
+                "regime_mult",
+                "dollar_raw",
+                "dollar_final",
+                "MIN_POSITION_DOLLARS",
+                "block_reason",
+            ]
+
+            def _log_blocked_candidate(
+                block_reason: str,
+                sig_inner: dict,
+                side_inner: str,
+                *,
+                overrides: dict | None = None,
+            ) -> None:
+                dnum = _diag_sizing_numbers(sig_inner, side_inner)
+                if overrides:
+                    dnum.update(overrides)
+                row = {
+                    "Date": date_str,
+                    "Time": time_str,
+                    "ticker": sig_inner.get("ticker", ""),
+                    "side": side_inner,
+                    "score": f"{dnum['score']:.6f}",
+                    "entry_price": f"{dnum['entry_price']:.6f}",
+                    "capital_now": f"{dnum['capital_now']:.6f}",
+                    "capital_for_sizing": f"{dnum['capital_for_sizing']:.6f}",
+                    "len_ranked": str(dnum["len_ranked"]),
+                    "bias_strength": f"{dnum['bias_strength']:.6f}",
+                    "effective_strength": f"{dnum['effective_strength']:.6f}",
+                    "size_multiplier": f"{dnum['size_multiplier']:.6f}",
+                    "regime_mult": f"{dnum['regime_mult']:.6f}",
+                    "dollar_raw": f"{dnum['dollar_raw']:.6f}",
+                    "dollar_final": f"{dnum['dollar_final']:.6f}",
+                    "MIN_POSITION_DOLLARS": f"{dnum['min_position_dollars']:.6f}",
+                    "block_reason": block_reason,
+                }
+                try:
+                    os.makedirs(config.LOG_DIR, exist_ok=True)
+                    file_exists = os.path.isfile(_blocked_csv_path)
+                    with open(_blocked_csv_path, "a", newline="", encoding="utf-8") as bf:
+                        wr = csv.DictWriter(bf, fieldnames=_blocked_fields)
+                        if not file_exists:
+                            wr.writeheader()
+                        wr.writerow(row)
+                except OSError:
+                    pass
+
+            for rank_pos, sig in enumerate(ranked, 1):
+                if trades_filled_today >= max_trades_day:
+                    exit_reason = "max_trades_per_day_loop"
+                    _block("max_trades_per_day")
+                    log_info("FUNNEL loop stop: MAX_TRADES_PER_DAY")
+                    break
+                if len(positions_today) + len(pending_entry_trades) >= config.MAX_POSITIONS:
+                    exit_reason = "max_positions_loop"
+                    _block("max_positions")
+                    log_info("FUNNEL loop stop: MAX_POSITIONS (incl pending)")
+                    break
+                ticker = sig["ticker"]
+                side = (sig.get("side") or "LONG").upper()
+                low_range_blacklist = {
+                    str(s).upper() for s in (getattr(config, "LOW_RANGE_BLACKLIST", []) or [])
+                }
+                if ticker.upper() in low_range_blacklist:
+                    _block("blacklist")
+                    _log_blocked_candidate("blacklist", sig, side)
+                    log_info(f"BLOCKED: {ticker} (LOW_RANGE_BLACKLIST)")
+                    continue
+                size_multiplier = 1.0
+                if ticker in positions_today or ticker in pending_entry_trades:
+                    _block("already_in_position_or_pending")
+                    _log_blocked_candidate("already_in_position_or_pending", sig, side)
+                    log_info(f"BLOCKED: {ticker} (already in positions or pending)")
+                    continue
+
+                if side == "SHORT" and not getattr(config, "ENABLE_SHORTS", True):
+                    _block("shorts_disabled")
+                    _log_blocked_candidate("shorts_disabled", sig, side)
+                    log_info(f"BLOCKED: {ticker} {side} (shorts disabled)")
+                    continue
+
+                # --- SOFT SPY BIAS FILTER (DO NOT BLOCK TRADES) ---
+                if spy_dir != "NEUTRAL" and side != spy_dir:
+                    size_multiplier *= 0.6
+                    log_info(f"SOFT FILTER: {ticker} {side} against SPY ({spy_dir})")
+
+                # Sizing: NEUTRAL = full size (1.0); LONG/SHORT = scale by bias strength
+                bias_dir = (sig.get("bias_dir") or "NEUTRAL").upper()
+                raw_strength = float(sig.get("bias_strength") or 0.0)
+
+                # Late day = require stronger conditions (not full block)
+                late_day_strength_threshold = 0.35 * size_threshold_scale
+                if spy_dir != "NEUTRAL" and late_day and raw_strength < late_day_strength_threshold:
+                    _block("late_day_weak_bias")
+                    _log_blocked_candidate("late_day_weak_bias", sig, side)
+                    log_info(f"BLOCKED: {ticker} {side} (late day weak bias: {raw_strength:.3f})")
+                    continue
+
+                # Soft weak-bias handling (no hard block unless near-zero signal quality).
+                weak_bias_threshold = 0.10 * size_threshold_scale
+                if raw_strength < weak_bias_threshold:
+                    size_multiplier *= 0.6
+                size_multiplier *= loss_size_multiplier
+
+                # --- VOLATILITY / EXPANSION FILTER ---
+                atr_pct = float(sig.get("atr_pct") or 0.0)
+
+                # --- SCORE FILTER (light touch) ---
+                score = float(sig.get("score") or 0)
+                if score < -15:
+                    _block("poor_score")
+                    _log_blocked_candidate("poor_score", sig, side)
+                    log_info(f"BLOCKED: {ticker} {side} (poor score: {score:.2f})")
+                    continue
+
+                entry_price = float(sig["bar"]["close"])
+                capital_for_sizing = capital_now * config.MAX_CAPITAL_PCT_USED
+                dollar_raw_trade, _ = size_per_trade(len(ranked), capital_for_sizing, entry_price)
+
+                # Bias should be a mild confidence modifier, not a direct size multiplier.
+                # NEUTRAL = full size.
+                # Weak directional bias = modest reduction.
+                # Strong directional bias = full size.
+                if bias_dir == "NEUTRAL":
+                    effective_strength = 1.0
+                else:
+                    effective_strength = 0.75 + 0.25 * min(max(raw_strength, 0.0), 1.0)
+
+                risk_multiplier = max(0.5, min(1.0, float(size_multiplier) * float(regime_mult)))
+
+                dollar = dollar_raw_trade * effective_strength * risk_multiplier
+
+                # Never allow a qualified trade to shrink below the tradable minimum unless capital itself is insufficient.
+                min_position_dollars = float(getattr(config, "MIN_POSITION_DOLLARS", 1500.0) or 1500.0)
+                if 0 < dollar < min_position_dollars and capital_for_sizing >= min_position_dollars:
+                    dollar = min_position_dollars
+
+                log_info(
+                    f"SIZE DIAG: {ticker} {side} score={score:.2f} bias_dir={bias_dir} "
+                    f"raw_strength={raw_strength:.4f} effective_strength={effective_strength:.4f} "
+                    f"size_multiplier={size_multiplier:.4f} regime_mult={regime_mult:.4f} "
+                    f"dollar_raw_trade={dollar_raw_trade:.2f} dollar={dollar:.2f} "
+                    f"min_position_dollars={min_position_dollars:.2f}"
+                )
+
+                if dollar < min_position_dollars:
+                    _block("min_position_dollars")
+                    _log_blocked_candidate(
+                        "min_position_dollars",
+                        sig,
+                        side,
+                        overrides={"dollar_raw": dollar_raw_trade, "dollar_final": dollar},
+                    )
+                    log_info(
+                        f"BLOCKED: {ticker} {side} (position ${dollar:.0f} < min ${min_position_dollars:.0f})"
+                    )
+                    continue
+                if dollar <= 0 or entry_price <= 0:
+                    _block("zero_dollar_or_bad_price")
+                    _log_blocked_candidate(
+                        "zero_dollar_or_bad_price",
+                        sig,
+                        side,
+                        overrides={"dollar_raw": dollar_raw_trade, "dollar_final": dollar},
+                    )
+                    log_info(f"BLOCKED: {ticker} {side} (dollar={dollar:.0f} or price=0)")
+                    continue
+                shares = max(1, int(dollar / entry_price))
+
+                funnel["orders_attempted"] += 1
+                try:
+                    # Marketable limit orders to cap slippage.
+                    limit_price = round(entry_price * (1.001 if side == "LONG" else 0.999), 2)
+                    trade = place_marketable_limit_entry_side(
+                        ib, ticker, shares, side, limit_price, account_id
+                    )
+                    placed_at = now_et()
+                    pending_entry_trades[ticker] = {
+                        "trade": trade,
+                        "placed_at": placed_at,
+                        "side": side,
+                        "bias_dir": sig.get("bias_dir", "NEUTRAL"),
+                        "bias_strength": raw_strength,
+                        "signal_price": entry_price,
+                        "signal_time": time_str,
+                        "pct_change_1d": sig.get("pct_change_1d", 0),
+                        "rel_vol": sig.get("rel_vol", 0),
+                        "atr_pct": sig.get("atr_pct", 0),
+                        "dist_vwap_pct": sig.get("dist_vwap_pct", 0),
+                        "score": sig.get("score", 0),
+                        "rank_position": rank_pos,
+                        "shares": shares,
+                        "target": entry_price * (1 + config.TARGET_PCT)
+                        if side == "LONG"
+                        else entry_price * (1 - config.TARGET_PCT),
+                        "stop": entry_price * (1 - config.STOP_PCT)
+                        if side == "LONG"
+                        else entry_price * (1 + config.STOP_PCT),
+                    }
+                    log_signal(
+                        date_str,
+                        time_str,
+                        ticker,
+                        side,
+                        sig.get("bias_dir", "NEUTRAL"),
+                        raw_strength,
+                        sig.get("pct_change_1d", 0),
+                        sig.get("rel_vol", 0),
+                        sig.get("atr_pct", 0),
+                        sig.get("dist_vwap_pct", 0),
+                        sig.get("score", 0),
+                        rank_pos,
+                        entry_price,
+                        filled=False,
+                    )
+                    n_signals_today += 1
+                    funnel["orders_placed"] += 1
+                    log_info(f"  Signal: {ticker} {side} @ {entry_price:.2f} x {shares} (pending fill)")
+                except Exception as e:
+                    _block("order_failed")
+                    _log_blocked_candidate(f"order_failed:{e!r}", sig, side)
+                    log_info(f"  Order failed {ticker}: {e}")
+
+        finally:
+            ms = funnel["min_score_used"]
+            ms_part = f"{float(ms):.1f}" if ms is not None else "n/a"
+            log_info(
+                "FUNNEL SUMMARY: "
+                f"raw={funnel['raw']} ranked={funnel['ranked_sorted']} "
+                f"filtered={funnel['filtered_count']} final={funnel['final']} "
+                f"orders_attempted={funnel['orders_attempted']} orders_placed={funnel['orders_placed']} "
+                f"exit={exit_reason} min_score={ms_part} blocks={_blocks_fmt()}"
+            )
 
     def process_signals():
         if not signals_this_bar:

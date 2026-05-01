@@ -8,7 +8,53 @@ Short signal mirrors the same constraints:
 - VWAP distance uses absolute bound
 """
 
+import math
+
 import config
+
+
+def _safe_float(value, default: float = 0.0) -> float:
+    try:
+        out = float(value)
+    except (TypeError, ValueError):
+        return float(default)
+    return out if math.isfinite(out) else float(default)
+
+
+def compute_trade_score(
+    rel_vol: float,
+    atr_dec: float,
+    breakout_dec: float,
+    momentum_ok: bool,
+    structure_ok: bool,
+) -> float:
+    """
+    Score in [0, 100] from normalized inputs.
+    - rel_vol is ratio (e.g. 1.4x)
+    - atr_dec is decimal (e.g. 1.2% -> 0.012)
+    - breakout_dec is decimal (e.g. 0.5% -> 0.005)
+    """
+    score = 0.0
+    score += min(max(float(rel_vol or 0.0), 0.0) * 20.0, 25.0)     # Volume (0-25)
+    score += min(max(float(atr_dec or 0.0), 0.0) * 1500.0, 25.0)    # Volatility (0-25)
+    score += min(max(float(breakout_dec or 0.0), 0.0) * 2000.0, 20.0)  # Breakout (0-20)
+    if momentum_ok:
+        score += 15.0
+    if structure_ok:
+        score += 15.0
+    return float(score)
+
+
+def expected_move_ok(expected_move_pct: float) -> bool:
+    min_expected = float(getattr(config, "MIN_EXPECTED_MOVE_PCT", 0.005) or 0.005)
+    return float(expected_move_pct or 0.0) >= min_expected
+
+
+def atr_ok(atr_pct: float) -> bool:
+    # atr_pct in pipeline is percent-units (e.g. 1.2 means 1.2%).
+    min_atr_decimal = float(getattr(config, "MIN_ATR_PCT", 0.008) or 0.008)
+    min_atr_percent_units = min_atr_decimal * 100.0
+    return float(atr_pct or 0.0) >= min_atr_percent_units
 
 
 def _time_adjusted_rel_vol(today_vol: float, avg_vol: float, minutes_since_open: float) -> float:
@@ -94,13 +140,13 @@ def check_v26_bar(
     condition_counts: dict | None = None,
 ) -> tuple[bool, float]:
     """LONG-only v2.6 check. If condition_counts dict provided, increment per-condition hits."""
-    close = bar.get("close") or 0.0
+    close = _safe_float(bar.get("close"), 0.0)
     high = bar.get("high") or close
     low = bar.get("low") or close
     vol = bar.get("volume") or 0.0
     avg_vol = daily_metrics.get("avg_vol_20") or 0.0
     prev_close = daily_metrics.get("prev_close") or close
-    atr_pct = daily_metrics.get("atr_pct") or 0.0
+    atr_pct = _safe_float(daily_metrics.get("atr_pct"), 0.0)
     today_vol = daily_metrics.get("today_volume_so_far", 0.0) + vol
 
     if close <= 0:
@@ -116,12 +162,12 @@ def check_v26_bar(
     )
     price_ok = config.PRICE_MIN <= close <= config.PRICE_MAX
     pct_change_1d = (close - prev_close) / prev_close * 100 if prev_close else 0.0
-    minutes_since_open = float(daily_metrics.get("minutes_since_market_open", 390.0) or 390.0)
+    minutes_since_open = _safe_float(daily_metrics.get("minutes_since_market_open", 390.0), 390.0)
     rel_vol = _time_adjusted_rel_vol(today_vol, avg_vol, minutes_since_open) if avg_vol else 0.0
     # Tuned momentum:
     # - Base: require pct_change_1d >= 0.3% and rel_vol >= MIN_VOLUME_MULTIPLIER
     # - Relax pct_change_1d to 0.2% ONLY when rel_vol > 1.5x OR ADX > 30
-    adx = float(bar.get("adx") or 0.0)
+    adx = _safe_float(bar.get("adx"), 0.0)
     strong_relax = (rel_vol > 1.5) or (adx > 30.0)
     pct_thr = 0.2 if strong_relax else float(thr["MIN_PCT_CHANGE_1D"] or 0.3)
     rv_thr = float(thr["MIN_RELATIVE_VOLUME"] or 1.0)
@@ -131,7 +177,7 @@ def check_v26_bar(
     volatility_ok = thr["ATR_PCT_MIN"] <= atr_pct <= thr["ATR_PCT_MAX"]
     vwap = (high + low + close) / 3.0
     dist_vwap = (close - vwap) / vwap * 100 if vwap else 0.0
-    structural_ok = close > vwap and dist_vwap <= thr["MAX_DISTANCE_FROM_VWAP_PCT"]
+    structural_ok = adx > 25.0
 
     _maybe_print_debug(
         ticker,
@@ -162,14 +208,21 @@ def check_v26_bar(
         if structural_ok:
             condition_counts["structural"] = condition_counts.get("structural", 0) + 1
 
-    # Scoring: signal when at least 3 of 5 conditions hold (don't require all)
-    condition_score = sum([liquidity_ok, price_ok, momentum_ok, volatility_ok, structural_ok])
-    require_momentum = bool(getattr(config, "REQUIRE_MOMENTUM_CONFIRMATION", True))
-    eligible = (condition_score >= 3) and (momentum_ok or not require_momentum)
-    a, b, c = config.SCORE_WEIGHTS
-    # Reward strong momentum more than moderate.
-    momentum_bonus = 1.0 if strong_momentum else 0.0
-    score = pct_change_1d * a + (rel_vol - 1.0) * b + atr_pct * c + momentum_bonus
+    rel_vol = max(0.0, _safe_float(rel_vol, 0.0))
+    atr_dec = max(0.0, _safe_float(atr_pct, 0.0)) / 100.0
+    dist_vwap = _safe_float(dist_vwap, 0.0)
+    breakout_dec = abs(dist_vwap) / 100.0
+    pct_change_1d = _safe_float(pct_change_1d, 0.0)
+    adx = _safe_float(adx, 0.0)
+    structure_ok = adx > 25.0
+    score = compute_trade_score(rel_vol, atr_dec, breakout_dec, momentum_ok, structure_ok)
+    eligible = (
+        liquidity_ok
+        and price_ok
+        and volatility_ok
+        and expected_move_ok(max(abs(float(pct_change_1d or 0.0)) / 100.0, atr_dec))
+        and atr_ok(atr_pct)
+    )
     return eligible, score
 
 
@@ -191,13 +244,13 @@ def check_v26_bar_side(
     if side != "SHORT":
         return False, 0.0
 
-    close = bar.get("close") or 0.0
+    close = _safe_float(bar.get("close"), 0.0)
     high = bar.get("high") or close
     low = bar.get("low") or close
     vol = bar.get("volume") or 0.0
     avg_vol = daily_metrics.get("avg_vol_20") or 0.0
     prev_close = daily_metrics.get("prev_close") or close
-    atr_pct = daily_metrics.get("atr_pct") or 0.0
+    atr_pct = _safe_float(daily_metrics.get("atr_pct"), 0.0)
     today_vol = daily_metrics.get("today_volume_so_far", 0.0) + vol
 
     if close <= 0:
@@ -213,11 +266,11 @@ def check_v26_bar_side(
     )
     price_ok = config.PRICE_MIN <= close <= config.PRICE_MAX
     pct_change_1d = (close - prev_close) / prev_close * 100 if prev_close else 0.0
-    minutes_since_open = float(daily_metrics.get("minutes_since_market_open", 390.0) or 390.0)
+    minutes_since_open = _safe_float(daily_metrics.get("minutes_since_market_open", 390.0), 390.0)
     rel_vol = _time_adjusted_rel_vol(today_vol, avg_vol, minutes_since_open) if avg_vol else 0.0
 
     # Tiered momentum (shorts): negative move with relative volume.
-    adx = float(bar.get("adx") or 0.0)
+    adx = _safe_float(bar.get("adx"), 0.0)
     strong_relax = (rel_vol > 1.5) or (adx > 30.0)
     pct_thr = 0.2 if strong_relax else float(thr["MIN_PCT_CHANGE_1D"] or 0.3)
     rv_thr = float(thr["MIN_RELATIVE_VOLUME"] or 1.0)
@@ -227,7 +280,7 @@ def check_v26_bar_side(
     volatility_ok = thr["ATR_PCT_MIN"] <= atr_pct <= thr["ATR_PCT_MAX"]
     vwap = (high + low + close) / 3.0
     dist_vwap = (close - vwap) / vwap * 100 if vwap else 0.0
-    structural_ok = close < vwap and abs(dist_vwap) <= thr["MAX_DISTANCE_FROM_VWAP_PCT"]
+    structural_ok = adx > 25.0
 
     _maybe_print_debug(
         ticker,
@@ -258,30 +311,30 @@ def check_v26_bar_side(
         if structural_ok:
             condition_counts["structural"] = condition_counts.get("structural", 0) + 1
 
-    # Scoring: signal when at least 3 of 5 conditions hold (don't require all)
-    condition_score = sum([liquidity_ok, price_ok, momentum_ok, volatility_ok, structural_ok])
-    require_momentum = bool(getattr(config, "REQUIRE_MOMENTUM_CONFIRMATION", True))
-    eligible = (condition_score >= 3) and (momentum_ok or not require_momentum)
-    a, b, c = config.SCORE_WEIGHTS
-    # For shorts: more negative pct_change_1d is better => invert sign so "higher score is better".
-    momentum_bonus = 1.0 if strong_momentum else 0.0
-    score = (-pct_change_1d) * a + (rel_vol - 1.0) * b + atr_pct * c + momentum_bonus
+    rel_vol = max(0.0, _safe_float(rel_vol, 0.0))
+    atr_dec = max(0.0, _safe_float(atr_pct, 0.0)) / 100.0
+    dist_vwap = _safe_float(dist_vwap, 0.0)
+    breakout_dec = abs(dist_vwap) / 100.0
+    pct_change_1d = _safe_float(pct_change_1d, 0.0)
+    adx = _safe_float(adx, 0.0)
+    structure_ok = adx > 25.0
+    score = compute_trade_score(rel_vol, atr_dec, breakout_dec, momentum_ok, structure_ok)
+    eligible = (
+        liquidity_ok
+        and price_ok
+        and volatility_ok
+        and expected_move_ok(max(abs(float(pct_change_1d or 0.0)) / 100.0, atr_dec))
+        and atr_ok(atr_pct)
+    )
     return eligible, score
 
 
 def rank_and_cap(signals: list[dict], max_n: int = 10) -> list[dict]:
     """
-    Prioritize signals by rel_vol and price score (abs pct_change_1d), then score.
-    Fills slots with strongest movers first.
+    Prioritize by score and keep only top configured candidates.
     """
-    def _sort_key(x):
-        rel_vol = float(x.get("rel_vol", 0) or 0)
-        pct = float(x.get("pct_change_1d", 0) or 0)
-        price_score = abs(pct)  # absolute move magnitude
-        score = float(x.get("score", 0) or 0)
-        return (-rel_vol, -price_score, -score)  # descending
-    sorted_s = sorted(signals, key=_sort_key)
-    # Edge filter: only top-3 ranked signals are eligible for order generation.
-    effective_cap = min(max_n, 3)
+    sorted_s = sorted(signals, key=lambda x: float(x.get("score", 0.0) or 0.0), reverse=True)
+    top_take = int(getattr(config, "TOP_TRADES_TO_TAKE", 3) or 3)
+    effective_cap = min(max_n, max(1, top_take))
     return sorted_s[:effective_cap]
 

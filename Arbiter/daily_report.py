@@ -127,6 +127,321 @@ def _mirror_daily_report_file(report_path: str) -> None:
         _log_report_mirror(f"FAILED: {e} | dir={mirror_dir!r} | file={mirror_path!r}")
 
 
+def write_gpt_daily_analysis_pack(date_only: str) -> str | None:
+    """
+    Single-file bundle for LLM review of one session day: tear sheet, CSV extracts,
+    config snapshot, and session.log excerpts (same calendar date prefix + optional US/Eastern mention).
+    Written to Reports/gpt_daily_analysis_pack_YYYY-MM-DD.txt and mirrored like the daily report.
+    """
+    date_only = (date_only or "")[:10]
+    if not date_only:
+        return None
+    os.makedirs(config.REPORT_DIR, exist_ok=True)
+    pack_path = os.path.join(config.REPORT_DIR, f"gpt_daily_analysis_pack_{date_only}.txt")
+
+    lines_out: list[str] = []
+
+    def append_section(title: str, body: list[str]) -> None:
+        lines_out.extend(["", "=" * 88])
+        lines_out.append(f"  {title}")
+        lines_out.append("=" * 88)
+        lines_out.extend(body)
+        if body and body[-1] != "":
+            lines_out.append("")
+
+    lines_out.extend(
+        [
+            "ARBITER — GPT DAILY ANALYSIS PACK",
+            "=" * 88,
+            f"Session report date: {date_only}",
+            f"Pack generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+            "",
+            "USAGE",
+            "-" * 40,
+            "Upload this file to ChatGPT for end-of-day performance and execution analysis.",
+            "Log lines use the PC local timestamp when Arbiter wrote them; compare with US/Eastern lines inside messages.",
+            "",
+        ]
+    )
+
+    manifest = [
+        f"BASE_DIR           {config.BASE_DIR}",
+        f"daily_report       {os.path.join(config.REPORT_DIR, f'daily_report_{date_only}.txt')}",
+        f"gpt pack (this)    {pack_path}",
+        f"session.log        {getattr(config, 'SESSION_LOG_FILE', '')}",
+        f"trades.csv         {_trade_log_path()}",
+        f"trade_outcomes.csv {_trade_outcomes_path()}",
+        f"signals.csv        {_signals_path()}",
+        f"blocked_candidates.csv  {os.path.join(config.LOG_DIR, 'blocked_candidates.csv')}",
+        f"daily_equity.csv   {_equity_log_path()}",
+        f"daily_regime.csv   {_daily_regime_path()}",
+        f"watchlist_cache    {getattr(config, 'WATCHLIST_CACHE', '')}",
+        f"daily_metrics_csv  {getattr(config, 'DAILY_METRICS_CACHE', '')}",
+    ]
+    append_section("FILE MANIFEST (paths on this machine)", manifest)
+
+    cfg_keys = (
+        "MIN_TRADE_SCORE",
+        "LOSS_DAY_MIN_TRADE_SCORE",
+        "TOP_TRADES_TO_TAKE",
+        "MAX_TRADES_PER_DAY",
+        "MAX_SIGNALS_PER_DAY",
+        "MIN_SIGNALS_TO_TRADE",
+        "MAX_POSITIONS",
+        "MAX_POSITION_PCT",
+        "MIN_POSITION_DOLLARS",
+        "MAX_CAPITAL_PCT_USED",
+        "MAX_DAILY_LOSS_PCT",
+        "ENTRY_CUTOFF_HOUR",
+        "ENTRY_CUTOFF_MINUTE",
+        "MARKET_OPEN_HOUR",
+        "MARKET_OPEN_MINUTE",
+        "STOP_SIGNALS_HOUR",
+        "STOP_SIGNALS_MINUTE",
+        "CLOSE_POSITIONS_HOUR",
+        "CLOSE_POSITIONS_MINUTE",
+        "SHUTDOWN_HOUR",
+        "SHUTDOWN_MINUTE",
+        "BAR_MINUTES",
+        "ENABLE_SHORTS",
+        "SPY_HARD_TREND_FILTER",
+        "REGIME_ENGINE_ENABLED",
+        "REPORT_DAILY_PNL_PRIMARY",
+        "IB_ACCOUNT",
+        "ETF_SYMBOL",
+    )
+    cfg_lines = []
+    for k in cfg_keys:
+        try:
+            cfg_lines.append(f"  {k} = {getattr(config, k)!r}")
+        except Exception:
+            cfg_lines.append(f"  {k} = <unreadable>")
+    append_section("CONFIG SNAPSHOT (read-only)", cfg_lines)
+
+    # --- Embedded daily tear sheet ---
+    dr_path = os.path.join(config.REPORT_DIR, f"daily_report_{date_only}.txt")
+    embed_dr: list[str] = []
+    if os.path.isfile(dr_path):
+        try:
+            with open(dr_path, encoding="utf-8") as df:
+                txt = df.read()
+            if len(txt) > 120000:
+                embed_dr.append(txt[:120000].rstrip())
+                embed_dr.append("")
+                embed_dr.append("... [TRUNCATED: daily_report exceeds 120000 characters] ...")
+            else:
+                embed_dr.append(txt.rstrip())
+        except OSError as e:
+            embed_dr.append(f"<could not read daily_report: {e}>")
+    else:
+        embed_dr.append("<daily_report file not found — run may not have finished reporting>")
+    append_section(f"EMBEDDED: daily_report_{date_only}.txt", embed_dr)
+
+    trades = _load_trades()
+    day_trades = [t for t in trades if (t.get("Date") or "")[:10] == date_only]
+    if day_trades:
+        cols = list(day_trades[0].keys())
+        tlines = [",".join(cols)]
+        for t in day_trades:
+            tlines.append(",".join(str(t.get(c, "") or "") for c in cols))
+    else:
+        tlines = ["(no rows for this date in trades.csv)"]
+    append_section(f"trades.csv — date == {date_only}", tlines)
+
+    outcomes = _load_trade_outcomes()
+    day_o = [r for r in outcomes if (r.get("Date") or "")[:10] == date_only]
+    if day_o:
+        ocols = list(day_o[0].keys())
+        olines = [",".join(ocols)]
+        for r in day_o:
+            olines.append(",".join(str(r.get(c, "") or "") for c in ocols))
+    else:
+        olines = ["(no rows for this date in trade_outcomes.csv)"]
+    append_section(f"trade_outcomes.csv — date == {date_only}", olines)
+
+    blk_cap = 4000
+    blk_path = os.path.join(config.LOG_DIR, "blocked_candidates.csv")
+    blk_rows: list[dict] = []
+    blk_truncated = False
+    blk_fields: list[str] = []
+    if os.path.isfile(blk_path):
+        with open(blk_path, newline="", encoding="utf-8") as bf:
+            br = csv.DictReader(bf)
+            blk_fields = list(br.fieldnames or [])
+            for brow in br:
+                if (brow.get("Date") or "")[:10] != date_only:
+                    continue
+                blk_rows.append(brow)
+                if len(blk_rows) >= blk_cap:
+                    blk_truncated = True
+                    break
+        if blk_rows:
+            blines = [",".join(blk_fields)]
+            for brow in blk_rows:
+                blines.append(",".join(str(brow.get(c, "") or "") for c in blk_fields))
+            if blk_truncated:
+                blines.append(f"... [truncated: more than {blk_cap} blocked-candidate rows for this date]")
+        else:
+            blines = [
+                "(no rows for this date in blocked_candidates.csv — live blocks append here during the session)"
+            ]
+    else:
+        blines = ["(blocked_candidates.csv missing — no BLOCKED events logged yet this install)"]
+    append_section(
+        f"blocked_candidates.csv — date == {date_only} (per-block sizing diagnostics; cap {blk_cap} rows)",
+        blines,
+    )
+
+    # signals.csv — full rows, capped
+    sig_cap = 1500
+    sig_rows: list[dict] = []
+    sig_truncated = False
+    sig_fieldnames: list[str] = []
+    sig_path = _signals_path()
+    if os.path.isfile(sig_path):
+        with open(sig_path, newline="", encoding="utf-8") as sf:
+            rdr = csv.DictReader(sf)
+            sig_fieldnames = list(rdr.fieldnames or [])
+            for row in rdr:
+                if (row.get("Date") or "")[:10] != date_only:
+                    continue
+                sig_rows.append(row)
+                if len(sig_rows) >= sig_cap:
+                    sig_truncated = True
+                    break
+        if sig_rows:
+            slines = [",".join(sig_fieldnames)]
+            for row in sig_rows:
+                slines.append(",".join(str(row.get(c, "") or "") for c in sig_fieldnames))
+            if sig_truncated:
+                slines.append(f"... [truncated: more than {sig_cap} signal rows for this date]")
+        else:
+            slines = ["(no rows for this date in signals.csv)"]
+    else:
+        slines = ["(signals.csv missing)"]
+    append_section(f"signals.csv — date == {date_only} (cap {sig_cap} rows)", slines)
+
+    eq_rows = [r for r in _load_equity() if (r.get("Date") or "")[:10] == date_only]
+    if eq_rows:
+        eq_cols = list(eq_rows[0].keys())
+        eql = [",".join(eq_cols)]
+        for r in eq_rows:
+            eql.append(",".join(str(r.get(c, "") or "") for c in eq_cols))
+    else:
+        eql = ["(no rows for this date in daily_equity.csv)"]
+    append_section(f"daily_equity.csv — date == {date_only}", eql)
+
+    reg_rows: list[dict] = []
+    if os.path.isfile(_daily_regime_path()):
+        with open(_daily_regime_path(), newline="", encoding="utf-8") as rf:
+            for row in csv.DictReader(rf):
+                if (row.get("Date") or "")[:10] == date_only:
+                    reg_rows.append(row)
+    if reg_rows:
+        rg_cols = list(reg_rows[0].keys())
+        rgl = [",".join(rg_cols)]
+        for row in reg_rows:
+            rgl.append(",".join(str(row.get(c, "") or "") for c in rg_cols))
+    else:
+        rgl = ["(no rows for this date in daily_regime.csv)"]
+    append_section(f"daily_regime.csv — date == {date_only}", rgl)
+
+    wl_path = getattr(config, "WATCHLIST_CACHE", "") or ""
+    wl_lines: list[str] = []
+    if wl_path and os.path.isfile(wl_path):
+        try:
+            with open(wl_path, encoding="utf-8", errors="ignore") as wf:
+                for i, line in enumerate(wf):
+                    if i >= 40:
+                        wl_lines.append(f"... [{wl_path} truncated after 40 lines]")
+                        break
+                    wl_lines.append(line.rstrip("\n"))
+        except OSError as e:
+            wl_lines.append(f"<read error: {e}>")
+    else:
+        wl_lines.append("(watchlist cache missing or path unset)")
+    append_section("watchlist_cache.txt (first 40 lines)", wl_lines)
+
+    dm_path = getattr(config, "DAILY_METRICS_CACHE", "") or ""
+    dm_lines: list[str] = []
+    if dm_path and os.path.isfile(dm_path):
+        try:
+            with open(dm_path, encoding="utf-8", errors="ignore") as mf:
+                for i, line in enumerate(mf):
+                    if i >= 25:
+                        dm_lines.append(f"... [{dm_path} truncated after 25 lines]")
+                        break
+                    dm_lines.append(line.rstrip("\n"))
+        except OSError as e:
+            dm_lines.append(f"<read error: {e}>")
+    else:
+        dm_lines.append("(daily metrics cache missing or path unset)")
+    append_section("daily_metrics_cache.csv (first 25 lines)", dm_lines)
+
+    sess_path = getattr(config, "SESSION_LOG_FILE", "") or ""
+    sess_lines: list[str] = []
+    sess_trunc = False
+    needle_et = f"US/Eastern now={date_only}"
+    max_sess = 2500
+    supp_et: list[str] = []
+    if sess_path and os.path.isfile(sess_path):
+        try:
+            with open(sess_path, encoding="utf-8", errors="ignore") as lf:
+                for line in lf:
+                    if needle_et in line and len(supp_et) < 400:
+                        supp_et.append(line.rstrip("\n"))
+                    if len(line) >= 10 and line[:10] == date_only:
+                        if len(sess_lines) < max_sess:
+                            sess_lines.append(line.rstrip("\n"))
+                        else:
+                            sess_trunc = True
+        except OSError as e:
+            sess_lines.append(f"<session.log read error: {e}>")
+    else:
+        sess_lines.append("(session.log missing or SESSION_LOG_FILE unset)")
+
+    diag_markers = ("FUNNEL", "BLOCKED:", "SCORE STATS:", "Confirmed:", "Session end reason")
+    diag_lines = [
+        ln
+        for ln in sess_lines
+        if any(m in ln for m in diag_markers)
+    ]
+    append_section(
+        f"session.log — DIAGNOSTIC LINES ONLY (same calendar prefix {date_only})",
+        diag_lines
+        if diag_lines
+        else ["(no diagnostic markers in prefix-matched lines for this date)"],
+    )
+
+    if supp_et:
+        append_section(
+            f"session.log — SUPPLEMENT (lines mentioning {needle_et})",
+            supp_et[:500],
+        )
+
+    sess_body = list(sess_lines)
+    if sess_trunc:
+        sess_body.append(f"... [truncated: over {max_sess} lines with timestamp prefix {date_only}]")
+    if sess_lines and not (
+        len(sess_lines) == 1 and sess_lines[0].startswith("(session.log")
+    ):
+        append_section(f"session.log — FULL PREFIX {date_only} (up to {max_sess} lines)", sess_body)
+    elif not sess_lines:
+        append_section(
+            f"session.log — FULL PREFIX {date_only}",
+            ["(no lines matched timestamp prefix; check timezone vs log timestamps)"],
+        )
+
+    try:
+        with open(pack_path, "w", encoding="utf-8") as pf:
+            pf.write("\n".join(_finalize_report_lines(lines_out)))
+    except OSError:
+        return None
+
+    _mirror_daily_report_file(pack_path)
+    return pack_path
+
+
 def _trade_log_path() -> str:
     return os.path.join(config.LOG_DIR, "trades.csv")
 
@@ -265,6 +580,54 @@ def _load_trade_outcomes() -> list[dict]:
         r = csv.DictReader(f)
         for row in r:
             out.append(row)
+    return out
+
+
+def _signals_path() -> str:
+    return os.path.join(config.LOG_DIR, "signals.csv")
+
+
+def _load_signals() -> list[dict]:
+    """
+    Load signals.csv rows we need for score display.
+
+    Parsing is defensive so older logs without columns won't crash the report.
+    """
+    path = _signals_path()
+    if not os.path.isfile(path):
+        return []
+
+    out: list[dict] = []
+    with open(path, "r", newline="", encoding="utf-8") as f:
+        r = csv.DictReader(f)
+        for row in r:
+            date_only = (row.get("Date") or "")[:10]
+            ticker = (row.get("Ticker") or "").strip()
+            side = (row.get("Side") or "").strip().upper()
+            if not date_only or not ticker or not side:
+                continue
+
+            filled = (row.get("filled") or "").strip().upper()
+            fill_time = (row.get("fill_time") or "").strip()
+
+            score_val: float | None = None
+            score_raw = (row.get("score") or "").strip()
+            if score_raw:
+                try:
+                    score_val = float(score_raw)
+                except (ValueError, TypeError):
+                    score_val = None
+
+            out.append(
+                {
+                    "Date": date_only,
+                    "Ticker": ticker,
+                    "Side": side,
+                    "score": score_val,
+                    "filled": filled,
+                    "fill_time": fill_time,
+                }
+            )
     return out
 
 
@@ -801,6 +1164,233 @@ def generate_daily_report(
     )
     lines.append("")
 
+    # Default output: a compact "tear sheet" (presentation only).
+    # Set `config.REPORT_STYLE = "DEBUG"` to restore the original long report exactly.
+    REPORT_STYLE = str(getattr(config, "REPORT_STYLE", "TEAR_SHEET") or "TEAR_SHEET").strip().upper()
+    if REPORT_STYLE != "DEBUG":
+        TEAR_W = 57
+        tear_lines: list[str] = []
+        tear_lines.append("=" * TEAR_W)
+        tear_lines.append(f"ARBITER DAILY TEAR SHEET{' ' * 13}{date_only[:10]}")
+        tear_lines.append("=" * TEAR_W)
+        tear_lines.append("")
+
+        # --- PERFORMANCE ---
+        net_pnl = float(capital_delta_today)
+        net_pct = float(broker_return_pct)
+        gross_pnl = float(daily_pnl)
+        fees_other = float(pnl_recon_gap)
+
+        if n_trades_today > 0:
+            gross_wins = sum(float(t.get("PnL_Dollars", 0) or 0) for t in day_trades_list if float(t.get("PnL_Dollars", 0) or 0) > 0)
+            gross_losses_abs = sum(abs(float(t.get("PnL_Dollars", 0) or 0)) for t in day_trades_list if float(t.get("PnL_Dollars", 0) or 0) < 0)
+            if gross_losses_abs > 0:
+                profit_factor_val = gross_wins / gross_losses_abs if gross_losses_abs else None
+                profit_factor_str = f"{profit_factor_val:.2f}" if profit_factor_val is not None else "n/a"
+            elif gross_wins > 0:
+                profit_factor_val = float("inf")
+                profit_factor_str = "inf"
+            else:
+                profit_factor_val = None
+                profit_factor_str = "n/a"
+        else:
+            profit_factor_val = None
+            profit_factor_str = "n/a"
+            gross_wins = 0.0
+            gross_losses_abs = 0.0
+
+        expectancy_str = "n/a" if n_trades_today <= 0 else f"${(gross_pnl / n_trades_today):,.2f}"
+
+        tear_lines.append("PERFORMANCE")
+        tear_lines.append("-" * TEAR_W)
+        tear_lines.append(f"Starting Daily Capital       ${day_open_capital:,.2f}")
+        tear_lines.append(f"Net P&L                     ${net_pnl:,.2f}      ({net_pct:+.2f}%)")
+        tear_lines.append(f"Gross P&L                   ${gross_pnl:,.2f}")
+        tear_lines.append(f"Fees/Recon/Other            ${fees_other:,.2f}")
+        tear_lines.append(f"Profit Factor               {profit_factor_str}")
+        tear_lines.append(f"Expectancy / Trade         {expectancy_str}")
+        tear_lines.append("")
+
+        # --- EXECUTION ---
+        signals_filled = regime_filled if regime_filled is not None else n_trades_today
+        signals_qualified = None
+        if regime_row:
+            try:
+                signals_qualified = int(float(regime_row.get("signals_generated") or 0))
+            except (ValueError, TypeError):
+                signals_qualified = None
+
+        # Score discovery (avg/best + score buckets).
+        # Prefer score from `trade_outcomes.csv` if it exists; otherwise use `signals.csv`.
+        score_from_outcomes = bool(trade_outcomes) and "score" in (trade_outcomes[0] or {})
+        score_by_trade_key: dict[tuple, float] = {}  # (Date, Ticker, Side, EntryTime, ExitTime)
+        if score_from_outcomes:
+            for r in trade_outcomes:
+                if (r.get("Date") or "")[:10] != date_only[:10]:
+                    continue
+                score_raw = (r.get("score") or "").strip() if isinstance(r, dict) else ""
+                if not score_raw:
+                    continue
+                try:
+                    score_val = float(score_raw)
+                except (ValueError, TypeError):
+                    continue
+                ticker = (r.get("Ticker") or "").strip()
+                side = (r.get("Side") or "").strip().upper()
+                entry_time = (r.get("EntryTime") or "").strip()
+                exit_time = (r.get("ExitTime") or "").strip()
+                if ticker and side and entry_time and exit_time:
+                    score_by_trade_key[(date_only[:10], ticker, side, entry_time, exit_time)] = score_val
+
+        score_from_signals = not bool(score_by_trade_key)
+        score_by_entry_key: dict[tuple, float] = {}  # (Date, Ticker, Side, EntryTime) where EntryTime == signals.fill_time
+        if score_from_signals:
+            for s in _load_signals():
+                if (s.get("Date") or "")[:10] != date_only[:10]:
+                    continue
+                if (s.get("filled") or "").strip().upper() != "Y":
+                    continue
+                score_val = s.get("score")
+                if score_val is None:
+                    continue
+                fill_time = (s.get("fill_time") or "").strip()
+                if not fill_time:
+                    continue
+                key = (date_only[:10], s.get("Ticker"), s.get("Side"), fill_time)
+                score_by_entry_key[key] = float(score_val)
+
+        entry_scores: dict[tuple, float] = {}
+        bucket_totals: dict[str, dict[str, float | int]] = {
+            "<55": {"pnl": 0.0, "count": 0},
+            "55-65": {"pnl": 0.0, "count": 0},
+            "65-75": {"pnl": 0.0, "count": 0},
+            "75+": {"pnl": 0.0, "count": 0},
+        }
+        scores_found_any = False
+
+        for t in day_trades_list:
+            pnl_d = float(t.get("PnL_Dollars", 0) or 0)
+            trade_key = (date_only[:10], t.get("Ticker"), t.get("Side"), (t.get("EntryTime") or "").strip(), (t.get("ExitTime") or "").strip())
+            entry_key = (date_only[:10], t.get("Ticker"), t.get("Side"), (t.get("EntryTime") or "").strip())
+            score_val = None
+            if score_by_trade_key:
+                score_val = score_by_trade_key.get(trade_key)
+            if score_val is None and score_by_entry_key:
+                score_val = score_by_entry_key.get(entry_key)
+            if score_val is None:
+                continue
+            scores_found_any = True
+
+            # Deduplicate entry-level scores for avg/best.
+            if entry_key not in entry_scores:
+                entry_scores[entry_key] = float(score_val)
+
+            if float(score_val) < 55.0:
+                b = "<55"
+            elif float(score_val) < 65.0:
+                b = "55-65"
+            elif float(score_val) < 75.0:
+                b = "65-75"
+            else:
+                b = "75+"
+            bucket_totals[b]["pnl"] = float(bucket_totals[b]["pnl"]) + pnl_d
+            bucket_totals[b]["count"] = int(bucket_totals[b]["count"]) + 1
+
+        if entry_scores:
+            avg_score = sum(entry_scores.values()) / len(entry_scores)
+            best_score = max(entry_scores.values())
+            avg_score_str = f"{avg_score:.1f}"
+            best_score_str = f"{best_score:.1f}"
+        else:
+            avg_score_str = "n/a"
+            best_score_str = "n/a"
+
+        tear_lines.append("EXECUTION")
+        tear_lines.append("-" * TEAR_W)
+        tear_lines.append(f"Trades Executed              {n_trades_today}")
+        tear_lines.append(f"Signals Filled              {signals_filled}")
+        tear_lines.append(
+            f"Signals Qualified           {signals_qualified if signals_qualified is not None else 'n/a'}"
+        )
+        tear_lines.append(f"Avg Signal Score            {avg_score_str}")
+        tear_lines.append(f"Best Signal Score           {best_score_str}")
+        tear_lines.append("")
+
+        # --- RISK ---
+        tear_lines.append("RISK")
+        tear_lines.append("-" * TEAR_W)
+        tear_lines.append(f"Max Intraday DD            ${roll['max_intraday_dd']:,.2f}")
+        tear_lines.append(f"Model Drawdown             ${roll['max_dd']:,.2f} ({roll['max_dd_pct']:.1f}%)")
+        tear_lines.append(f"Loss Streak                {roll['longest_losing_streak']}")
+        tear_lines.append(f"Worst 5D P&L              ${roll['worst_5d_pnl']:,.2f}")
+        tear_lines.append("")
+
+        # --- SCORE ENGINE ---
+        tear_lines.append("SCORE ENGINE")
+        tear_lines.append("-" * TEAR_W)
+        tear_lines.append("Score Buckets:")
+        if not scores_found_any:
+            tear_lines.append("No score data logged yet.")
+        else:
+            for label in ("<55", "55-65", "65-75", "75+"):
+                pnl_sum = float(bucket_totals[label]["pnl"])
+                cnt = int(bucket_totals[label]["count"])
+                tear_lines.append(f"{label:<10}{' ' * 25}${pnl_sum:,.2f} / {cnt} trades")
+
+        tear_lines.append(f"Threshold Used              55")
+        tear_lines.append(f"Loss-Day Tightening         {'ON' if daily_pnl < 0 else 'OFF'}")
+        tear_lines.append("")
+
+        # --- SYSTEM STATE ---
+        tear_lines.append("SYSTEM STATE")
+        tear_lines.append("-" * TEAR_W)
+        if n_trades_today <= 0 or pnl_recon_gap == 0:
+            fee_eff_str = "N/A"
+            gross_fee_ratio_str = "n/a"
+        else:
+            gross_fee_ratio = abs(daily_pnl) / abs(pnl_recon_gap)
+            if gross_fee_ratio >= 3:
+                fee_eff_str = "GOOD"
+            elif gross_fee_ratio >= 1.5:
+                fee_eff_str = "WEAK"
+            else:
+                fee_eff_str = "BAD"
+            gross_fee_ratio_str = f"{gross_fee_ratio:.2f}"
+
+        # Profit-factor numeric for edge logic (inf handled).
+        if n_trades_today <= 0:
+            system_status = "IDLE / NO EDGE DEPLOYED"
+        else:
+            near_flat = abs(float(broker_return_pct or 0.0)) < 0.10
+            if net_pnl > 0 and profit_factor_val is not None and profit_factor_val >= 1.5:
+                system_status = "EDGE POSITIVE"
+            elif net_pnl < 0 or (profit_factor_val is not None and profit_factor_val < 1.0):
+                system_status = "EDGE OFF"
+            else:
+                # Covers: profit-factor in [1.0, 1.5) or near-flat conditions.
+                system_status = "EDGE WEAK"
+
+        # Verdict: one short sentence only.
+        if system_status == "IDLE / NO EDGE DEPLOYED":
+            verdict_line = "No edge deployed: no trades recorded."
+        elif system_status == "EDGE POSITIVE":
+            verdict_line = "Edge looks positive: broker P&L and profit factor agree."
+        elif system_status == "EDGE WEAK":
+            verdict_line = "Edge is weak: P&L is positive but execution stats are marginal."
+        else:
+            verdict_line = "Edge is off: broker P&L is negative or profit factor is too low."
+
+        tear_lines.append(f"Fee Efficiency              {fee_eff_str}")
+        tear_lines.append(f"Gross/Fee Ratio             {gross_fee_ratio_str}")
+        tear_lines.append(f"System Status               {system_status}")
+        tear_lines.append("")
+        tear_lines.append("Verdict:")
+        tear_lines.append(verdict_line)
+        tear_lines.append("")
+        tear_lines.append("=" * TEAR_W)
+
+        lines = tear_lines
+
     try:
         with open(report_path, "w", encoding="utf-8") as f:
             f.write("\n".join(_finalize_report_lines(lines)))
@@ -808,6 +1398,8 @@ def generate_daily_report(
         return None
 
     _mirror_daily_report_file(report_path)
+
+    write_gpt_daily_analysis_pack(report_date[:10])
 
     return report_path
 

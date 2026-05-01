@@ -1,0 +1,886 @@
+ARBITER — GPT DAILY ANALYSIS PACK
+=====================================================================================
+Session report date: 2026-04-30
+Pack generated: 2026-05-02 07:02:50
+
+USAGE
+-------------------------------------------------------------------------------------
+Upload this file to ChatGPT for end-of-day performance and execution analysis.
+Log lines use the PC local timestamp when Arbiter wrote them; compare with US/Eastern
+  lines inside messages.
+
+
+=====================================================================================
+  FILE MANIFEST (paths on this machine)
+=====================================================================================
+BASE_DIR           e:\matts documents\Cursor\Arbiter V1\Arbiter
+daily_report       e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\daily_report_2026-04-30.txt
+gpt pack (this)    e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_daily_analysis_pack_2026-04-30.txt
+session.log        e:\matts documents\Cursor\Arbiter V1\Arbiter\logs\session.log
+trades.csv         e:\matts documents\Cursor\Arbiter V1\Arbiter\logs\trades.csv
+trade_outcomes.csv e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\logs\trade_outcomes.csv
+signals.csv        e:\matts documents\Cursor\Arbiter V1\Arbiter\logs\signals.csv
+blocked_candidates.csv  e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\logs\blocked_candidates.csv
+daily_equity.csv   e:\matts documents\Cursor\Arbiter V1\Arbiter\logs\daily_equity.csv
+daily_regime.csv   e:\matts documents\Cursor\Arbiter V1\Arbiter\logs\daily_regime.csv
+watchlist_cache    e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\data\watchlist_cache.txt
+daily_metrics_csv  e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\data\daily_metrics_cache.csv
+
+
+=====================================================================================
+  CONFIG SNAPSHOT (read-only)
+=====================================================================================
+  MIN_TRADE_SCORE = 55.0
+  LOSS_DAY_MIN_TRADE_SCORE = 70.0
+  TOP_TRADES_TO_TAKE = 3
+  MAX_TRADES_PER_DAY = 6
+  MAX_SIGNALS_PER_DAY = 8
+  MIN_SIGNALS_TO_TRADE = 1
+  MAX_POSITIONS = 6
+  MAX_POSITION_PCT = 0.15
+  MIN_POSITION_DOLLARS = 1500.0
+  MAX_CAPITAL_PCT_USED = 0.98
+  MAX_DAILY_LOSS_PCT = 0.05
+  ENTRY_CUTOFF_HOUR = 14
+  ENTRY_CUTOFF_MINUTE = 0
+  MARKET_OPEN_HOUR = 9
+  MARKET_OPEN_MINUTE = 45
+  STOP_SIGNALS_HOUR = 15
+  STOP_SIGNALS_MINUTE = 55
+  CLOSE_POSITIONS_HOUR = 15
+  CLOSE_POSITIONS_MINUTE = 45
+  SHUTDOWN_HOUR = 16
+  SHUTDOWN_MINUTE = 0
+  BAR_MINUTES = 2
+  ENABLE_SHORTS = True
+  SPY_HARD_TREND_FILTER = False
+  REGIME_ENGINE_ENABLED = True
+  REPORT_DAILY_PNL_PRIMARY = 'broker'
+  IB_ACCOUNT = 'DUP864580'
+  ETF_SYMBOL = 'SPY'
+
+
+=====================================================================================
+  EMBEDDED: daily_report_2026-04-30.txt
+=====================================================================================
+=====================================================================================
+ARBITER DAILY TEAR SHEET             2026-04-30
+=====================================================================================
+
+PERFORMANCE
+-------------------------------------------------------------------------------------
+Starting Daily Capital       $19,790.35
+Net P&L                     $1.70      (+0.01%)
+Gross P&L                   $0.00
+Fees/Recon/Other            $1.70
+Profit Factor               n/a
+Expectancy / Trade         n/a
+
+EXECUTION
+-------------------------------------------------------------------------------------
+Trades Executed              0
+Signals Filled              0
+Signals Qualified           0
+Avg Signal Score            n/a
+Best Signal Score           n/a
+
+RISK
+-------------------------------------------------------------------------------------
+Max Intraday DD            $93.45
+Model Drawdown             $183.09 (0.9%)
+Loss Streak                6
+Worst 5D P&L              $-100.54
+
+SCORE ENGINE
+-------------------------------------------------------------------------------------
+Score Buckets:
+No score data logged yet.
+Threshold Used              55
+Loss-Day Tightening         OFF
+
+SYSTEM STATE
+-------------------------------------------------------------------------------------
+Fee Efficiency              N/A
+Gross/Fee Ratio             n/a
+System Status               IDLE / NO EDGE DEPLOYED
+
+Verdict:
+No edge deployed: no trades recorded.
+
+=====================================================================================
+
+
+=====================================================================================
+  trades.csv — date == 2026-04-30
+=====================================================================================
+(no rows for this date in trades.csv)
+
+
+=====================================================================================
+  trade_outcomes.csv — date == 2026-04-30
+=====================================================================================
+(no rows for this date in trade_outcomes.csv)
+
+
+=====================================================================================
+  blocked_candidates.csv — date == 2026-04-30 (per-block sizing diagnostics; cap 4000
+    rows)
+=====================================================================================
+(blocked_candidates.csv missing — no BLOCKED events logged yet this install)
+
+
+=====================================================================================
+  signals.csv — date == 2026-04-30 (cap 1500 rows)
+=====================================================================================
+(no rows for this date in signals.csv)
+
+
+=====================================================================================
+  daily_equity.csv — date == 2026-04-30
+=====================================================================================
+Date,Equity,Drawdown,Peak
+2026-04-30,19792.05,,19792.05
+
+
+=====================================================================================
+  daily_regime.csv — date == 2026-04-30
+=====================================================================================
+Date,signals_generated,trades_placed,trades_filled,trades_exited,total_pnl,win_count,loss_count
+2026-04-30,0,0,0,0,0.0,0,0
+
+
+=====================================================================================
+  watchlist_cache.txt (first 40 lines)
+=====================================================================================
+QCOM
+SWKS
+IRM
+GLW
+CARR
+PODD
+ORLY
+TECH
+CHTR
+ARES
+TXT
+MO
+RVTY
+SMCI
+APO
+KKR
+BX
+COIN
+NRG
+XEL
+BMY
+BAX
+HOOD
+ALB
+CCL
+CRH
+HPQ
+STZ
+NEM
+A
+DXCM
+AKAM
+GPC
+PPG
+NEE
+WMB
+SATS
+NCLH
+SWK
+MCHP
+... [e:\matts documents\Cursor\Arbiter V1\Arbiter\data\watchlist_cache.txt truncated
+  after 40 lines]
+
+
+=====================================================================================
+  daily_metrics_cache.csv (first 25 lines)
+=====================================================================================
+ticker,avg_vol_20,atr_pct,prev_close,yesterday_close
+QCOM,16585540.0,4.176410674160475,156.0,179.5800018310547
+SWKS,3146920.0,3.329669533929861,62.65999984741211,70.16999816894531
+IRM,1583540.0,2.881748137205086,114.5199966430664,125.98999786376953
+GLW,10712680.0,5.769866124994361,151.89999389648438,164.24000549316406
+CARR,7062600.0,4.06856755245791,61.7400016784668,67.16999816894531
+PODD,1073055.0,4.337001636668424,160.02000427246094,172.13999938964844
+ORLY,4818535.0,2.172318195220808,91.69000244140625,99.4000015258789
+TECH,1985150.0,5.167338665069913,51.95000076293945,55.31999969482422
+CHTR,3148440.0,8.784889687647032,158.64999389648438,165.1699981689453
+ARES,3453300.0,4.861889625352078,110.86000061035156,117.4000015258789
+TXT,1255550.0,2.5710118237557147,89.77999877929688,95.95999908447266
+MO,9027295.0,2.245599828746313,68.19999694824219,72.6500015258789
+RVTY,1028945.0,4.393613882766938,82.26000213623047,86.62000274658203
+SMCI,29739510.0,6.0844631067605,26.31999969482422,27.399999618530273
+APO,4435935.0,3.655776207906452,122.27999877929688,128.72000122070312
+KKR,4786700.0,3.858266782172015,99.31999969482422,104.33999633789062
+BX,6653685.0,3.9030320164300423,119.83000183105469,125.58000183105469
+COIN,9776550.0,6.5246996846349825,181.72999572753906,187.77000427246094
+NRG,2592830.0,4.283510640079054,149.00999450683594,155.5800018310547
+XEL,4476895.0,2.2113156703131227,78.81999969482422,82.94999694824219
+BMY,9667885.0,2.258741399943436,57.59000015258789,60.59000015258789
+BAX,7584245.0,4.335284426275155,16.899999618530273,17.579999923706055
+HOOD,35541150.0,7.347664886090804,71.19999694824219,72.88999938964844
+ALB,2033545.0,5.9434253208155186,190.8800048828125,196.6999969482422
+... [e:\matts documents\Cursor\Arbiter V1\Arbiter\data\daily_metrics_cache.csv
+  truncated after 25 lines]
+
+
+=====================================================================================
+  session.log — DIAGNOSTIC LINES ONLY (same calendar prefix 2026-04-30)
+=====================================================================================
+2026-04-30 00:36:06 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.23, level=53.20,
+  fast_track=False)
+2026-04-30 00:36:07 [INFO] SCORE STATS: max=58.5 avg=58.5
+2026-04-30 00:36:07 [INFO] BLOCKED: CNC LONG (position $679 < min $1500)
+2026-04-30 00:50:05 [INFO] Confirmed: CNC LONG on bar 2/1 (close=53.15, level=53.09,
+  fast_track=False)
+2026-04-30 00:50:06 [INFO] SCORE STATS: max=57.9 avg=57.9
+2026-04-30 00:50:06 [INFO] BLOCKED: CNC LONG (position $10 < min $1500)
+2026-04-30 00:52:06 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.09, level=53.37,
+  fast_track=True)
+2026-04-30 00:52:07 [INFO] SCORE STATS: max=77.1 avg=77.1
+2026-04-30 00:52:07 [INFO] BLOCKED: CNC LONG (position $13 < min $1500)
+2026-04-30 01:02:06 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.25, level=53.28,
+  fast_track=True)
+2026-04-30 01:02:07 [INFO] SCORE STATS: max=74.6 avg=74.6
+2026-04-30 01:02:07 [INFO] BLOCKED: CNC LONG (position $10 < min $1500)
+2026-04-30 01:08:06 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.32, level=53.72,
+  fast_track=True)
+2026-04-30 01:08:07 [INFO] SCORE STATS: max=93.8 avg=93.8
+2026-04-30 01:08:07 [INFO] BLOCKED: CNC LONG (position $712 < min $1500)
+2026-04-30 01:10:06 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.26, level=53.54,
+  fast_track=True)
+2026-04-30 01:10:07 [INFO] SCORE STATS: max=95.8 avg=95.8
+2026-04-30 01:10:07 [INFO] BLOCKED: CNC LONG (position $685 < min $1500)
+2026-04-30 01:12:07 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.36, level=53.48,
+  fast_track=True)
+2026-04-30 01:12:08 [INFO] SCORE STATS: max=93.5 avg=93.5
+2026-04-30 01:12:08 [INFO] BLOCKED: CNC LONG (position $637 < min $1500)
+2026-04-30 01:14:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.37, level=53.14,
+  fast_track=True)
+2026-04-30 01:14:06 [INFO] SCORE STATS: max=75.2 avg=75.2
+2026-04-30 01:14:06 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:16:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.33, level=53.15,
+  fast_track=True)
+2026-04-30 01:16:06 [INFO] SCORE STATS: max=74.9 avg=74.9
+2026-04-30 01:16:06 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:18:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.35, level=53.11,
+  fast_track=True)
+2026-04-30 01:18:07 [INFO] SCORE STATS: max=74.8 avg=74.8
+2026-04-30 01:18:07 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:20:05 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.33, level=53.13,
+  fast_track=True)
+2026-04-30 01:20:05 [INFO] SCORE STATS: max=75.1 avg=75.1
+2026-04-30 01:20:05 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:22:43 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.26, level=53.11,
+  fast_track=True)
+2026-04-30 01:22:44 [INFO] SCORE STATS: max=75.3 avg=75.3
+2026-04-30 01:22:44 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:28:09 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.29, level=53.15,
+  fast_track=True)
+2026-04-30 01:28:09 [INFO] SCORE STATS: max=75.1 avg=75.1
+2026-04-30 01:28:09 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:44:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.13, level=52.93,
+  fast_track=True)
+2026-04-30 01:44:07 [INFO] SCORE STATS: max=75.5 avg=75.5
+2026-04-30 01:44:07 [INFO] BLOCKED: CNC SHORT (position $11 < min $1500)
+2026-04-30 01:46:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.80,
+  level=93.35, fast_track=True)
+2026-04-30 01:46:05 [INFO] SCORE STATS: max=70.5 avg=70.5
+2026-04-30 01:46:05 [INFO] BLOCKED: INTC SHORT (position $10 < min $1500)
+2026-04-30 01:48:07 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.77,
+  level=93.22, fast_track=True)
+2026-04-30 01:48:08 [INFO] SCORE STATS: max=69.2 avg=69.2
+2026-04-30 01:48:08 [INFO] BLOCKED: INTC SHORT (position $10 < min $1500)
+2026-04-30 01:50:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.66,
+  level=93.19, fast_track=True)
+2026-04-30 01:50:06 [INFO] SCORE STATS: max=70.7 avg=70.7
+2026-04-30 01:50:06 [INFO] BLOCKED: INTC SHORT (position $9 < min $1500)
+2026-04-30 01:52:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.30,
+  level=93.08, fast_track=True)
+2026-04-30 01:52:07 [INFO] SCORE STATS: max=68.5 avg=68.5
+2026-04-30 01:52:07 [INFO] BLOCKED: INTC SHORT (position $10 < min $1500)
+2026-04-30 01:54:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=92.91,
+  level=92.72, fast_track=True)
+2026-04-30 01:54:07 [INFO] SCORE STATS: max=70.3 avg=70.3
+2026-04-30 01:54:07 [INFO] BLOCKED: INTC SHORT (position $14 < min $1500)
+2026-04-30 02:04:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.57, level=53.41,
+  fast_track=True)
+2026-04-30 02:04:07 [INFO] SCORE STATS: max=77.1 avg=77.1
+2026-04-30 02:04:07 [INFO] BLOCKED: CNC SHORT (position $23 < min $1500)
+2026-04-30 02:06:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.47, level=53.35,
+  fast_track=True)
+2026-04-30 02:06:06 [INFO] SCORE STATS: max=76.6 avg=76.6
+2026-04-30 02:06:06 [INFO] BLOCKED: CNC SHORT (position $22 < min $1500)
+2026-04-30 02:10:05 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.55, level=53.28,
+  fast_track=True)
+2026-04-30 02:10:07 [INFO] SCORE STATS: max=76.8 avg=76.8
+2026-04-30 02:10:07 [INFO] BLOCKED: CNC SHORT (position $19 < min $1500)
+2026-04-30 02:36:07 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=92.39,
+  level=91.45, fast_track=True)
+2026-04-30 02:36:07 [INFO] SCORE STATS: max=70.8 avg=70.8
+2026-04-30 02:36:07 [INFO] BLOCKED: INTC SHORT (position $25 < min $1500)
+2026-04-30 02:38:06 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=92.51,
+  level=91.82, fast_track=True)
+2026-04-30 02:38:07 [INFO] SCORE STATS: max=72.5 avg=72.5
+2026-04-30 02:38:07 [INFO] BLOCKED: INTC SHORT (position $26 < min $1500)
+2026-04-30 02:40:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.18,
+  level=91.94, fast_track=True)
+2026-04-30 02:40:06 [INFO] SCORE STATS: max=69.4 avg=69.4
+2026-04-30 02:40:06 [INFO] BLOCKED: INTC SHORT (position $31 < min $1500)
+2026-04-30 02:44:07 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.08,
+  level=92.49, fast_track=True)
+2026-04-30 02:44:09 [INFO] SCORE STATS: max=71.6 avg=71.6
+2026-04-30 02:44:09 [INFO] BLOCKED: INTC SHORT (position $30 < min $1500)
+2026-04-30 02:46:06 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.23,
+  level=92.51, fast_track=True)
+2026-04-30 02:46:07 [INFO] SCORE STATS: max=70.8 avg=70.8
+2026-04-30 02:46:07 [INFO] BLOCKED: INTC SHORT (position $30 < min $1500)
+2026-04-30 02:48:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.58, level=53.28,
+  fast_track=True)
+2026-04-30 02:48:06 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.34,
+  level=92.65, fast_track=True)
+2026-04-30 02:48:06 [INFO] SCORE STATS: max=76.0 avg=73.3
+2026-04-30 02:48:06 [INFO] BLOCKED: CNC SHORT (position $29 < min $1500)
+2026-04-30 02:48:06 [INFO] BLOCKED: INTC SHORT (position $29 < min $1500)
+2026-04-30 02:50:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.23,
+  level=92.76, fast_track=True)
+2026-04-30 02:50:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.51, level=53.36,
+  fast_track=True)
+2026-04-30 02:50:06 [INFO] SCORE STATS: max=75.9 avg=73.2
+2026-04-30 02:50:06 [INFO] BLOCKED: CNC SHORT (position $27 < min $1500)
+2026-04-30 02:50:06 [INFO] BLOCKED: INTC SHORT (position $27 < min $1500)
+2026-04-30 02:52:08 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.51,
+  level=92.65, fast_track=True)
+2026-04-30 02:52:09 [INFO] SCORE STATS: max=70.9 avg=70.9
+2026-04-30 02:52:09 [INFO] BLOCKED: INTC SHORT (position $24 < min $1500)
+2026-04-30 08:32:24 [INFO] Session end reason: us_eastern_shutdown_reached
+2026-04-30 08:33:15 [INFO] Session end reason: us_eastern_shutdown_reached
+2026-04-30 10:47:38 [INFO] Session end reason: us_eastern_shutdown_reached
+
+
+=====================================================================================
+  session.log — SUPPLEMENT (lines mentioning US/Eastern now=2026-04-30)
+=====================================================================================
+2026-04-30 14:20:27 [INFO] Entering main loop. US/Eastern now=2026-04-30 00:20:27 —
+  runs until 16:00 ET, then report + disconnect. Ctrl+C to stop. Create
+  "KILL_SWITCH.txt" to stop safely.
+2026-04-30 16:39:14 [INFO] Entering main loop. US/Eastern now=2026-04-30 02:39:14 —
+  runs until 16:00 ET, then report + disconnect. Ctrl+C to stop. Create
+  "KILL_SWITCH.txt" to stop safely.
+
+
+=====================================================================================
+  session.log — FULL PREFIX 2026-04-30 (up to 2500 lines)
+=====================================================================================
+2026-04-30 00:01:17 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 00:06:18 [INFO] Bias: SHORT (0.03) via SPY
+2026-04-30 00:11:19 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 00:16:20 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 00:21:21 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 00:26:22 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 00:31:24 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 00:36:06 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.23, level=53.20,
+  fast_track=False)
+2026-04-30 00:36:07 [INFO] SCORE STATS: max=58.5 avg=58.5
+2026-04-30 00:36:07 [INFO] BLOCKED: CNC LONG (position $679 < min $1500)
+2026-04-30 00:36:25 [INFO] Bias: LONG (0.01) via SPY
+2026-04-30 00:40:09 [INFO] Skipped: CNC LONG confirmation failed (close=53.04,
+  level=53.45)
+2026-04-30 00:41:26 [INFO] Bias: LONG (0.01) via SPY
+2026-04-30 00:42:06 [INFO] Skipped: CNC LONG confirmation failed (close=52.99,
+  level=53.36)
+2026-04-30 00:44:06 [INFO] Skipped: CNC LONG confirmation failed (close=52.98,
+  level=53.26)
+2026-04-30 00:46:08 [INFO] Skipped: CNC LONG confirmation failed (close=52.87,
+  level=53.21)
+2026-04-30 00:46:27 [INFO] Bias: LONG (0.01) via SPY
+2026-04-30 00:48:06 [INFO] Skipped: CNC LONG confirmation failed (close=52.96,
+  level=53.20)
+2026-04-30 00:50:05 [INFO] Confirmed: CNC LONG on bar 2/1 (close=53.15, level=53.09,
+  fast_track=False)
+2026-04-30 00:50:06 [INFO] SCORE STATS: max=57.9 avg=57.9
+2026-04-30 00:50:06 [INFO] BLOCKED: CNC LONG (position $10 < min $1500)
+2026-04-30 00:51:29 [INFO] Bias: LONG (0.01) via SPY
+2026-04-30 00:52:06 [INFO] Skipped: CNC LONG confirmation failed (close=53.09,
+  level=53.18)
+2026-04-30 00:52:06 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.09, level=53.37,
+  fast_track=True)
+2026-04-30 00:52:07 [INFO] SCORE STATS: max=77.1 avg=77.1
+2026-04-30 00:52:07 [INFO] BLOCKED: CNC LONG (position $13 < min $1500)
+2026-04-30 00:54:06 [INFO] Skipped: CNC LONG near support/resistance zone
+2026-04-30 00:56:06 [INFO] Skipped: CNC LONG confirmation failed (close=53.16,
+  level=53.31)
+2026-04-30 00:56:30 [INFO] Bias: LONG (0.01) via SPY
+2026-04-30 01:00:06 [INFO] Skipped: CNC LONG confirmation failed (close=53.06,
+  level=53.38)
+2026-04-30 01:01:31 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 01:02:06 [INFO] Skipped: CNC LONG confirmation failed (close=53.25,
+  level=53.31)
+2026-04-30 01:02:06 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.25, level=53.28,
+  fast_track=True)
+2026-04-30 01:02:06 [INFO] Skipped: CNC LONG near support/resistance zone
+2026-04-30 01:02:07 [INFO] SCORE STATS: max=74.6 avg=74.6
+2026-04-30 01:02:07 [INFO] BLOCKED: CNC LONG (position $10 < min $1500)
+2026-04-30 01:04:07 [INFO] Skipped: CNC LONG near support/resistance zone
+2026-04-30 01:06:32 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 01:08:06 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.32, level=53.72,
+  fast_track=True)
+2026-04-30 01:08:07 [INFO] SCORE STATS: max=93.8 avg=93.8
+2026-04-30 01:08:07 [INFO] BLOCKED: CNC LONG (position $712 < min $1500)
+2026-04-30 01:10:06 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.26, level=53.54,
+  fast_track=True)
+2026-04-30 01:10:07 [INFO] SCORE STATS: max=95.8 avg=95.8
+2026-04-30 01:10:07 [INFO] BLOCKED: CNC LONG (position $685 < min $1500)
+2026-04-30 01:11:33 [INFO] Bias: SHORT (0.00) via SPY
+2026-04-30 01:12:07 [INFO] Confirmed: CNC LONG on bar 1/1 (close=53.36, level=53.48,
+  fast_track=True)
+2026-04-30 01:12:08 [INFO] SCORE STATS: max=93.5 avg=93.5
+2026-04-30 01:12:08 [INFO] BLOCKED: CNC LONG (position $637 < min $1500)
+2026-04-30 01:14:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.37, level=53.14,
+  fast_track=True)
+2026-04-30 01:14:06 [INFO] SCORE STATS: max=75.2 avg=75.2
+2026-04-30 01:14:06 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:16:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.33, level=53.15,
+  fast_track=True)
+2026-04-30 01:16:06 [INFO] SCORE STATS: max=74.9 avg=74.9
+2026-04-30 01:16:06 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:16:34 [INFO] Bias: SHORT (0.01) via SPY
+2026-04-30 01:18:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.35, level=53.11,
+  fast_track=True)
+2026-04-30 01:18:07 [INFO] SCORE STATS: max=74.8 avg=74.8
+2026-04-30 01:18:07 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:20:05 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.33, level=53.13,
+  fast_track=True)
+2026-04-30 01:20:05 [INFO] SCORE STATS: max=75.1 avg=75.1
+2026-04-30 01:20:05 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:21:35 [INFO] Bias: SHORT (0.01) via SPY
+2026-04-30 01:22:43 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.26, level=53.11,
+  fast_track=True)
+2026-04-30 01:22:44 [INFO] SCORE STATS: max=75.3 avg=75.3
+2026-04-30 01:22:44 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:26:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.37,
+  level=53.04)
+2026-04-30 01:26:37 [INFO] Bias: SHORT (0.01) via SPY
+2026-04-30 01:28:09 [INFO] Skipped: CNC SHORT confirmation failed (close=53.29,
+  level=53.09)
+2026-04-30 01:28:09 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.29, level=53.15,
+  fast_track=True)
+2026-04-30 01:28:09 [INFO] SCORE STATS: max=75.1 avg=75.1
+2026-04-30 01:28:09 [INFO] BLOCKED: CNC SHORT (position $8 < min $1500)
+2026-04-30 01:31:38 [INFO] Bias: SHORT (0.01) via SPY
+2026-04-30 01:32:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.23,
+  level=53.07)
+2026-04-30 01:34:07 [INFO] Skipped: CNC SHORT confirmation failed (close=53.20,
+  level=53.10)
+2026-04-30 01:36:05 [INFO] Skipped: CNC SHORT confirmation failed (close=53.18,
+  level=53.01)
+2026-04-30 01:36:39 [INFO] Bias: SHORT (0.01) via SPY
+2026-04-30 01:38:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.16,
+  level=52.98)
+2026-04-30 01:40:05 [INFO] Skipped: CNC SHORT confirmation failed (close=53.18,
+  level=52.96)
+2026-04-30 01:41:40 [INFO] Bias: SHORT (0.01) via SPY
+2026-04-30 01:42:07 [INFO] Skipped: CNC SHORT confirmation failed (close=53.15,
+  level=52.94)
+2026-04-30 01:44:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.13,
+  level=52.96)
+2026-04-30 01:44:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.13, level=52.93,
+  fast_track=True)
+2026-04-30 01:44:06 [INFO] Skipped: CNC SHORT near support/resistance zone
+2026-04-30 01:44:07 [INFO] SCORE STATS: max=75.5 avg=75.5
+2026-04-30 01:44:07 [INFO] BLOCKED: CNC SHORT (position $11 < min $1500)
+2026-04-30 01:46:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.80,
+  level=93.35, fast_track=True)
+2026-04-30 01:46:05 [INFO] SCORE STATS: max=70.5 avg=70.5
+2026-04-30 01:46:05 [INFO] BLOCKED: INTC SHORT (position $10 < min $1500)
+2026-04-30 01:46:41 [INFO] Bias: SHORT (0.01) via SPY
+2026-04-30 01:48:07 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.77,
+  level=93.22, fast_track=True)
+2026-04-30 01:48:08 [INFO] SCORE STATS: max=69.2 avg=69.2
+2026-04-30 01:48:08 [INFO] BLOCKED: INTC SHORT (position $10 < min $1500)
+2026-04-30 01:50:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.66,
+  level=93.19, fast_track=True)
+2026-04-30 01:50:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.08,
+  level=53.03)
+2026-04-30 01:50:06 [INFO] Skipped: CNC SHORT near support/resistance zone
+2026-04-30 01:50:06 [INFO] SCORE STATS: max=70.7 avg=70.7
+2026-04-30 01:50:06 [INFO] BLOCKED: INTC SHORT (position $9 < min $1500)
+2026-04-30 01:51:42 [INFO] Bias: SHORT (0.01) via SPY
+2026-04-30 01:52:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.30,
+  level=93.08, fast_track=True)
+2026-04-30 01:52:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.10,
+  level=52.99)
+2026-04-30 01:52:07 [INFO] SCORE STATS: max=68.5 avg=68.5
+2026-04-30 01:52:07 [INFO] BLOCKED: INTC SHORT (position $10 < min $1500)
+2026-04-30 01:54:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=92.91,
+  level=92.72, fast_track=True)
+2026-04-30 01:54:06 [INFO] Skipped: CNC SHORT near support/resistance zone
+2026-04-30 01:54:07 [INFO] SCORE STATS: max=70.3 avg=70.3
+2026-04-30 01:54:07 [INFO] BLOCKED: INTC SHORT (position $14 < min $1500)
+2026-04-30 01:56:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.68,
+  level=52.88)
+2026-04-30 01:56:06 [INFO] Skipped: CNC SHORT near support/resistance zone
+2026-04-30 01:56:44 [INFO] Bias: SHORT (0.02) via SPY
+2026-04-30 01:58:05 [INFO] Skipped: CNC SHORT near support/resistance zone
+2026-04-30 01:58:05 [INFO] Skipped: INTC SHORT confirmation failed (close=92.94,
+  level=92.34)
+2026-04-30 02:00:05 [INFO] Skipped: INTC SHORT confirmation failed (close=93.03,
+  level=92.43)
+2026-04-30 02:01:45 [INFO] Bias: SHORT (0.02) via SPY
+2026-04-30 02:02:05 [INFO] Skipped: INTC SHORT confirmation failed (close=93.13,
+  level=92.37)
+2026-04-30 02:04:06 [INFO] Skipped: INTC SHORT confirmation failed (close=92.81,
+  level=92.46)
+2026-04-30 02:04:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.57,
+  level=53.36)
+2026-04-30 02:04:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.57, level=53.41,
+  fast_track=True)
+2026-04-30 02:04:07 [INFO] SCORE STATS: max=77.1 avg=77.1
+2026-04-30 02:04:07 [INFO] BLOCKED: CNC SHORT (position $23 < min $1500)
+2026-04-30 02:06:05 [INFO] Skipped: INTC SHORT confirmation failed (close=93.12,
+  level=92.55)
+2026-04-30 02:06:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.47, level=53.35,
+  fast_track=True)
+2026-04-30 02:06:06 [INFO] SCORE STATS: max=76.6 avg=76.6
+2026-04-30 02:06:06 [INFO] BLOCKED: CNC SHORT (position $22 < min $1500)
+2026-04-30 02:06:46 [INFO] Bias: SHORT (0.02) via SPY
+2026-04-30 02:08:08 [INFO] Skipped: INTC SHORT confirmation failed (close=93.06,
+  level=92.24)
+2026-04-30 02:10:05 [INFO] Skipped: CNC SHORT confirmation failed (close=53.55,
+  level=53.25)
+2026-04-30 02:10:05 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.55, level=53.28,
+  fast_track=True)
+2026-04-30 02:10:06 [INFO] Skipped: INTC SHORT confirmation failed (close=92.96,
+  level=92.54)
+2026-04-30 02:10:07 [INFO] SCORE STATS: max=76.8 avg=76.8
+2026-04-30 02:10:07 [INFO] BLOCKED: CNC SHORT (position $19 < min $1500)
+2026-04-30 02:11:47 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 02:12:05 [INFO] Skipped: INTC SHORT confirmation failed (close=92.68,
+  level=92.49)
+2026-04-30 02:12:05 [INFO] Skipped: INTC LONG near support/resistance zone
+2026-04-30 02:14:07 [INFO] Skipped: INTC SHORT confirmation failed (close=92.55,
+  level=92.39)
+2026-04-30 02:14:07 [INFO] Skipped: INTC LONG near support/resistance zone
+2026-04-30 02:14:07 [INFO] Skipped: CNC SHORT confirmation failed (close=53.35,
+  level=53.33)
+2026-04-30 02:16:06 [INFO] Skipped: CNC LONG confirmation failed (close=53.35,
+  level=53.60)
+2026-04-30 02:16:48 [INFO] Bias: SHORT (0.02) via SPY
+2026-04-30 02:18:06 [INFO] Skipped: CNC LONG confirmation failed (close=53.40,
+  level=53.57)
+2026-04-30 02:20:05 [INFO] Skipped: INTC LONG confirmation failed (close=92.50,
+  level=93.30)
+2026-04-30 02:20:05 [INFO] Skipped: INTC SHORT near support/resistance zone
+2026-04-30 02:20:09 [INFO] Skipped: CNC LONG confirmation failed (close=53.19,
+  level=53.57)
+2026-04-30 02:21:49 [INFO] Bias: SHORT (0.02) via SPY
+2026-04-30 02:22:07 [INFO] Skipped: INTC SHORT confirmation failed (close=92.46,
+  level=92.22)
+2026-04-30 02:22:07 [INFO] Skipped: INTC SHORT near support/resistance zone
+2026-04-30 02:22:07 [INFO] Skipped: CNC SHORT confirmation failed (close=53.28,
+  level=53.18)
+2026-04-30 02:24:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.36,
+  level=52.97)
+2026-04-30 02:26:05 [INFO] Skipped: INTC SHORT near support/resistance zone
+2026-04-30 02:26:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.40,
+  level=53.06)
+2026-04-30 02:26:50 [INFO] Bias: SHORT (0.02) via SPY
+2026-04-30 02:28:05 [INFO] Skipped: INTC SHORT confirmation failed (close=92.04,
+  level=91.98)
+2026-04-30 02:28:05 [INFO] Skipped: INTC SHORT near support/resistance zone
+2026-04-30 02:28:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.51,
+  level=53.14)
+2026-04-30 02:30:05 [INFO] Skipped: INTC SHORT near support/resistance zone
+2026-04-30 02:30:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.53,
+  level=53.18)
+2026-04-30 02:31:52 [INFO] Bias: SHORT (0.03) via SPY
+2026-04-30 02:32:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.56,
+  level=53.29)
+2026-04-30 02:34:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.53,
+  level=53.31)
+2026-04-30 02:36:07 [INFO] Skipped: INTC SHORT confirmation failed (close=92.39,
+  level=91.44)
+2026-04-30 02:36:07 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=92.39,
+  level=91.45, fast_track=True)
+2026-04-30 02:36:07 [INFO] Skipped: CNC SHORT confirmation failed (close=53.58,
+  level=53.34)
+2026-04-30 02:36:07 [INFO] SCORE STATS: max=70.8 avg=70.8
+2026-04-30 02:36:07 [INFO] BLOCKED: INTC SHORT (position $25 < min $1500)
+2026-04-30 02:36:53 [INFO] Bias: SHORT (0.03) via SPY
+2026-04-30 02:38:06 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=92.51,
+  level=91.82, fast_track=True)
+2026-04-30 02:38:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.62,
+  level=53.31)
+2026-04-30 02:38:07 [INFO] SCORE STATS: max=72.5 avg=72.5
+2026-04-30 02:38:07 [INFO] BLOCKED: INTC SHORT (position $26 < min $1500)
+2026-04-30 02:40:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.18,
+  level=91.94, fast_track=True)
+2026-04-30 02:40:05 [INFO] Skipped: INTC SHORT near support/resistance zone
+2026-04-30 02:40:06 [INFO] SCORE STATS: max=69.4 avg=69.4
+2026-04-30 02:40:06 [INFO] BLOCKED: INTC SHORT (position $31 < min $1500)
+2026-04-30 02:40:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.58,
+  level=53.36)
+2026-04-30 02:41:54 [INFO] Bias: SHORT (0.03) via SPY
+2026-04-30 02:42:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.55,
+  level=53.40)
+2026-04-30 02:44:07 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.08,
+  level=92.49, fast_track=True)
+2026-04-30 02:44:08 [INFO] Skipped: CNC SHORT confirmation failed (close=53.58,
+  level=53.36)
+2026-04-30 02:44:09 [INFO] SCORE STATS: max=71.6 avg=71.6
+2026-04-30 02:44:09 [INFO] BLOCKED: INTC SHORT (position $30 < min $1500)
+2026-04-30 02:46:06 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.23,
+  level=92.51, fast_track=True)
+2026-04-30 02:46:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.50,
+  level=53.33)
+2026-04-30 02:46:07 [INFO] SCORE STATS: max=70.8 avg=70.8
+2026-04-30 02:46:07 [INFO] BLOCKED: INTC SHORT (position $30 < min $1500)
+2026-04-30 02:46:55 [INFO] Bias: SHORT (0.03) via SPY
+2026-04-30 02:48:06 [INFO] Skipped: CNC SHORT confirmation failed (close=53.58,
+  level=53.36)
+2026-04-30 02:48:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.58, level=53.28,
+  fast_track=True)
+2026-04-30 02:48:06 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.34,
+  level=92.65, fast_track=True)
+2026-04-30 02:48:06 [INFO] SCORE STATS: max=76.0 avg=73.3
+2026-04-30 02:48:06 [INFO] BLOCKED: CNC SHORT (position $29 < min $1500)
+2026-04-30 02:48:06 [INFO] BLOCKED: INTC SHORT (position $29 < min $1500)
+2026-04-30 02:50:05 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.23,
+  level=92.76, fast_track=True)
+2026-04-30 02:50:06 [INFO] Confirmed: CNC SHORT on bar 1/1 (close=53.51, level=53.36,
+  fast_track=True)
+2026-04-30 02:50:06 [INFO] SCORE STATS: max=75.9 avg=73.2
+2026-04-30 02:50:06 [INFO] BLOCKED: CNC SHORT (position $27 < min $1500)
+2026-04-30 02:50:06 [INFO] BLOCKED: INTC SHORT (position $27 < min $1500)
+2026-04-30 02:51:57 [INFO] Bias: SHORT (0.03) via SPY
+2026-04-30 02:52:08 [INFO] Confirmed: INTC SHORT on bar 1/1 (close=93.51,
+  level=92.65, fast_track=True)
+2026-04-30 02:52:08 [INFO] Skipped: CNC SHORT near support/resistance zone
+2026-04-30 02:52:09 [INFO] SCORE STATS: max=70.9 avg=70.9
+2026-04-30 02:52:09 [INFO] BLOCKED: INTC SHORT (position $24 < min $1500)
+2026-04-30 08:32:00 [INFO] ARBITER- Startup
+2026-04-30 08:32:00 [INFO] Loaded 501 tickers from list
+2026-04-30 08:32:00 [INFO] IB startup: connecting...
+2026-04-30 08:32:01 [INFO] IB startup: connected socket; resolving account...
+2026-04-30 08:32:01 [INFO] IB startup: using account DUP864580
+2026-04-30 08:32:03 [INFO] IB startup: reading account values...
+2026-04-30 08:32:03 [INFO] Connected. Account: DUP864580, NetLiquidation: $19,790.35
+2026-04-30 08:32:03 [INFO] USE_FIXED_UNIVERSE=False: backtest-aligned universe
+  (metrics as of prior session 2026-04-28)...
+2026-04-30 08:32:19 [INFO]   Rescan OK: 150 tickers (top 5: CNC, BEN, AVB, IP, UDR)
+2026-04-30 08:32:19 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF
+  SPY)...
+2026-04-30 08:32:24 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 08:32:24 [INFO] Entering main loop. US/Eastern now=2026-04-29 18:32:24 —
+  runs until 16:00 ET, then report + disconnect. Ctrl+C to stop. Create
+  "KILL_SWITCH.txt" to stop safely.
+2026-04-30 08:32:24 [INFO] WARNING: Eastern time is already at/after configured
+  shutdown; this launch will not enter the live loop. For a full US session, start
+  Arbiter before that time (config SHUTDOWN_HOUR / SHUTDOWN_MINUTE) or the prior
+  calendar evening in your local zone.
+2026-04-30 08:32:24 [INFO] Session end reason: us_eastern_shutdown_reached
+2026-04-30 08:32:24 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\daily_report_2026-04-29.txt
+2026-04-30 08:32:24 [INFO] Daily report: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\daily_report_2026-04-29.txt
+2026-04-30 08:32:24 [INFO] Disconnected. Session log: E:\matts
+  documents\Cursor\Arbiter V1\Arbiter\logs\session.log; trades/equity in E:\matts
+  documents\Cursor\Arbiter V1\Arbiter\logs
+2026-04-30 08:32:52 [INFO] ARBITER- Startup
+2026-04-30 08:32:52 [INFO] Loaded 501 tickers from list
+2026-04-30 08:32:52 [INFO] IB startup: connecting...
+2026-04-30 08:32:53 [INFO] IB startup: connected socket; resolving account...
+2026-04-30 08:32:53 [INFO] IB startup: using account DUP864580
+2026-04-30 08:32:55 [INFO] IB startup: reading account values...
+2026-04-30 08:32:55 [INFO] Connected. Account: DUP864580, NetLiquidation: $19,790.35
+2026-04-30 08:32:55 [INFO] USE_FIXED_UNIVERSE=False: backtest-aligned universe
+  (metrics as of prior session 2026-04-28)...
+2026-04-30 08:33:10 [INFO]   Rescan OK: 150 tickers (top 5: CNC, BEN, AVB, IP, UDR)
+2026-04-30 08:33:10 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF
+  SPY)...
+2026-04-30 08:33:15 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 08:33:15 [INFO] Entering main loop. US/Eastern now=2026-04-29 18:33:15 —
+  runs until 16:00 ET, then report + disconnect. Ctrl+C to stop. Create
+  "KILL_SWITCH.txt" to stop safely.
+2026-04-30 08:33:15 [INFO] WARNING: Eastern time is already at/after configured
+  shutdown; this launch will not enter the live loop. For a full US session, start
+  Arbiter before that time (config SHUTDOWN_HOUR / SHUTDOWN_MINUTE) or the prior
+  calendar evening in your local zone.
+2026-04-30 08:33:15 [INFO] Session end reason: us_eastern_shutdown_reached
+2026-04-30 08:33:15 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\daily_report_2026-04-29.txt
+2026-04-30 08:33:15 [INFO] Daily report: e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\daily_report_2026-04-29.txt
+2026-04-30 08:33:15 [INFO] Disconnected. Session log: e:\matts
+  documents\Cursor\Arbiter V1\Arbiter\logs\session.log; trades/equity in e:\matts
+  documents\Cursor\Arbiter V1\Arbiter\logs
+2026-04-30 10:47:14 [INFO] ARBITER- Startup
+2026-04-30 10:47:14 [INFO] Loaded 501 tickers from list
+2026-04-30 10:47:14 [INFO] IB startup: connecting...
+2026-04-30 10:47:14 [INFO] IB startup: connected socket; resolving account...
+2026-04-30 10:47:14 [INFO] IB startup: using account DUP864580
+2026-04-30 10:47:16 [INFO] IB startup: reading account values...
+2026-04-30 10:47:16 [INFO] Connected. Account: DUP864580, NetLiquidation: $19,790.35
+2026-04-30 10:47:16 [INFO] USE_FIXED_UNIVERSE=False: backtest-aligned universe
+  (metrics as of prior session 2026-04-28)...
+2026-04-30 10:47:33 [INFO]   Rescan OK: 150 tickers (top 5: CNC, BEN, AVB, IP, UDR)
+2026-04-30 10:47:33 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF
+  SPY)...
+2026-04-30 10:47:38 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 10:47:38 [INFO] Entering main loop. US/Eastern now=2026-04-29 20:47:38 —
+  runs until 16:00 ET, then report + disconnect. Ctrl+C to stop. Create
+  "KILL_SWITCH.txt" to stop safely.
+2026-04-30 10:47:38 [INFO] WARNING: Eastern time is already at/after configured
+  shutdown; this launch will not enter the live loop. For a full US session, start
+  Arbiter before that time (config SHUTDOWN_HOUR / SHUTDOWN_MINUTE) or the prior
+  calendar evening in your local zone.
+2026-04-30 10:47:38 [INFO] Session end reason: us_eastern_shutdown_reached
+2026-04-30 10:47:38 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\daily_report_2026-04-29.txt
+2026-04-30 10:47:38 [INFO] Daily report: e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\daily_report_2026-04-29.txt
+2026-04-30 10:47:38 [INFO] Disconnected. Session log: e:\matts
+  documents\Cursor\Arbiter V1\Arbiter\logs\session.log; trades/equity in e:\matts
+  documents\Cursor\Arbiter V1\Arbiter\logs
+2026-04-30 14:17:27 [INFO] ARBITER- Startup
+2026-04-30 14:17:27 [INFO] Loaded 501 tickers from list
+2026-04-30 14:17:27 [INFO] IB startup: connecting...
+2026-04-30 14:17:30 [INFO] IB startup: connected socket; resolving account...
+2026-04-30 14:17:30 [INFO] IB startup: using account DUP864580
+2026-04-30 14:17:32 [INFO] IB startup: reading account values...
+2026-04-30 14:17:32 [INFO] Connected. Account: DUP864580, NetLiquidation: $19,792.05
+2026-04-30 14:17:32 [INFO] USE_FIXED_UNIVERSE=False: backtest-aligned universe
+  (metrics as of prior session 2026-04-29)...
+2026-04-30 14:20:22 [INFO]   Rescan OK: 150 tickers (top 5: INTC, CNC, SBUX, MCHP,
+  ON)
+2026-04-30 14:20:22 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF
+  SPY)...
+2026-04-30 14:20:27 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 14:20:27 [INFO] Entering main loop. US/Eastern now=2026-04-30 00:20:27 —
+  runs until 16:00 ET, then report + disconnect. Ctrl+C to stop. Create
+  "KILL_SWITCH.txt" to stop safely.
+2026-04-30 14:25:28 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 14:27:56 [INFO] ib.sleep/IB: Socket disconnect
+2026-04-30 14:30:54 [INFO] ARBITER- Startup
+2026-04-30 14:30:54 [INFO] Loaded 501 tickers from list
+2026-04-30 14:30:54 [INFO] IB startup: connecting...
+2026-04-30 14:31:12 [INFO] IB startup: connected socket; resolving account...
+2026-04-30 14:31:12 [INFO] IB startup: using account DUP864580
+2026-04-30 14:31:14 [INFO] IB startup: reading account values...
+2026-04-30 14:31:14 [INFO] Connected. Account: DUP864580, NetLiquidation: $19,792.05
+2026-04-30 14:31:14 [INFO] USE_FIXED_UNIVERSE=False: backtest-aligned universe
+  (metrics as of prior session 2026-04-29)...
+2026-04-30 16:38:48 [INFO] ARBITER- Startup
+2026-04-30 16:38:48 [INFO] Loaded 501 tickers from list
+2026-04-30 16:38:48 [INFO] IB startup: connecting...
+2026-04-30 16:38:48 [INFO] IB startup: connected socket; resolving account...
+2026-04-30 16:38:48 [INFO] IB startup: using account DUP864580
+2026-04-30 16:38:50 [INFO] IB startup: reading account values...
+2026-04-30 16:38:50 [INFO] Connected. Account: DUP864580, NetLiquidation: $19,792.05
+2026-04-30 16:38:50 [INFO] USE_FIXED_UNIVERSE=False: backtest-aligned universe
+  (metrics as of prior session 2026-04-29)...
+2026-04-30 16:39:09 [INFO]   Rescan OK: 150 tickers (top 5: INTC, CNC, SBUX, MCHP,
+  ON)
+2026-04-30 16:39:09 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF
+  SPY)...
+2026-04-30 16:39:14 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 16:39:14 [INFO] Entering main loop. US/Eastern now=2026-04-30 02:39:14 —
+  runs until 16:00 ET, then report + disconnect. Ctrl+C to stop. Create
+  "KILL_SWITCH.txt" to stop safely.
+2026-04-30 16:44:15 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 16:49:16 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 16:54:17 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 16:59:18 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:04:19 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:09:20 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:14:21 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:19:22 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:24:23 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:29:24 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:34:25 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:39:26 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:44:27 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:49:28 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:54:29 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 17:59:30 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:04:32 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:09:32 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:14:33 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:19:34 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:24:35 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:29:36 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:34:37 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:39:38 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:44:39 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:49:40 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:54:42 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 18:59:43 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 19:04:44 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 19:09:45 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 19:14:46 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 19:19:48 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 19:24:49 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 19:29:50 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 19:34:51 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 19:39:52 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-04-30 19:44:53 [INFO] Bias: LONG (0.02) via SPY
+2026-04-30 19:49:54 [INFO] Bias: LONG (0.02) via SPY
+2026-04-30 19:54:55 [INFO] Bias: LONG (0.02) via SPY
+2026-04-30 19:59:56 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 20:04:57 [INFO] Bias: LONG (0.02) via SPY
+2026-04-30 20:09:59 [INFO] Bias: LONG (0.02) via SPY
+2026-04-30 20:15:00 [INFO] Bias: LONG (0.02) via SPY
+2026-04-30 20:20:01 [INFO] Bias: LONG (0.02) via SPY
+2026-04-30 20:25:02 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 20:30:03 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 20:35:05 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 20:40:06 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 20:45:07 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 20:50:08 [INFO] Bias: LONG (0.02) via SPY
+2026-04-30 20:55:09 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 21:00:10 [INFO] Bias: LONG (0.02) via SPY
+2026-04-30 21:05:11 [INFO] Bias: LONG (0.02) via SPY
+2026-04-30 21:10:12 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 21:15:13 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 21:20:14 [INFO] Bias: LONG (0.04) via SPY
+2026-04-30 21:25:15 [INFO] Bias: LONG (0.04) via SPY
+2026-04-30 21:30:17 [INFO] Bias: LONG (0.05) via SPY
+2026-04-30 21:35:17 [INFO] Bias: LONG (0.04) via SPY
+2026-04-30 21:40:19 [INFO] Bias: LONG (0.04) via SPY
+2026-04-30 21:45:20 [INFO] Bias: LONG (0.04) via SPY
+2026-04-30 21:50:21 [INFO] Bias: LONG (0.04) via SPY
+2026-04-30 21:55:22 [INFO] Bias: LONG (0.04) via SPY
+2026-04-30 22:00:23 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 22:05:25 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 22:10:26 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 22:15:27 [INFO] Bias: LONG (0.04) via SPY
+2026-04-30 22:20:28 [INFO] Bias: LONG (0.04) via SPY
+2026-04-30 22:25:29 [INFO] Bias: LONG (0.05) via SPY
+2026-04-30 22:30:30 [INFO] Bias: LONG (0.05) via SPY
+2026-04-30 22:35:31 [INFO] Bias: LONG (0.04) via SPY
+2026-04-30 22:40:32 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 22:45:33 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 22:50:35 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 22:55:36 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 23:00:37 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 23:05:38 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 23:10:39 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 23:15:40 [INFO] Bias: LONG (0.03) via SPY
+2026-04-30 23:20:41 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 23:25:43 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 23:30:44 [INFO] Bias: LONG (0.50) via SPY
+2026-04-30 23:35:45 [INFO] Bias: SHORT (0.01) via SPY
+2026-04-30 23:40:46 [INFO] Bias: SHORT (0.03) via SPY
+2026-04-30 23:45:47 [INFO] Bias: SHORT (0.04) via SPY
+2026-04-30 23:50:48 [INFO] Bias: SHORT (0.04) via SPY
+2026-04-30 23:55:49 [INFO] Bias: SHORT (0.06) via SPY
