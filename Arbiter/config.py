@@ -61,7 +61,7 @@ ETF_SYMBOL = "SPY"
 ENABLE_SHORTS = True
 # If True, only allow entries in the current SPY bias direction.
 # LONG bias -> long-only, SHORT bias -> short-only, NEUTRAL bias -> no entries.
-SPY_HARD_TREND_FILTER = False
+SPY_HARD_TREND_FILTER = True
 BIAS_REFRESH_INTERVAL = 300  # seconds
 MIN_BIAS_STRENGTH = 0.30
 BIAS_EMA_FAST = 20
@@ -90,7 +90,7 @@ MIN_RELATIVE_VOLUME = 0.6
 ATR_PERIOD = 14
 ATR_PCT_MIN, ATR_PCT_MAX = 0.5, 15.0  # ATR_PCT_MAX 15% for explosive moves
 # Note: dist_vwap is expressed as a percent in logs (e.g. 0.03 = 0.03%).
-MAX_DISTANCE_FROM_VWAP_PCT = 3.0  # Relaxed 3% to catch high-conviction signals
+MAX_DISTANCE_FROM_VWAP_PCT = 0.5  # Max favorable extension from VWAP for entries (% units)
 MIN_AVG_DAILY_VOLUME = 800_000
 # Backtest-only: lower threshold so replayed 5-sec data can pass liquidity (live never uses this)
 BACKTEST_MIN_AVG_DAILY_VOLUME = 300_000
@@ -122,11 +122,18 @@ MIN_TRADE_SCORE = 55.0
 LOSS_DAY_MIN_TRADE_SCORE = 70.0
 TOP_TRADES_TO_TAKE = 3
 
-MAX_POSITION_PCT = 0.15
+MAX_POSITION_PCT = 0.25
 MAX_POSITIONS = 6
 MAX_CAPITAL_PCT_USED = 0.98
 # Position-size floor to avoid fee-inefficient micro trades.
 MIN_POSITION_DOLLARS = 1500.0
+# Pullback / controlled-entry: treat |dist_vwap| <= this as "near VWAP" (% units).
+CONTROLLED_ENTRY_NEAR_VWAP_PCT = 0.25
+# Recent closed bars used for pullback-from-high / bounce-from-low (BarBuilder bars).
+CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS = 15
+# Minimum pullback/bounce from recent intraday extreme required for controlled entry (% units).
+CONTROLLED_ENTRY_MIN_PULLBACK_PCT = 0.30
+
 # Require sufficient expected move before entry (decimal fraction: 0.005 = 0.5%).
 MIN_EXPECTED_MOVE_PCT = 0.005
 # Minimum ATR% gate (decimal fraction: 0.008 = 0.8%).
@@ -190,7 +197,7 @@ BACKTEST_BARS_CACHE_DIR = os.path.join(DATA_DIR, "backtest_bars")
 
 # When bias would be NEUTRAL, use this direction instead so we don't block all trades (bias, don't gate).
 # Set to "LONG" or "SHORT"; None = keep NEUTRAL (strict).
-BIAS_NEUTRAL_FALLBACK = "LONG"
+BIAS_NEUTRAL_FALLBACK = None
 # Allow both long and short when bias is NEUTRAL (bias = tilt, not permission).
 ALLOW_TRADES_IN_NEUTRAL = True
 

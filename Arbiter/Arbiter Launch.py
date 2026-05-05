@@ -285,6 +285,8 @@ def run():
 
     bar_builder = BarBuilder()
     positions_today: set[str] = set()
+    # Block any further entries for a ticker after one entry order is placed this session.
+    ticker_placed_today: set[str] = set()
     start_capital = capital
     peak_capital = capital
 
@@ -304,6 +306,161 @@ def run():
     pending_confirmations: dict[str, list[dict]] = {}
     realtime_streams: dict[str, object] = {}
 
+    def _closed_bars_for_controlled(sym: str, bar: dict) -> list[dict]:
+        """Closed BarBuilder bars for sym, aligned with the signal bar (no lookahead)."""
+        L = bar_builder.get_all_closed(sym)
+        if not bar:
+            return list(L)
+        if not L:
+            return [dict(bar)]
+        bc = float(bar.get("close") or 0)
+        lc = float(L[-1].get("close") or 0)
+        bh = float(bar.get("high") or bc)
+        lh = float(L[-1].get("high") or lc)
+        if abs(bc - lc) < 1e-4 and abs(bh - lh) < 1e-3:
+            return list(L)
+        return list(L) + [dict(bar)]
+
+    def _is_controlled_entry(sym: str, side: str, close_price: float, signal_bar: dict) -> bool:
+        """
+        Hard gate for entry quality:
+        - Must respect favorable VWAP extension cap.
+        - Then require either near-VWAP OR a minimum pullback/bounce from recent extreme.
+        """
+        side_u = (side or "").upper()
+        c = float(close_price or 0.0)
+        if c <= 0:
+            return False
+        h = float((signal_bar or {}).get("high") or c)
+        l_ = float((signal_bar or {}).get("low") or c)
+        # Rolling proxy VWAP: volume-weighted typical price over recent bars + current signal bar.
+        seq = _closed_bars_for_controlled(sym, signal_bar)
+        lookback = int(getattr(config, "CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS", 15) or 15)
+        vw_window = seq[-max(1, min(lookback, len(seq))):] if seq else [signal_bar or {}]
+        num = 0.0
+        den = 0.0
+        for b in vw_window:
+            bc = float(b.get("close") or 0.0)
+            bh = float(b.get("high") or bc)
+            bl = float(b.get("low") or bc)
+            vol = float(b.get("volume") or 0.0)
+            tp = (bh + bl + bc) / 3.0 if (bh or bl or bc) else 0.0
+            w = vol if vol > 0 else 1.0
+            num += tp * w
+            den += w
+        vwap = (num / den) if den > 0 else 0.0
+        if vwap <= 0:
+            return False
+        dist_vwap_pct = (c - vwap) / vwap * 100.0
+
+        max_ext = float(getattr(config, "MAX_DISTANCE_FROM_VWAP_PCT", 0.5) or 0.5)
+        near_vwap_pct = float(getattr(config, "CONTROLLED_ENTRY_NEAR_VWAP_PCT", 0.25) or 0.25)
+        pullback_pct = float(getattr(config, "CONTROLLED_ENTRY_MIN_PULLBACK_PCT", 0.30) or 0.30)
+        lookback = int(getattr(config, "CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS", 15) or 15)
+
+        # Reject favorable-direction extension beyond cap.
+        if side_u == "LONG" and dist_vwap_pct > max_ext:
+            log_info(
+                f"ENTRY CHECK values: {sym} {side_u} close={c:.4f}, vwap={vwap:.4f}, "
+                f"recent_high=n/a, recent_low=n/a, dist_vwap_pct={dist_vwap_pct:.4f} -> FAIL(ext)"
+            )
+            return False
+        if side_u == "SHORT" and dist_vwap_pct < -max_ext:
+            log_info(
+                f"ENTRY CHECK values: {sym} {side_u} close={c:.4f}, vwap={vwap:.4f}, "
+                f"recent_high=n/a, recent_low=n/a, dist_vwap_pct={dist_vwap_pct:.4f} -> FAIL(ext)"
+            )
+            return False
+
+        near_vwap = abs(dist_vwap_pct) <= near_vwap_pct
+
+        prior = seq[:-1] if len(seq) >= 2 else seq
+        if not prior:
+            return near_vwap
+        window = prior[-max(1, min(lookback, len(prior))):]
+
+        if side_u == "LONG":
+            recent_high = max(float(b.get("high") or 0.0) for b in window)
+            pullback_from_high_pct = ((recent_high - c) / recent_high * 100.0) if recent_high > 0 else 0.0
+            ok = near_vwap or (pullback_from_high_pct >= pullback_pct)
+            log_info(
+                f"ENTRY CHECK values: {sym} {side_u} close={c:.4f}, vwap={vwap:.4f}, "
+                f"recent_high={recent_high:.4f}, recent_low=n/a, dist_vwap_pct={dist_vwap_pct:.4f}, "
+                f"pullback_pct={pullback_from_high_pct:.4f}, near_vwap={near_vwap} -> {'PASS' if ok else 'FAIL'}"
+            )
+            return ok
+        if side_u == "SHORT":
+            lows = [float(b.get("low") or 0.0) for b in window if float(b.get("low") or 0.0) > 0]
+            if not lows:
+                return near_vwap
+            recent_low = min(lows)
+            bounce_from_low_pct = ((c - recent_low) / recent_low * 100.0) if recent_low > 0 else 0.0
+            ok = near_vwap or (bounce_from_low_pct >= pullback_pct)
+            log_info(
+                f"ENTRY CHECK values: {sym} {side_u} close={c:.4f}, vwap={vwap:.4f}, "
+                f"recent_high=n/a, recent_low={recent_low:.4f}, dist_vwap_pct={dist_vwap_pct:.4f}, "
+                f"bounce_pct={bounce_from_low_pct:.4f}, near_vwap={near_vwap} -> {'PASS' if ok else 'FAIL'}"
+            )
+            return ok
+        return False
+
+    def _append_blocked_csv_simple(sig: dict, side: str, block_reason: str) -> None:
+        """Same CSV schema as funnel blocked_candidates (pre-sizing defaults)."""
+        path = os.path.join(config.LOG_DIR, "blocked_candidates.csv")
+        fields = [
+            "Date",
+            "Time",
+            "ticker",
+            "side",
+            "score",
+            "entry_price",
+            "capital_now",
+            "capital_for_sizing",
+            "len_ranked",
+            "bias_strength",
+            "effective_strength",
+            "size_multiplier",
+            "regime_mult",
+            "dollar_raw",
+            "dollar_final",
+            "MIN_POSITION_DOLLARS",
+            "block_reason",
+        ]
+        d = now_et()
+        date_str = d.strftime("%Y-%m-%d")
+        time_str = d.strftime("%H:%M:%S")
+        ep = float((sig.get("bar") or {}).get("close") or 0)
+        min_pos = float(getattr(config, "MIN_POSITION_DOLLARS", 1500.0) or 1500.0)
+        row = {
+            "Date": date_str,
+            "Time": time_str,
+            "ticker": sig.get("ticker", ""),
+            "side": side,
+            "score": f"{float(sig.get('score') or 0):.6f}",
+            "entry_price": f"{ep:.6f}",
+            "capital_now": "0.000000",
+            "capital_for_sizing": "0.000000",
+            "len_ranked": "0",
+            "bias_strength": f"{float(sig.get('bias_strength') or 0):.6f}",
+            "effective_strength": "0.000000",
+            "size_multiplier": "0.000000",
+            "regime_mult": "0.000000",
+            "dollar_raw": "0.000000",
+            "dollar_final": "0.000000",
+            "MIN_POSITION_DOLLARS": f"{min_pos:.6f}",
+            "block_reason": block_reason,
+        }
+        try:
+            os.makedirs(config.LOG_DIR, exist_ok=True)
+            file_exists = os.path.isfile(path)
+            with open(path, "a", newline="", encoding="utf-8") as bf:
+                wr = csv.DictWriter(bf, fieldnames=fields)
+                if not file_exists:
+                    wr.writeheader()
+                wr.writerow(row)
+        except OSError:
+            pass
+
     # Bias state (updated on schedule from ETF bars)
     bias_state = {"direction": "NEUTRAL", "strength": 0.0}
     last_bias_update_ts = 0.0
@@ -313,8 +470,10 @@ def run():
     bias_refresh_interval = float(getattr(config, "BIAS_REFRESH_INTERVAL", 300))
 
     def _is_bias_tradeable(b: dict) -> bool:
-        """Bias = tilt, not permission. Only block shorts when ENABLE_SHORTS is False."""
+        """When SPY_HARD_TREND_FILTER is on, NEUTRAL bias means no new entries."""
         d = (b.get("direction") or "NEUTRAL").upper()
+        if bool(getattr(config, "SPY_HARD_TREND_FILTER", False)) and d == "NEUTRAL":
+            return False
         if d == "NEUTRAL":
             return getattr(config, "ALLOW_TRADES_IN_NEUTRAL", True)
         if d == "SHORT" and not getattr(config, "ENABLE_SHORTS", True):
@@ -395,6 +554,7 @@ def run():
                 sig = dict(item.get("signal") or {})
                 sig["confirmed_bars"] = item["bars_checked"]
                 signals_this_bar.append(sig)
+                log_info(f"FAST TRACK USED: {sym} {side} fast_track={fast_track}")
                 log_info(
                     f"Confirmed: {sym} {side} on bar {item['bars_checked']}/1 "
                     f"(close={close_px:.2f}, level={confirm_level:.2f}, fast_track={fast_track})"
@@ -664,17 +824,17 @@ def run():
         boundary = (hour, minute)
 
         # Signal generation uses current bias (updated on schedule in the main loop)
-        if not _is_bias_tradeable(bias_state):
-            return
         bias_dir = (bias_state.get("direction") or "NEUTRAL").upper()
         sides_to_generate = _sides_from_bias(bias_dir)
         raw_bias_strength = float(bias_state.get("strength") or 0.0)
+        bias_ok_trading = _is_bias_tradeable(bias_state)
 
         # Intrabar
         intrabar_min_age = getattr(config, "INTRABAR_MIN_AGE_SECONDS", 60)
         current = bar_builder.get_current_bar(sym)
         if (
-            current
+            bias_ok_trading
+            and current
             and current.get("start_et")
             and sym not in positions_today
             and sym not in pending_entry_trades
@@ -727,6 +887,22 @@ def run():
                             h, l_, c = float(bar_dict.get("high") or close), float(bar_dict.get("low") or close), close
                             vwap = (h + l_ + c) / 3.0 if (h or l_ or c) else 0
                             dist_vwap = (c - vwap) / vwap * 100 if vwap else 0
+                            sig_stub = {
+                                "ticker": sym,
+                                "side": side_s,
+                                "bias_strength": raw_bias_strength,
+                                "score": score_weighted,
+                                "bar": bar_dict,
+                            }
+                            log_info(
+                                f"CHECK controlled entry: {sym} {side_s} close={close:.4f} vwap={vwap:.4f}"
+                            )
+                            if not _is_controlled_entry(sym, side_s, close, bar_dict):
+                                _append_blocked_csv_simple(sig_stub, side_s, "controlled_entry_filter_failed")
+                                log_info(f"CONTROLLED ENTRY RESULT: FAIL")
+                                log_info(f"Blocked: {sym} {side_s} controlled entry failed")
+                                continue
+                            log_info("CONTROLLED ENTRY RESULT: PASS")
                             _queue_for_confirmation(
                                 {
                                     "ticker": sym,
@@ -752,6 +928,8 @@ def run():
             if closed and sym != etf_symbol:
                 _process_confirmations_on_bar_close(sym, closed, boundary)
             if not closed or sym in positions_today or sym in pending_entry_trades or sym not in daily_metrics:
+                return
+            if not bias_ok_trading:
                 return
             dm = dict(daily_metrics.get(sym, {}))
             dm["today_volume_so_far"] = sum(b["volume"] for b in bar_builder.get_all_closed(sym)[:-1])
@@ -779,6 +957,22 @@ def run():
                     h, l_, c = float(closed.get("high") or close), float(closed.get("low") or close), close
                     vwap = (h + l_ + c) / 3.0 if (h or l_ or c) else 0
                     dist_vwap = (c - vwap) / vwap * 100 if vwap else 0
+                    sig_stub = {
+                        "ticker": sym,
+                        "side": side_s,
+                        "bias_strength": raw_bias_strength,
+                        "score": score_weighted,
+                        "bar": closed_with_adx,
+                    }
+                    log_info(
+                        f"CHECK controlled entry: {sym} {side_s} close={close:.4f} vwap={vwap:.4f}"
+                    )
+                    if not _is_controlled_entry(sym, side_s, close, closed_with_adx):
+                        _append_blocked_csv_simple(sig_stub, side_s, "controlled_entry_filter_failed")
+                        log_info("CONTROLLED ENTRY RESULT: FAIL")
+                        log_info(f"Blocked: {sym} {side_s} controlled entry failed")
+                        continue
+                    log_info("CONTROLLED ENTRY RESULT: PASS")
                     _queue_for_confirmation(
                         {
                             "ticker": sym,
@@ -1484,6 +1678,17 @@ def run():
                     log_info(f"BLOCKED: {ticker} (LOW_RANGE_BLACKLIST)")
                     continue
                 size_multiplier = 1.0
+                if ticker.upper() in ticker_placed_today:
+                    _block("same_ticker_reentry_day")
+                    _log_blocked_candidate("same_ticker_reentry_day", sig, side)
+                    log_info(f"BLOCKED: {ticker} {side} (already placed an entry for this ticker today)")
+                    continue
+                c_close = float((sig.get("bar") or {}).get("close") or 0)
+                if not _is_controlled_entry(ticker, side, c_close, sig.get("bar") or {}):
+                    _block("controlled_entry_filter_failed")
+                    _log_blocked_candidate("controlled_entry_filter_failed", sig, side)
+                    log_info(f"BLOCKED: {ticker} {side} (controlled_entry_filter_failed)")
+                    continue
                 if ticker in positions_today or ticker in pending_entry_trades:
                     _block("already_in_position_or_pending")
                     _log_blocked_candidate("already_in_position_or_pending", sig, side)
@@ -1614,6 +1819,7 @@ def run():
                         if side == "LONG"
                         else entry_price * (1 + config.STOP_PCT),
                     }
+                    ticker_placed_today.add(ticker.upper())
                     log_signal(
                         date_str,
                         time_str,

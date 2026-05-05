@@ -63,6 +63,67 @@ def _time_adjusted_rel_vol(today_vol: float, avg_vol: float, minutes_since_open:
     return float(today_vol) / max(expected_volume, 1.0)
 
 
+def vwap_extension_ok(side: str, dist_vwap_pct: float, thresholds: dict | None = None) -> bool:
+    """LONG: reject extension above VWAP beyond max; SHORT: reject extension below VWAP beyond max."""
+    thr = thresholds if thresholds is not None else _debug_thresholds()
+    max_e = float(thr.get("MAX_DISTANCE_FROM_VWAP_PCT", getattr(config, "MAX_DISTANCE_FROM_VWAP_PCT", 0.5)) or 0.5)
+    side_u = (side or "").upper()
+    dv = _safe_float(dist_vwap_pct, 0.0)
+    if side_u == "LONG":
+        return dv <= max_e
+    if side_u == "SHORT":
+        return dv >= -max_e
+    return False
+
+
+def controlled_entry_ok(
+    side: str,
+    close: float,
+    dist_vwap_pct: float,
+    closed_bars_including_signal: list[dict] | None,
+) -> bool:
+    """
+    Entries must not chase VWAP extension; prefer near VWAP or pullback/bounce vs recent intraday window.
+    Uses only bars available at signal time (closed bars + current signal bar).
+    """
+    thr = _debug_thresholds()
+    if not vwap_extension_ok(side, dist_vwap_pct, thr):
+        return False
+    max_e = float(thr.get("MAX_DISTANCE_FROM_VWAP_PCT", 0.5) or 0.5)
+    near = float(
+        getattr(config, "CONTROLLED_ENTRY_NEAR_VWAP_PCT", max(0.05, max_e * 0.5)) or 0.25
+    )
+    near = min(near, max_e)
+    lb = int(getattr(config, "CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS", 15) or 15)
+    side_u = (side or "").upper()
+    bars = list(closed_bars_including_signal or [])
+    close_f = _safe_float(close, 0.0)
+    dv = _safe_float(dist_vwap_pct, 0.0)
+
+    if len(bars) < 2:
+        return abs(dv) <= near
+
+    prior = bars[:-1]
+    lookback = max(1, min(lb, len(prior)))
+    window = prior[-lookback:]
+
+    if side_u == "LONG":
+        peak = max(_safe_float(b.get("high"), 0.0) for b in window)
+        near_vwap = abs(dv) <= near
+        pullback = peak > 0 and close_f < peak
+        return near_vwap or pullback
+
+    if side_u == "SHORT":
+        trough = min(_safe_float(b.get("low"), float("inf")) for b in window)
+        if trough is None or not math.isfinite(trough) or trough <= 0:
+            return abs(dv) <= near
+        near_vwap = abs(dv) <= near
+        bounce = close_f > trough
+        return near_vwap or bounce
+
+    return False
+
+
 def _debug_thresholds():
     """
     Optional one-session relax to confirm signals can fire.
@@ -220,6 +281,7 @@ def check_v26_bar(
         liquidity_ok
         and price_ok
         and volatility_ok
+        and vwap_extension_ok("LONG", dist_vwap, thr)
         and expected_move_ok(max(abs(float(pct_change_1d or 0.0)) / 100.0, atr_dec))
         and atr_ok(atr_pct)
     )
@@ -323,6 +385,7 @@ def check_v26_bar_side(
         liquidity_ok
         and price_ok
         and volatility_ok
+        and vwap_extension_ok("SHORT", dist_vwap, thr)
         and expected_move_ok(max(abs(float(pct_change_1d or 0.0)) / 100.0, atr_dec))
         and atr_ok(atr_pct)
     )

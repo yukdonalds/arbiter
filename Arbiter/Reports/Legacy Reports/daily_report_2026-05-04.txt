@@ -1,0 +1,48 @@
+=====================================================================================
+ARBITER DAILY TEAR SHEET             2026-05-04
+=====================================================================================
+
+PERFORMANCE
+-------------------------------------------------------------------------------------
+Starting Daily Capital       $19,792.05
+Net P&L                     $-28.31      (-0.14%)
+Gross P&L                   $-25.92
+Fees/Recon/Other            $-2.39
+Profit Factor               0.03
+Expectancy / Trade         $-12.96
+
+EXECUTION
+-------------------------------------------------------------------------------------
+Trades Executed              2
+Signals Filled              2
+Signals Qualified           4
+Avg Signal Score            96.7
+Best Signal Score           96.8
+
+RISK
+-------------------------------------------------------------------------------------
+Max Intraday DD            $93.45
+Model Drawdown             $207.14 (1.0%)
+Loss Streak                6
+Worst 5D P&L              $-100.54
+
+SCORE ENGINE
+-------------------------------------------------------------------------------------
+Score Buckets:
+<55                                $0.00 / 0 trades
+55-65                              $0.00 / 0 trades
+65-75                              $0.00 / 0 trades
+75+                                $-25.92 / 2 trades
+Threshold Used              55
+Loss-Day Tightening         ON
+
+SYSTEM STATE
+-------------------------------------------------------------------------------------
+Fee Efficiency              GOOD
+Gross/Fee Ratio             10.85
+System Status               EDGE OFF
+
+Verdict:
+Edge is off: broker P&L is negative or profit factor is too low.
+
+=====================================================================================

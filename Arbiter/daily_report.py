@@ -442,6 +442,163 @@ def write_gpt_daily_analysis_pack(date_only: str) -> str | None:
     return pack_path
 
 
+def write_gpt_backtest_analysis_pack(
+    date_from: str,
+    date_to: str,
+    backtest_report_path: str,
+    *,
+    backtest_trades_csv: str | None = None,
+    diag_summary: dict | None = None,
+) -> str | None:
+    """
+    Single-file bundle for LLM review of a backtest run: embedded backtest report,
+    trade log CSV, config snapshot, and aggregated diagnostics.
+    Written to Reports/gpt_backtest_analysis_pack_<range>.txt (mirrored like daily report).
+    """
+    date_from = (date_from or "")[:10]
+    date_to = (date_to or "")[:10]
+    if not date_from or not date_to:
+        return None
+    date_range = f"{date_from}_to_{date_to}" if date_from != date_to else date_from
+    os.makedirs(config.REPORT_DIR, exist_ok=True)
+    pack_path = os.path.join(config.REPORT_DIR, f"gpt_backtest_analysis_pack_{date_range}.txt")
+
+    lines_out: list[str] = []
+
+    def append_section(title: str, body: list[str]) -> None:
+        lines_out.extend(["", "=" * 88])
+        lines_out.append(f"  {title}")
+        lines_out.append("=" * 88)
+        lines_out.extend(body)
+        if body and body[-1] != "":
+            lines_out.append("")
+
+    lines_out.extend(
+        [
+            "ARBITER — GPT BACKTEST ANALYSIS PACK",
+            "=" * 88,
+            f"Backtest range: {date_from} to {date_to}",
+            f"Pack generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+            "",
+            "USAGE",
+            "-" * 40,
+            "Upload this file to ChatGPT for backtest performance, entry-filter, and regime review.",
+            "This pack reflects replayed 5-sec bars and model fills — not live broker execution.",
+            "",
+        ]
+    )
+
+    manifest = [
+        f"BASE_DIR              {config.BASE_DIR}",
+        f"backtest_report       {backtest_report_path}",
+        f"gpt pack (this)       {pack_path}",
+        f"backtest_trades_csv   {backtest_trades_csv or '(path not passed — see embedded section)'}",
+    ]
+    append_section("FILE MANIFEST (paths on this machine)", manifest)
+
+    cfg_keys = (
+        "MAX_DISTANCE_FROM_VWAP_PCT",
+        "CONTROLLED_ENTRY_NEAR_VWAP_PCT",
+        "CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS",
+        "SPY_HARD_TREND_FILTER",
+        "BIAS_NEUTRAL_FALLBACK",
+        "ALLOW_TRADES_IN_NEUTRAL",
+        "ETF_SYMBOL",
+        "ENABLE_SHORTS",
+        "REGIME_ENGINE_ENABLED",
+        "MIN_TRADE_SCORE",
+        "LOSS_DAY_MIN_TRADE_SCORE",
+        "TOP_TRADES_TO_TAKE",
+        "MAX_TRADES_PER_DAY",
+        "MAX_SIGNALS_PER_DAY",
+        "MAX_POSITIONS",
+        "MAX_POSITION_PCT",
+        "MIN_POSITION_DOLLARS",
+        "MAX_CAPITAL_PCT_USED",
+        "MAX_DAILY_LOSS_PCT",
+        "ENTRY_CUTOFF_HOUR",
+        "ENTRY_CUTOFF_MINUTE",
+        "MARKET_OPEN_HOUR",
+        "MARKET_OPEN_MINUTE",
+        "BAR_MINUTES",
+        "STOP_PCT",
+        "PARTIAL_TP_PCT",
+        "RUNNER_CAP_PCT",
+        "USE_FIXED_UNIVERSE",
+        "WATCHLIST_TOP_N",
+        "MAX_REALTIME_SUBSCRIPTIONS",
+        "BACKTEST_IB_5SEC_ONLY",
+        "BACKTEST_USE_CACHE",
+    )
+    cfg_lines = []
+    for k in cfg_keys:
+        try:
+            cfg_lines.append(f"  {k} = {getattr(config, k)!r}")
+        except Exception:
+            cfg_lines.append(f"  {k} = <unreadable>")
+    append_section("CONFIG SNAPSHOT (read-only)", cfg_lines)
+
+    ds = diag_summary or {}
+    diag_lines = [
+        f"  confirmation_counts      {ds.get('confirmation_counts', {})}",
+        f"  spy_soft_penalties       {ds.get('spy_soft_penalties', 0)}",
+        f"  controlled_entry_blocks  {ds.get('controlled_entry_blocks', 'n/a')}",
+        f"  fill_model               {ds.get('fill_model', 'n/a')}",
+    ]
+    append_section("AGGREGATED BACKTEST DIAGNOSTICS (from runner)", diag_lines)
+
+    embed_bt: list[str] = []
+    if backtest_report_path and os.path.isfile(backtest_report_path):
+        try:
+            with open(backtest_report_path, encoding="utf-8") as bf:
+                txt = bf.read()
+            if len(txt) > 200000:
+                embed_bt.append(txt[:200000].rstrip())
+                embed_bt.append("")
+                embed_bt.append("... [TRUNCATED: backtest report exceeds 200000 characters] ...")
+            else:
+                embed_bt.append(txt.rstrip())
+        except OSError as e:
+            embed_bt.append(f"<could not read backtest report: {e}>")
+    else:
+        embed_bt.append("<backtest report file not found>")
+    append_section(f"EMBEDDED: {os.path.basename(backtest_report_path) if backtest_report_path else 'backtest_report'}", embed_bt)
+
+    trade_cap = 5000
+    tlines: list[str] = []
+    csv_path = backtest_trades_csv
+    if csv_path and os.path.isfile(csv_path):
+        try:
+            with open(csv_path, newline="", encoding="utf-8") as tf:
+                rows = list(csv.DictReader(tf))
+            if rows:
+                cols = list(rows[0].keys())
+                tlines = [",".join(cols)]
+                for i, row in enumerate(rows):
+                    if i >= trade_cap:
+                        tlines.append(f"... [truncated: more than {trade_cap} trade rows]")
+                        break
+                    tlines.append(",".join(str(row.get(c, "") or "") for c in cols))
+            else:
+                tlines = ["(backtest trades CSV has header only — no rows)"]
+        except OSError as e:
+            tlines = [f"<could not read backtest trades CSV: {e}>"]
+    else:
+        tlines = [
+            f"(backtest trades CSV not found at {csv_path!r} — run backtest to generate backtest_trades_*.csv)"
+        ]
+    append_section(f"backtest_trades CSV — {os.path.basename(csv_path) if csv_path else 'missing'}", tlines)
+
+    try:
+        with open(pack_path, "w", encoding="utf-8") as pf:
+            pf.write("\n".join(_finalize_report_lines(lines_out)))
+    except OSError:
+        return None
+
+    _mirror_daily_report_file(pack_path)
+    return pack_path
+
+
 def _trade_log_path() -> str:
     return os.path.join(config.LOG_DIR, "trades.csv")
 
@@ -1418,6 +1575,7 @@ def generate_backtest_report(
     trading_days_requested: int | None = None,
     trading_days_replayed: int | None = None,
     diag_summary: dict | None = None,
+    backtest_trades_csv_path: str | None = None,
 ) -> str | None:
     """
     Generate backtest report. Saves to Reports/backtest_report_YYYY-MM-DD.txt or
@@ -1456,6 +1614,7 @@ def generate_backtest_report(
     worst_5d_end = roll.get("worst_5d_end_date") or "N/A"
     fill_model = (diag_summary or {}).get("fill_model", "live_parity")
     spy_soft_penalties = int((diag_summary or {}).get("spy_soft_penalties", 0) or 0)
+    controlled_entry_blocks = int((diag_summary or {}).get("controlled_entry_blocks", 0) or 0)
     conf_counts = (diag_summary or {}).get("confirmation_counts", {}) or {}
     conf_strict = int(conf_counts.get("strict", 0) or 0)
     conf_fast = int(conf_counts.get("fast_track", 0) or 0)
@@ -1535,6 +1694,7 @@ def generate_backtest_report(
         f"  Signal hits (long / short)    {signal_hits_long} / {signal_hits_short}",
         f"  Confirmations (strict/fast)   {conf_strict} / {conf_fast}",
         f"  SPY soft penalties            {spy_soft_penalties}",
+        f"  Controlled-entry blocks       {controlled_entry_blocks}",
         f"  Fill model                    {fill_model}",
         f"  Events processed              {events_processed}",
         f"  Per-condition hits            {agg_condition}",
@@ -1543,7 +1703,28 @@ def generate_backtest_report(
     try:
         with open(report_path, "w", encoding="utf-8") as f:
             f.write("\n".join(_finalize_report_lines(lines)))
-        return report_path
     except OSError:
         return None
+
+    pack = write_gpt_backtest_analysis_pack(
+        date_from,
+        date_to,
+        report_path,
+        backtest_trades_csv=backtest_trades_csv_path,
+        diag_summary=diag_summary,
+    )
+    if pack:
+        try:
+            log_p = getattr(config, "SESSION_LOG_FILE", None)
+            if log_p:
+                line = (
+                    f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} [REPORT] "
+                    f"GPT backtest pack: {pack}\n"
+                )
+                with open(log_p, "a", encoding="utf-8") as lf:
+                    lf.write(line)
+        except OSError:
+            pass
+
+    return report_path
 

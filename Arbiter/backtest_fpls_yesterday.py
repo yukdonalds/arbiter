@@ -649,6 +649,9 @@ def run_backtest(
     trades_filled_today = 0
     loss_count_today = 0
     tickers_cancelled_today: set[str] = set()
+    ticker_placed_today: set[str] = set()
+    controlled_entry_block_count = 0
+    same_ticker_reentry_block_count = 0
     close_hour = getattr(config, "CLOSE_POSITIONS_HOUR", 15)
     close_minute = getattr(config, "CLOSE_POSITIONS_MINUTE", 45)
     eod_done = False
@@ -664,8 +667,10 @@ def run_backtest(
     TRAIL_DIST_PCT = float(getattr(config, "TRAIL_DISTANCE_PCT", 1.5))
 
     def _is_bias_tradeable(b):
-        """Bias = tilt, not permission. Only block shorts when ENABLE_SHORTS is False."""
+        """When SPY_HARD_TREND_FILTER is on, NEUTRAL bias means no new entries."""
         d = (b.get("direction") or "NEUTRAL").upper()
+        if bool(getattr(config, "SPY_HARD_TREND_FILTER", False)) and d == "NEUTRAL":
+            return False
         if d == "NEUTRAL":
             return getattr(config, "ALLOW_TRADES_IN_NEUTRAL", True)
         if d == "SHORT" and not getattr(config, "ENABLE_SHORTS", True):
@@ -690,6 +695,100 @@ def run_backtest(
         if bias_dir == "SHORT":
             return ["SHORT"] if getattr(config, "ENABLE_SHORTS", True) else []
         return []
+
+    def _closed_bars_for_controlled(sym: str, bar: dict) -> list[dict]:
+        L = bar_builder.get_all_closed(sym)
+        if not bar:
+            return list(L)
+        if not L:
+            return [dict(bar)]
+        bc = float(bar.get("close") or 0)
+        lc = float(L[-1].get("close") or 0)
+        bh = float(bar.get("high") or bc)
+        lh = float(L[-1].get("high") or lc)
+        if abs(bc - lc) < 1e-4 and abs(bh - lh) < 1e-3:
+            return list(L)
+        return list(L) + [dict(bar)]
+
+    def _is_controlled_entry(sym: str, side: str, close_price: float, signal_bar: dict) -> bool:
+        side_u = (side or "").upper()
+        c = float(close_price or 0.0)
+        if c <= 0:
+            return False
+        h = float((signal_bar or {}).get("high") or c)
+        l_ = float((signal_bar or {}).get("low") or c)
+        # Rolling proxy VWAP: volume-weighted typical price over recent bars + current signal bar.
+        seq = _closed_bars_for_controlled(sym, signal_bar)
+        lookback = int(getattr(config, "CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS", 15) or 15)
+        vw_window = seq[-max(1, min(lookback, len(seq))):] if seq else [signal_bar or {}]
+        num = 0.0
+        den = 0.0
+        for b in vw_window:
+            bc = float(b.get("close") or 0.0)
+            bh = float(b.get("high") or bc)
+            bl = float(b.get("low") or bc)
+            vol = float(b.get("volume") or 0.0)
+            tp = (bh + bl + bc) / 3.0 if (bh or bl or bc) else 0.0
+            w = vol if vol > 0 else 1.0
+            num += tp * w
+            den += w
+        vwap = (num / den) if den > 0 else 0.0
+        if vwap <= 0:
+            return False
+        dist_vwap_pct = (c - vwap) / vwap * 100.0
+
+        max_ext = float(getattr(config, "MAX_DISTANCE_FROM_VWAP_PCT", 0.5) or 0.5)
+        near_vwap_pct = float(getattr(config, "CONTROLLED_ENTRY_NEAR_VWAP_PCT", 0.25) or 0.25)
+        pullback_pct = float(getattr(config, "CONTROLLED_ENTRY_MIN_PULLBACK_PCT", 0.30) or 0.30)
+        lookback = int(getattr(config, "CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS", 15) or 15)
+
+        if side_u == "LONG" and dist_vwap_pct > max_ext:
+            print(
+                f"[ENTRY CHECK] {sym} {side_u} close={c:.4f} vwap={vwap:.4f} "
+                f"recent_high=n/a recent_low=n/a dist_vwap_pct={dist_vwap_pct:.4f} -> FAIL(ext)",
+                flush=True,
+            )
+            return False
+        if side_u == "SHORT" and dist_vwap_pct < -max_ext:
+            print(
+                f"[ENTRY CHECK] {sym} {side_u} close={c:.4f} vwap={vwap:.4f} "
+                f"recent_high=n/a recent_low=n/a dist_vwap_pct={dist_vwap_pct:.4f} -> FAIL(ext)",
+                flush=True,
+            )
+            return False
+
+        near_vwap = abs(dist_vwap_pct) <= near_vwap_pct
+        prior = seq[:-1] if len(seq) >= 2 else seq
+        if not prior:
+            return near_vwap
+        window = prior[-max(1, min(lookback, len(prior))):]
+
+        if side_u == "LONG":
+            recent_high = max(float(b.get("high") or 0.0) for b in window)
+            pullback_from_high_pct = ((recent_high - c) / recent_high * 100.0) if recent_high > 0 else 0.0
+            ok = near_vwap or (pullback_from_high_pct >= pullback_pct)
+            print(
+                f"[ENTRY CHECK] {sym} {side_u} close={c:.4f} vwap={vwap:.4f} "
+                f"recent_high={recent_high:.4f} recent_low=n/a dist_vwap_pct={dist_vwap_pct:.4f} "
+                f"pullback_pct={pullback_from_high_pct:.4f} near_vwap={near_vwap} -> {'PASS' if ok else 'FAIL'}",
+                flush=True,
+            )
+            return ok
+        if side_u == "SHORT":
+            lows = [float(b.get("low") or 0.0) for b in window if float(b.get("low") or 0.0) > 0]
+            if not lows:
+                return near_vwap
+            recent_low = min(lows)
+            bounce_from_low_pct = ((c - recent_low) / recent_low * 100.0) if recent_low > 0 else 0.0
+            ok = near_vwap or (bounce_from_low_pct >= pullback_pct)
+            print(
+                f"[ENTRY CHECK] {sym} {side_u} close={c:.4f} vwap={vwap:.4f} "
+                f"recent_high=n/a recent_low={recent_low:.4f} dist_vwap_pct={dist_vwap_pct:.4f} "
+                f"bounce_pct={bounce_from_low_pct:.4f} near_vwap={near_vwap} -> {'PASS' if ok else 'FAIL'}",
+                flush=True,
+            )
+            return ok
+        return False
 
     def _queue_for_confirmation(sig: dict, signal_bar_key: tuple) -> None:
         side = (sig.get("side") or "LONG").upper()
@@ -736,6 +835,7 @@ def run_backtest(
                 sig = dict(item.get("signal") or {})
                 sig["confirmed_bars"] = item["bars_checked"]
                 signals_this_bar.append(sig)
+                print(f"[CONFIRM] FAST TRACK USED: {sym} {side} fast_track={fast_track}", flush=True)
                 if fast_track:
                     confirmation_counts["fast_track"] += 1
                 else:
@@ -928,7 +1028,7 @@ def run_backtest(
 
     def _process_signals(t_et):
         """Mirror Arbiter Launch `process_signals` gates and sizing (instant fill for backtest)."""
-        nonlocal capital, n_filled, spy_soft_penalties, trades_filled_today, last_regime_snapshot
+        nonlocal capital, n_filled, spy_soft_penalties, trades_filled_today, last_regime_snapshot, controlled_entry_block_count, same_ticker_reentry_block_count
         if not signals_this_bar:
             return
 
@@ -991,6 +1091,9 @@ def run_backtest(
             ticker = sig["ticker"]
             if ticker in positions_today:
                 continue
+            if ticker.upper() in ticker_placed_today:
+                same_ticker_reentry_block_count += 1
+                continue
 
             side = (sig.get("side") or "LONG").upper()
             if side == "SHORT" and not getattr(config, "ENABLE_SHORTS", True):
@@ -1038,6 +1141,11 @@ def run_backtest(
             if entry_price <= 0:
                 continue
 
+            c_close = float((sig.get("bar") or {}).get("close") or 0)
+            if not _is_controlled_entry(ticker, side, c_close, sig.get("bar") or {}):
+                controlled_entry_block_count += 1
+                continue
+
             dollar, _ = size_per_trade(len(ranked), size_cap, entry_price)
             dollar *= effective_strength * max(0.2, float(size_multiplier) * regime_mult)
             if dollar <= 0:
@@ -1063,6 +1171,7 @@ def run_backtest(
                 tp1_qty = 0
             runner_qty = total_qty - tp1_qty if tp1_qty > 0 else total_qty
 
+            ticker_placed_today.add(ticker.upper())
             positions_today.add(ticker)
             n_filled += 1
             trades_filled_today += 1
@@ -1122,8 +1231,9 @@ def run_backtest(
         bias_dir = (bias_state.get("direction") or "NEUTRAL").upper()
         sides_to_generate = _sides_from_bias(bias_dir)
         raw_bias_strength = float(bias_state.get("strength") or 0)
+        bias_ok_trading = _is_bias_tradeable(bias_state)
 
-        if _is_bias_tradeable(bias_state) and sym in daily_metrics and sym not in positions_today:
+        if bias_ok_trading and sym in daily_metrics and sym not in positions_today:
             current = bar_builder.get_current_bar(sym)
             if current and current.get("start_et"):
                 try:
@@ -1157,10 +1267,6 @@ def run_backtest(
                                 if _is_near_support_or_resistance(sym, float(bar_dict.get("close") or 0.0)):
                                     continue
                                 score_weighted = score * _bias_weight(side_s, bias_state)
-                                if side_s == "LONG":
-                                    signal_hits_long += 1
-                                else:
-                                    signal_hits_short += 1
                                 prev = float(dm.get("prev_close") or c)
                                 avg_vol = float(dm.get("avg_vol_20") or 1)
                                 today_vol = dm["today_volume_so_far"] + current.get("volume", 0)
@@ -1171,6 +1277,17 @@ def run_backtest(
                                 atr_pct = float(dm.get("atr_pct") or 0)
                                 vwap = (bar_dict["high"] + bar_dict["low"] + c) / 3.0
                                 dist_vwap = (c - vwap) / vwap * 100 if vwap else 0
+                                close_f = float(c)
+                                print(
+                                    f"[CHECK controlled entry] {sym} {side_s} close={close_f:.4f} vwap={vwap:.4f}",
+                                    flush=True,
+                                )
+                                if not _is_controlled_entry(sym, side_s, close_f, bar_dict):
+                                    controlled_entry_block_count += 1
+                                    print(f"[CONTROLLED ENTRY RESULT] FAIL {sym} {side_s}", flush=True)
+                                    print(f"Blocked: {sym} {side_s} controlled entry failed", flush=True)
+                                    continue
+                                print(f"[CONTROLLED ENTRY RESULT] PASS {sym} {side_s}", flush=True)
                                 _queue_for_confirmation({
                                     "ticker": sym, "side": side_s, "bias_dir": bias_dir,
                                     "bias_strength": raw_bias_strength,
@@ -1185,7 +1302,7 @@ def run_backtest(
             closed = bar_builder.lock_bar(sym, t_et)
             if closed and sym != ETF_SYMBOL:
                 _process_confirmations_on_bar_close(sym, closed, boundary)
-            if closed and sym in daily_metrics and sym not in positions_today and _is_bias_tradeable(bias_state):
+            if closed and sym in daily_metrics and sym not in positions_today and bias_ok_trading:
                 dm = dict(daily_metrics.get(sym, {}))
                 dm["today_volume_so_far"] = sum(bb["volume"] for bb in bar_builder.get_all_closed(sym)[:-1])
                 dm["minutes_since_market_open"] = max(1, _minutes_since_market_open(t_et))
@@ -1213,6 +1330,16 @@ def run_backtest(
                         hc, lc, cc = closed.get("high"), closed.get("low"), close
                         vwap = (hc + lc + cc) / 3.0 if (hc or lc or cc) else 0
                         dist_vwap = (cc - vwap) / vwap * 100 if vwap else 0
+                        print(
+                            f"[CHECK controlled entry] {sym} {side_s} close={close:.4f} vwap={vwap:.4f}",
+                            flush=True,
+                        )
+                        if not _is_controlled_entry(sym, side_s, close, closed_with_adx):
+                            controlled_entry_block_count += 1
+                            print(f"[CONTROLLED ENTRY RESULT] FAIL {sym} {side_s}", flush=True)
+                            print(f"Blocked: {sym} {side_s} controlled entry failed", flush=True)
+                            continue
+                        print(f"[CONTROLLED ENTRY RESULT] PASS {sym} {side_s}", flush=True)
                         if side_s == "LONG":
                             signal_hits_long += 1
                         else:
@@ -1237,6 +1364,8 @@ def run_backtest(
         "condition_counts": condition_counts,
         "confirmation_counts": confirmation_counts,
         "spy_soft_penalties": spy_soft_penalties,
+        "controlled_entry_blocks": controlled_entry_block_count,
+        "same_ticker_reentry_blocks": same_ticker_reentry_block_count,
         "fill_model": fill_model,
         "events_processed": len(events),
         "regime_last": dict(last_regime_snapshot),
@@ -1364,6 +1493,8 @@ def main():
     last_diag = {}
     agg_confirmation = {"strict": 0, "fast_track": 0}
     agg_spy_soft_penalties = 0
+    agg_controlled_entry_blocks = 0
+    agg_same_ticker_reentry_blocks = 0
     fill_model_seen = ""
 
     try:
@@ -1467,6 +1598,8 @@ def main():
             agg_confirmation["strict"] += int(conf.get("strict", 0) or 0)
             agg_confirmation["fast_track"] += int(conf.get("fast_track", 0) or 0)
             agg_spy_soft_penalties += int(diag.get("spy_soft_penalties", 0) or 0)
+            agg_controlled_entry_blocks += int(diag.get("controlled_entry_blocks", 0) or 0)
+            agg_same_ticker_reentry_blocks += int(diag.get("same_ticker_reentry_blocks", 0) or 0)
             fill_model_seen = str(diag.get("fill_model", fill_model_seen) or fill_model_seen)
 
         disconnect_ib(ib)
@@ -1480,6 +1613,8 @@ def main():
     print("Short signal hits:", agg_signal_short, flush=True)
     print("Events processed:", agg_events, flush=True)
     print("Per-condition hits:", agg_condition, flush=True)
+    print("Controlled-entry blocks:", agg_controlled_entry_blocks, flush=True)
+    print("Same-ticker reentry blocks:", agg_same_ticker_reentry_blocks, flush=True)
     if last_diag:
         # Last-day snapshot of parity diagnostics from run_backtest.
         print("Confirmation hits:", last_diag.get("confirmation_counts", {}), flush=True)
@@ -1523,11 +1658,18 @@ def main():
         diag_summary={
             "confirmation_counts": agg_confirmation,
             "spy_soft_penalties": agg_spy_soft_penalties,
+            "controlled_entry_blocks": agg_controlled_entry_blocks,
+            "same_ticker_reentry_blocks": agg_same_ticker_reentry_blocks,
             "fill_model": fill_model_seen or (last_diag.get("fill_model", "live_parity") if last_diag else "live_parity"),
         },
+        backtest_trades_csv_path=path,
     )
     if report_path:
         print(f"Backtest report: {report_path}", flush=True)
+        rng = f"{date_from}_to_{date_to}" if date_from != date_to else date_from
+        gpt_pack = os.path.join(config.REPORT_DIR, f"gpt_backtest_analysis_pack_{rng}.txt")
+        if os.path.isfile(gpt_pack):
+            print(f"GPT backtest pack: {gpt_pack}", flush=True)
 
 
 if __name__ == "__main__":
