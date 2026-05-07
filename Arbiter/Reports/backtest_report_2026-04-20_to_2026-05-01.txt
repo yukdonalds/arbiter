@@ -4,7 +4,7 @@
 
   *** BACKTEST – not live trading ***
 
-  Generated: 2026-05-07 22:24
+  Generated: 2026-05-07 23:09
 
 -------------------------------------------------------------------------------------
   BACKTEST RANGE
@@ -17,7 +17,7 @@
 
   Capital / position rules
     Max positions per day         6
-    Max position per trade        25% of capital
+    Max position per trade        40% of capital
     Entry order timeout           15 min
 
   Exit rules
@@ -29,48 +29,48 @@
   BACKTEST RESULTS
 -------------------------------------------------------------------------------------
 
-  Total trades                  4
-  Avg trades / replay day       0.40
-  Wins / Losses                 3 / 1
-  Win rate                      75.0%
+  Total trades                  3
+  Avg trades / replay day       0.30
+  Wins / Losses                 3 / 0
+  Win rate                      100.0%
   Start capital                 $19,766.30
-  End capital                   $19,769.05
-  Total P&L                     $2.75
-  Return                        0.01%
-  Avg daily P&L                 $0.92
+  End capital                   $19,769.48
+  Total P&L                     $3.18
+  Return                        0.02%
+  Avg daily P&L                 $1.06
   Best day                      2026-04-30  P&L $2.29
-  Worst day                     2026-04-28  P&L $-0.01
-  Max drawdown                  $0.01 (0.0%)
-  Exit reason mix               EOD:1, STP:3
+  Worst day                     2026-04-28  P&L $0.42
+  Max drawdown                  $0.00 (0.0%)
+  Exit reason mix               EOD:1, STP:2
 
 -------------------------------------------------------------------------------------
   CLUSTERING & RISK
 -------------------------------------------------------------------------------------
 
-  Worst 5-day rolling P&L       $-0.01  (ending 2026-04-28)
+  Worst 5-day rolling P&L       $0.00  (ending N/A)
   Max stops in one day          0 (approx: PnL <= -2.5%)
   Stops per day distribution    0 stops: 3 days, 1: 0, 2: 0, 3+: 0
-  Longest losing streak         1 trades  P&L $-0.43
+  Longest losing streak         0 trades  P&L $0.00
   Worst 10 consecutive trades   P&L $0.00  (0.0%)
-  Theoretical one-day loss      2.2% of capital
+  Theoretical one-day loss      3.6% of capital
 
 -------------------------------------------------------------------------------------
   DIAGNOSTICS
 -------------------------------------------------------------------------------------
 
   Bias distribution             LONG: 253, SHORT: 174, NEUTRAL: 353
-  Signal hits (long / short)    1931 / 918
-  Confirmations (strict/fast)   74 / 590
+  Signal hits (long / short)    1886 / 884
+  Confirmations (strict/fast)   107 / 543
   SPY soft penalties            0
-  Controlled-entry blocks       54
+  Controlled-entry blocks       52
   Post-confirm quality blocks   0
-  Entry-strength blocks         6
+  Entry-strength blocks         9
   Fast-track trade blocks       0
-  Late-entry blocks             18
-  Fast-track setups stored      590
-  Fast-track setups confirmed   35
-  Fast-track setups expired     546
+  Late-entry blocks             23
+  Fast-track setups stored      543
+  Fast-track setups confirmed   44
+  Fast-track setups expired     492
   Fill model                    live_parity
   Events processed              4679997
-  Per-condition hits            {'liquidity': 3901, 'price': 104676, 'momentum':
-    3010, 'volatility': 105037, 'structural': 54554}
+  Per-condition hits            {'liquidity': 3777, 'price': 104696, 'momentum':
+    2952, 'volatility': 105099, 'structural': 54536}

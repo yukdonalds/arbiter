@@ -102,7 +102,7 @@ VOLUME_LOOKBACK = 20
 # Confirmation / breakout sensitivity
 CONFIRMATION_BUFFER = 0.10
 BREAKOUT_THRESHOLD = 0.015
-CONFIRMATION_MIN_MOVE_PCT = 0.0015
+CONFIRMATION_MIN_MOVE_PCT = 0.0012
 # Momentum volume gate used by signal engine
 MIN_VOLUME_MULTIPLIER = 1.1
 # Keep momentum confirmation strict (high-probability setups only).
@@ -141,9 +141,9 @@ MAX_TRADES_PER_DAY = 6
 # Score-gated selection engine.
 MIN_TRADE_SCORE = 65.0
 LOSS_DAY_MIN_TRADE_SCORE = 70.0
-TOP_TRADES_TO_TAKE = 3
+TOP_TRADES_TO_TAKE = 4
 
-MAX_POSITION_PCT = 0.25
+MAX_POSITION_PCT = 0.35
 MAX_POSITIONS = 6
 MAX_CAPITAL_PCT_USED = 0.98
 # Position-size floor to avoid fee-inefficient micro trades.
