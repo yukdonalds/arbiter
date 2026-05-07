@@ -285,8 +285,10 @@ def run():
 
     bar_builder = BarBuilder()
     positions_today: set[str] = set()
-    # Block any further entries for a ticker after one entry order is placed this session.
+    # Block same-ticker reentry only after a confirmed entry fill (not on unfilled placement).
     ticker_placed_today: set[str] = set()
+    # Diagnostic only: (ticker, side) recorded on confirmed entry fill (for same-ticker-side block stats).
+    ticker_side_filled_today: set[tuple[str, str]] = set()
     start_capital = capital
     peak_capital = capital
 
@@ -296,6 +298,19 @@ def run():
     win_count_today = 0
     loss_count_today = 0
     total_pnl_today = 0.0
+    entry_orders_placed = 0
+    entry_orders_filled = 0
+    entry_orders_unfilled_or_cancelled = 0
+    released_unfilled_entry_orders = 0
+    same_ticker_reentry_day_blocks = 0
+    same_ticker_side_reentry_day_blocks = 0
+    fast_track_direct_trades = 0
+    fast_track_setups_stored = 0
+    fast_track_setups_confirmed = 0
+    fast_track_setups_expired = 0
+    controlled_entry_blocks = 0
+    entry_strength_blocks = 0
+    late_entry_blocks = 0
 
     pending_entry_trades: dict = {}  # ticker -> {"trade": trade, "placed_at": datetime, "side": "LONG"/"SHORT", ...}
     pending_trades: dict = {}  # ticker -> active trade info (incl side)
@@ -304,7 +319,26 @@ def run():
     last_intrabar_signal_key: dict[str, tuple[int, int]] = {}
     signals_this_bar: list[dict] = []
     pending_confirmations: dict[str, list[dict]] = {}
+    pending_fast_track_setups: dict[str, list[dict]] = {}
     realtime_streams: dict[str, object] = {}
+
+    def _release_pending_entry_unfilled(ticker: str, trade, detail: str) -> None:
+        """Clear pending entry without marking ticker traded; log for diagnostics."""
+        nonlocal entry_orders_unfilled_or_cancelled, released_unfilled_entry_orders
+        info = pending_entry_trades.get(ticker)
+        if not info:
+            return
+        if trade is not None:
+            p_ord = getattr(getattr(info.get("trade"), "order", None), "orderId", None)
+            t_ord = getattr(getattr(trade, "order", None), "orderId", None)
+            if p_ord is not None and t_ord is not None and int(p_ord) != int(t_ord):
+                return
+        del pending_entry_trades[ticker]
+        entry_orders_unfilled_or_cancelled += 1
+        released_unfilled_entry_orders += 1
+        log_info(
+            f"entry_order_unfilled_released ticker={ticker} reason=entry_order_unfilled_released detail={detail}"
+        )
 
     def _closed_bars_for_controlled(sym: str, bar: dict) -> list[dict]:
         """Closed BarBuilder bars for sym, aligned with the signal bar (no lookahead)."""
@@ -530,11 +564,53 @@ def run():
         pending_confirmations.setdefault(sig["ticker"], []).append(item)
 
     def _process_confirmations_on_bar_close(sym: str, closed_bar: dict, closed_bar_key: tuple[int, int]) -> None:
-        queue = pending_confirmations.get(sym)
-        if not queue:
-            return
+        nonlocal fast_track_setups_stored, fast_track_setups_confirmed, fast_track_setups_expired
         close_px = float(closed_bar.get("close") or 0.0)
         if close_px <= 0:
+            return
+        confirmation_min_move_pct = float(getattr(config, "CONFIRMATION_MIN_MOVE_PCT", 0.0) or 0.0)
+        setup_confirm_bars = int(getattr(config, "FAST_TRACK_SETUP_CONFIRM_BARS", 2) or 2)
+        setups = pending_fast_track_setups.get(sym) or []
+        if setups:
+            keep_setups: list[dict] = []
+            for st in setups:
+                if tuple(st.get("created_bar_key") or ()) == closed_bar_key:
+                    keep_setups.append(st)
+                    continue
+                side = (st.get("side") or "LONG").upper()
+                st["bars_waited"] = int(st.get("bars_waited") or 0) + 1
+                confirm_level = float(st.get("confirm_level") or 0.0)
+                if side == "LONG":
+                    confirm_move_ok = (
+                        confirm_level > 0
+                        and ((close_px - confirm_level) / confirm_level) >= confirmation_min_move_pct
+                    )
+                    strict_confirmed = close_px >= confirm_level and confirm_move_ok
+                else:
+                    confirm_move_ok = (
+                        confirm_level > 0
+                        and ((confirm_level - close_px) / confirm_level) >= confirmation_min_move_pct
+                    )
+                    strict_confirmed = close_px <= confirm_level and confirm_move_ok
+                if strict_confirmed:
+                    fast_track_setups_confirmed += 1
+                    sig = dict(st.get("signal") or {})
+                    sig["confirmation_type"] = "strict"
+                    sig["confirmed_bars"] = st["bars_waited"]
+                    signals_this_bar.append(sig)
+                    continue
+                if st["bars_waited"] >= setup_confirm_bars:
+                    fast_track_setups_expired += 1
+                    _append_blocked_csv_simple(dict(st.get("signal") or {}), side, "fast_track_setup_expired")
+                    continue
+                keep_setups.append(st)
+            if keep_setups:
+                pending_fast_track_setups[sym] = keep_setups
+            else:
+                pending_fast_track_setups.pop(sym, None)
+
+        queue = pending_confirmations.get(sym)
+        if not queue:
             return
         keep: list[dict] = []
         for item in queue:
@@ -545,16 +621,52 @@ def run():
             side = (item.get("side") or "LONG").upper()
             item["bars_checked"] = int(item.get("bars_checked") or 0) + 1
             confirm_level = float(item.get("confirm_level") or 0.0)
-            confirmed = close_px >= confirm_level if side == "LONG" else close_px <= confirm_level
+            if side == "LONG":
+                confirm_move_ok = (
+                    confirm_level > 0
+                    and ((close_px - confirm_level) / confirm_level) >= confirmation_min_move_pct
+                )
+                confirmed = close_px >= confirm_level and confirm_move_ok
+            else:
+                confirm_move_ok = (
+                    confirm_level > 0
+                    and ((confirm_level - close_px) / confirm_level) >= confirmation_min_move_pct
+                )
+                confirmed = close_px <= confirm_level and confirm_move_ok
             sig = dict(item.get("signal") or {})
             sig_adx = float(sig.get("adx") or 0.0)
             sig_rel_vol = float(sig.get("rel_vol") or 0.0)
-            fast_track = (sig_adx > 30.0) or (sig_rel_vol > 1.5)
-            if fast_track or confirmed:
+            fast_track_adx_min = float(getattr(config, "FAST_TRACK_ADX_MIN", 30.0) or 30.0)
+            fast_track_rel_vol_min = float(getattr(config, "FAST_TRACK_REL_VOL_MIN", 1.5) or 1.5)
+            fast_track_require_both = bool(getattr(config, "FAST_TRACK_REQUIRE_BOTH", True))
+            adx_pass = sig_adx > fast_track_adx_min
+            rel_vol_pass = sig_rel_vol > fast_track_rel_vol_min
+            fast_track = (adx_pass and rel_vol_pass) if fast_track_require_both else (adx_pass or rel_vol_pass)
+            if fast_track:
                 sig = dict(item.get("signal") or {})
+                log_info(f"FAST TRACK USED: {sym} {side} fast_track={fast_track}")
+                if bool(getattr(config, "ALLOW_FAST_TRACK_TO_TRADE", False)):
+                    sig["confirmation_type"] = "fast_track"
+                    sig["confirmed_bars"] = item["bars_checked"]
+                    signals_this_bar.append(sig)
+                elif bool(getattr(config, "ALLOW_FAST_TRACK_AS_SETUP", True)):
+                    setup_item = {
+                        "signal": sig,
+                        "side": side,
+                        "confirm_level": float(confirm_level),
+                        "created_bar_key": closed_bar_key,
+                        "bars_waited": 0,
+                    }
+                    fast_track_setups_stored += 1
+                    pending_fast_track_setups.setdefault(sym, []).append(setup_item)
+                else:
+                    _append_blocked_csv_simple(sig, side, "fast_track_trade_blocked")
+                continue
+            if confirmed:
+                sig = dict(item.get("signal") or {})
+                sig["confirmation_type"] = "strict"
                 sig["confirmed_bars"] = item["bars_checked"]
                 signals_this_bar.append(sig)
-                log_info(f"FAST TRACK USED: {sym} {side} fast_track={fast_track}")
                 log_info(
                     f"Confirmed: {sym} {side} on bar {item['bars_checked']}/1 "
                     f"(close={close_px:.2f}, level={confirm_level:.2f}, fast_track={fast_track})"
@@ -690,7 +802,7 @@ def run():
         return bool(near_res or near_sup)
 
     def on_5sec_bar(sym, bars_list, has_new_bar):
-        nonlocal signals_this_bar
+        nonlocal signals_this_bar, controlled_entry_blocks
         if not has_new_bar or not bars_list:
             return
         bar = bars_list[-1]
@@ -705,6 +817,75 @@ def run():
                 low = float(getattr(bar, "low", None) or getattr(bar, "close", ep))
                 info["high_since_entry"] = max(float(info.get("high_since_entry", ep)), high)
                 info["low_since_entry"] = min(float(info.get("low_since_entry", ep)), low)
+
+            # Time-based quality exits (parity with backtest):
+            #  - EARLY_LOSS_EXIT: >=20m open and unrealized <= -1.0%
+            #  - WEAKNESS_EXIT: >=45m open, adverse to entry, MFE < +0.5%
+            #  - STALE_EXIT: >=90m open, unrealized in [-0.3%, +0.3%]
+            # These exits place a market close and let the fill handler write logs.
+            if ep > 0 and not info.get("force_exit_pending"):
+                entry_dt = info.get("entry_dt")
+                if isinstance(entry_dt, datetime):
+                    open_minutes = max(0.0, (now_et() - entry_dt).total_seconds() / 60.0)
+                else:
+                    open_minutes = 0.0
+                high_se = float(info.get("high_since_entry", ep))
+                low_se = float(info.get("low_since_entry", ep))
+                mfe_pct, _ = _mfe_mae_pct(side, ep, high_se, low_se)
+                cur_price = float(getattr(bar, "close", ep) or ep)
+                unrealized_pct = (
+                    ((cur_price - ep) / ep * 100.0)
+                    if side == "LONG"
+                    else ((ep - cur_price) / ep * 100.0)
+                )
+                early_loss_enabled = bool(getattr(config, "ENABLE_EARLY_LOSS_EXIT", True))
+                early_loss_min_minutes = float(getattr(config, "EARLY_LOSS_EXIT_MINUTES", 20) or 20)
+                early_loss_pct = float(getattr(config, "EARLY_LOSS_EXIT_PCT", -1.0) or -1.0)
+                early_loss_require_low_mfe = bool(getattr(config, "EARLY_LOSS_EXIT_REQUIRE_LOW_MFE", False))
+                early_loss_mfe_threshold = float(getattr(config, "EARLY_LOSS_EXIT_MFE_THRESHOLD", 0.5) or 0.5)
+                early_loss_exit = (
+                    early_loss_enabled
+                    and open_minutes >= early_loss_min_minutes
+                    and unrealized_pct <= early_loss_pct
+                    and (not early_loss_require_low_mfe or mfe_pct < early_loss_mfe_threshold)
+                )
+                weakness_exit = (
+                    open_minutes >= 30.0
+                    and mfe_pct < 0.5
+                    and (
+                        (side == "LONG" and ((cur_price - ep) / ep * 100.0) <= -0.3)
+                        or (side == "SHORT" and ((ep - cur_price) / ep * 100.0) <= -0.3)
+                    )
+                )
+                stale_exit = open_minutes >= 90.0 and (-0.3 <= unrealized_pct <= 0.3)
+                if early_loss_exit:
+                    forced_reason = "EARLY_LOSS_EXIT"
+                elif weakness_exit:
+                    forced_reason = "WEAKNESS_EXIT"
+                elif stale_exit:
+                    forced_reason = "STALE_EXIT"
+                else:
+                    forced_reason = ""
+                if forced_reason:
+                    try:
+                        for key in ("stop_trade", "tp1_trade", "tp2_trade"):
+                            tr = info.get(key)
+                            if tr and getattr(getattr(tr, "orderStatus", None), "status", "") != "Filled":
+                                ib.cancelOrder(tr.order)
+                    except Exception:
+                        pass
+                    try:
+                        place_market_close(ib, sym, account_id)
+                        info["force_exit_pending"] = True
+                        info["force_exit_reason"] = forced_reason
+                        pending_trades[sym] = info
+                        log_info(
+                            f"  Forced exit: {sym} {side} reason={forced_reason} "
+                            f"open_min={open_minutes:.1f} mfe={mfe_pct:.2f}% unr={unrealized_pct:.2f}%"
+                        )
+                    except Exception as e:
+                        log_info(f"  Forced exit failed {sym} {side} reason={forced_reason}: {e}")
+                    return
 
             trail_be_mfe = float(getattr(config, "TRAIL_BREAKEVEN_MFE_PCT", 2.0))
             trail_act_mfe = float(getattr(config, "TRAIL_ACTIVATE_MFE_PCT", 3.0))
@@ -898,6 +1079,7 @@ def run():
                                 f"CHECK controlled entry: {sym} {side_s} close={close:.4f} vwap={vwap:.4f}"
                             )
                             if not _is_controlled_entry(sym, side_s, close, bar_dict):
+                                controlled_entry_blocks += 1
                                 _append_blocked_csv_simple(sig_stub, side_s, "controlled_entry_filter_failed")
                                 log_info(f"CONTROLLED ENTRY RESULT: FAIL")
                                 log_info(f"Blocked: {sym} {side_s} controlled entry failed")
@@ -916,6 +1098,7 @@ def run():
                                     "atr_pct": atr_pct,
                                     "adx": adx,
                                     "dist_vwap_pct": dist_vwap,
+                                    "prev_close": prev,
                                 },
                                 bar_key,
                             )
@@ -968,6 +1151,7 @@ def run():
                         f"CHECK controlled entry: {sym} {side_s} close={close:.4f} vwap={vwap:.4f}"
                     )
                     if not _is_controlled_entry(sym, side_s, close, closed_with_adx):
+                        controlled_entry_blocks += 1
                         _append_blocked_csv_simple(sig_stub, side_s, "controlled_entry_filter_failed")
                         log_info("CONTROLLED ENTRY RESULT: FAIL")
                         log_info(f"Blocked: {sym} {side_s} controlled entry failed")
@@ -986,6 +1170,7 @@ def run():
                             "atr_pct": atr_pct,
                             "adx": adx,
                             "dist_vwap_pct": dist_vwap,
+                            "prev_close": prev,
                         },
                         boundary,
                     )
@@ -1004,7 +1189,7 @@ def run():
         return _handler
 
     def place_bracket_on_entry_fill(ticker: str, filled: float, avg_price: float, entry_info: dict | None = None) -> bool:
-        nonlocal trades_filled_today
+        nonlocal trades_filled_today, entry_orders_filled, ticker_side_filled_today
         if filled <= 0 or avg_price <= 0:
             return False
         if ticker in pending_trades:
@@ -1082,8 +1267,12 @@ def run():
             "rank_position": entry_info.get("rank_position", 0),
             "high_since_entry": float(avg_price),
             "low_since_entry": float(avg_price),
+            "entry_dt": now_et(),
         }
         positions_today.add(ticker)
+        ticker_placed_today.add(ticker.upper())
+        ticker_side_filled_today.add((ticker.upper(), side))
+        entry_orders_filled += 1
         trades_filled_today += 1
         log_info(
             f"  Filled entry: {ticker} {side} @ {avg_price:.2f} x {filled} -> "
@@ -1193,12 +1382,19 @@ def run():
         exit_time = now_et().strftime("%H:%M:%S")
         date_str = now_et().strftime("%Y-%m-%d")
         now_exit = now_et()
+        forced_exit_reason = str(info.get("force_exit_reason") or "").strip().upper()
 
         entry_price = float(info["entry_price"])
         shares = float(filled_qty or info["shares"])
         if side == "SHORT":
             pnl_d = (entry_price - exit_price) * shares
             pnl_pct = ((entry_price - exit_price) / entry_price * 100.0) if entry_price else 0.0
+        else:
+            pnl_d = (exit_price - entry_price) * shares
+            pnl_pct = ((exit_price / entry_price - 1) * 100.0) if entry_price else 0.0
+        if forced_exit_reason:
+            exit_reason = forced_exit_reason
+        elif side == "SHORT":
             cap = float(info.get("runner_target") or info.get("target") or 0.0)
             if (now_exit.hour, now_exit.minute) >= (
                 getattr(config, "CLOSE_POSITIONS_HOUR", 15),
@@ -1210,8 +1406,6 @@ def run():
             else:
                 exit_reason = "STP"
         else:
-            pnl_d = (exit_price - entry_price) * shares
-            pnl_pct = ((exit_price / entry_price - 1) * 100.0) if entry_price else 0.0
             cap = float(info.get("runner_target") or info.get("target") or 0.0)
             if (now_exit.hour, now_exit.minute) >= (
                 getattr(config, "CLOSE_POSITIONS_HOUR", 15),
@@ -1337,30 +1531,42 @@ def run():
     def on_order_status(trade):
         try:
             status = getattr(trade.orderStatus, "status", None)
-            if status != "Filled":
-                return
             ticker = trade.contract.symbol
             action = getattr(trade.order, "action", None)
             filled = float(getattr(trade.orderStatus, "filled", 0) or 0)
             avg_price = float(getattr(trade.orderStatus, "avgFillPrice", 0) or 0)
 
-            if ticker in pending_entry_trades:
-                entry_side = (pending_entry_trades[ticker].get("side") or "LONG").upper()
-                entry_action = "BUY" if entry_side == "LONG" else "SELL"
-                if action == entry_action:
-                    place_bracket_on_entry_fill(ticker, filled, avg_price)
-                    return
+            if status == "Filled":
+                if ticker in pending_entry_trades:
+                    entry_side = (pending_entry_trades[ticker].get("side") or "LONG").upper()
+                    entry_action = "BUY" if entry_side == "LONG" else "SELL"
+                    if action == entry_action:
+                        place_bracket_on_entry_fill(ticker, filled, avg_price)
+                        return
 
-            if ticker in pending_trades:
-                side = (pending_trades[ticker].get("side") or "LONG").upper()
-                exit_action = "SELL" if side == "LONG" else "BUY"
-                if action == exit_action:
-                    _handle_exit_fill(
-                        ticker,
-                        avg_price,
-                        filled_qty=filled,
-                        order_id=getattr(trade.order, "orderId", None),
-                    )
+                if ticker in pending_trades:
+                    side = (pending_trades[ticker].get("side") or "LONG").upper()
+                    exit_action = "SELL" if side == "LONG" else "BUY"
+                    if action == exit_action:
+                        _handle_exit_fill(
+                            ticker,
+                            avg_price,
+                            filled_qty=filled,
+                            order_id=getattr(trade.order, "orderId", None),
+                        )
+                return
+
+            # Pending entry ended without a usable fill: release slot and do not mark ticker traded.
+            if ticker in pending_entry_trades:
+                entry_terminal_unfilled = status in (
+                    "Cancelled",
+                    "ApiCancelled",
+                    "Inactive",
+                    "ValidationError",
+                    "Rejected",
+                )
+                if entry_terminal_unfilled and filled <= 0:
+                    _release_pending_entry_unfilled(ticker, trade, f"order_status_{status}")
         except Exception as e:
             log_info(f"  orderStatus handler error: {e}")
 
@@ -1377,7 +1583,7 @@ def run():
             log_info(f"  Cancel order {ticker}: {e}")
 
     def _process_signals_impl():
-        nonlocal n_signals_today, signals_this_bar, peak_capital, trades_filled_today
+        nonlocal n_signals_today, signals_this_bar, peak_capital, trades_filled_today, entry_orders_placed, same_ticker_reentry_day_blocks, same_ticker_side_reentry_day_blocks, fast_track_direct_trades, controlled_entry_blocks, entry_strength_blocks, late_entry_blocks
         exit_reason = "complete"
         funnel = {
             "raw": 0,
@@ -1426,6 +1632,20 @@ def run():
                     f"FUNNEL early return: entry cutoff reached (now >= {ec_h:02d}:{ec_m:02d} ET)"
                 )
                 return
+            late_block_h = int(getattr(config, "BLOCK_ENTRIES_AFTER_HOUR", 13))
+            late_block_m = int(getattr(config, "BLOCK_ENTRIES_AFTER_MINUTE", 0))
+            if (now.hour, now.minute) >= (late_block_h, late_block_m):
+                _block("late_entry_blocked", len(signals_this_bar))
+                late_entry_blocks += len(signals_this_bar)
+                for sig in signals_this_bar:
+                    side = (sig.get("side") or "LONG").upper()
+                    _append_blocked_csv_simple(sig, side, "late_entry_blocked")
+                signals_this_bar.clear()
+                exit_reason = "late_entry_blocked"
+                log_info(
+                    f"FUNNEL early return: late entry block reached (now >= {late_block_h:02d}:{late_block_m:02d} ET)"
+                )
+                return
 
             # --- ADAPTIVE TIME FILTER ---
             late_day = (now.hour, now.minute) >= (13, 30)
@@ -1456,6 +1676,39 @@ def run():
             sorted_signals = list(signals_this_bar)
             signals_this_bar.clear()
             funnel["raw"] = len(sorted_signals)
+
+            spy_trend = _compute_spy_trend_from_barbuilder(bar_builder)
+            spy_dir = (spy_trend.get("direction") or "NEUTRAL").upper()
+            min_trade_score_cfg = float(getattr(config, "MIN_TRADE_SCORE", 55.0) or 55.0)
+            post_min_rel_vol = float(getattr(config, "POST_CONFIRM_MIN_REL_VOL", 1.2) or 1.2)
+            post_max_vwap_dist = float(getattr(config, "POST_CONFIRM_MAX_VWAP_DIST_PCT", 0.35) or 0.35)
+            post_require_spy_align = bool(getattr(config, "POST_CONFIRM_REQUIRE_SPY_ALIGNMENT", True))
+            atr_pct_min = float(getattr(config, "ATR_PCT_MIN", 0.0) or 0.0)
+            atr_pct_max = float(getattr(config, "ATR_PCT_MAX", 999.0) or 999.0)
+
+            post_quality_signals = []
+            allow_fast_track_to_trade = bool(getattr(config, "ALLOW_FAST_TRACK_TO_TRADE", False))
+            for sig in sorted_signals:
+                side = (sig.get("side") or "LONG").upper()
+                if (str(sig.get("confirmation_type") or "") == "fast_track") and not allow_fast_track_to_trade:
+                    _block("fast_track_trade_blocked")
+                    _append_blocked_csv_simple(sig, side, "fast_track_trade_blocked")
+                    continue
+                score_ok = float(sig.get("score") or 0.0) >= min_trade_score_cfg
+                rel_vol_ok = float(sig.get("rel_vol") or 0.0) >= post_min_rel_vol
+                vwap_ok = abs(float(sig.get("dist_vwap_pct") or 0.0)) <= post_max_vwap_dist
+                atr_pct_sig = float(sig.get("atr_pct") or 0.0)
+                atr_ok = atr_pct_min <= atr_pct_sig <= atr_pct_max
+                if post_require_spy_align:
+                    spy_align_ok = side == spy_dir and spy_dir in {"LONG", "SHORT"}
+                else:
+                    spy_align_ok = True
+                if score_ok and rel_vol_ok and vwap_ok and atr_ok and spy_align_ok:
+                    post_quality_signals.append(sig)
+                else:
+                    _block("post_confirmation_quality_failed")
+                    _append_blocked_csv_simple(sig, side, "post_confirmation_quality_failed")
+            sorted_signals = post_quality_signals
 
             sorted_signals = sorted(
                 sorted_signals, key=lambda x: float(x.get("score", 0.0) or 0.0), reverse=True
@@ -1537,9 +1790,6 @@ def run():
 
             date_str = now.strftime("%Y-%m-%d")
             time_str = now.strftime("%H:%M:%S")
-            spy_trend = _compute_spy_trend_from_barbuilder(bar_builder)
-            spy_dir = (spy_trend.get("direction") or "NEUTRAL").upper()
-
             regime_state = compute_regime_from_barbuilder(bar_builder)
             regime_mult = (
                 float(regime_state.get("size_multiplier", 1.0))
@@ -1680,11 +1930,15 @@ def run():
                 size_multiplier = 1.0
                 if ticker.upper() in ticker_placed_today:
                     _block("same_ticker_reentry_day")
+                    same_ticker_reentry_day_blocks += 1
+                    if (ticker.upper(), side) in ticker_side_filled_today:
+                        same_ticker_side_reentry_day_blocks += 1
                     _log_blocked_candidate("same_ticker_reentry_day", sig, side)
                     log_info(f"BLOCKED: {ticker} {side} (already placed an entry for this ticker today)")
                     continue
                 c_close = float((sig.get("bar") or {}).get("close") or 0)
                 if not _is_controlled_entry(ticker, side, c_close, sig.get("bar") or {}):
+                    controlled_entry_blocks += 1
                     _block("controlled_entry_filter_failed")
                     _log_blocked_candidate("controlled_entry_filter_failed", sig, side)
                     log_info(f"BLOCKED: {ticker} {side} (controlled_entry_filter_failed)")
@@ -1734,6 +1988,22 @@ def run():
                     _log_blocked_candidate("poor_score", sig, side)
                     log_info(f"BLOCKED: {ticker} {side} (poor score: {score:.2f})")
                     continue
+
+                if bool(getattr(config, "ENABLE_ENTRY_STRENGTH_GATE", True)):
+                    sig_bar = sig.get("bar") or {}
+                    cur_close = float(sig_bar.get("close") or 0.0)
+                    bar_open = float(sig_bar.get("open") or 0.0)
+                    prev_closed = float(sig.get("prev_close") or 0.0)
+                    if side == "LONG":
+                        strength_ok = cur_close > bar_open
+                    else:
+                        strength_ok = cur_close < bar_open
+                    if not strength_ok:
+                        entry_strength_blocks += 1
+                        _block("entry_strength_failed")
+                        _append_blocked_csv_simple(sig, side, "entry_strength_failed")
+                        log_info(f"BLOCKED: {ticker} {side} (entry_strength_failed)")
+                        continue
 
                 entry_price = float(sig["bar"]["close"])
                 capital_for_sizing = capital_now * config.MAX_CAPITAL_PCT_USED
@@ -1819,7 +2089,9 @@ def run():
                         if side == "LONG"
                         else entry_price * (1 + config.STOP_PCT),
                     }
-                    ticker_placed_today.add(ticker.upper())
+                    entry_orders_placed += 1
+                    if (str(sig.get("confirmation_type") or "")).lower() == "fast_track":
+                        fast_track_direct_trades += 1
                     log_signal(
                         date_str,
                         time_str,
@@ -1852,7 +2124,12 @@ def run():
                 f"raw={funnel['raw']} ranked={funnel['ranked_sorted']} "
                 f"filtered={funnel['filtered_count']} final={funnel['final']} "
                 f"orders_attempted={funnel['orders_attempted']} orders_placed={funnel['orders_placed']} "
-                f"exit={exit_reason} min_score={ms_part} blocks={_blocks_fmt()}"
+                f"exit={exit_reason} min_score={ms_part} blocks={_blocks_fmt()} "
+                f"entry_orders_placed={entry_orders_placed} entry_orders_filled={entry_orders_filled} "
+                f"entry_orders_unfilled_or_cancelled={entry_orders_unfilled_or_cancelled} "
+                f"released_unfilled_entry_orders={released_unfilled_entry_orders} "
+                f"same_ticker_reentry_day_blocks={same_ticker_reentry_day_blocks} "
+                f"same_ticker_side_reentry_day_blocks={same_ticker_side_reentry_day_blocks}"
             )
 
     def process_signals():
@@ -1937,10 +2214,7 @@ def run():
                     if (now - info["placed_at"]).total_seconds() >= timeout_sec:
                         _safe_cancel_entry_order(ticker, info["trade"])
                         tickers_cancelled_today.add(ticker)
-                        del pending_entry_trades[ticker]
-                        log_info(
-                            f"  Entry order timeout ({timeout_sec}s): cancelled {ticker}, can retry later (bumped down)"
-                        )
+                        _release_pending_entry_unfilled(ticker, info.get("trade"), f"timeout_{timeout_sec}s")
 
                 try:
                     ib.sleep(2)
@@ -1961,6 +2235,25 @@ def run():
         log_info(f"Main loop outer error: {outer_ex}\n{traceback.format_exc()}")
     finally:
         log_info(f"Session end reason: {session_exit_reason}")
+        _pend = list(pending_entry_trades.keys())
+        log_info(
+            "SESSION EOD DIAG: "
+            f"entry_orders_placed={entry_orders_placed} "
+            f"entry_orders_filled={entry_orders_filled} "
+            f"entry_orders_unfilled_or_cancelled={entry_orders_unfilled_or_cancelled} "
+            f"released_unfilled_entry_orders={released_unfilled_entry_orders} "
+            f"same_ticker_reentry_day_blocks={same_ticker_reentry_day_blocks} "
+            f"same_ticker_side_reentry_day_blocks={same_ticker_side_reentry_day_blocks} "
+            f"pending_entry_trades_count={len(pending_entry_trades)} "
+            f"pending_entry_tickers={','.join(sorted(_pend)) if _pend else ''} "
+            f"fast_track_direct_trades={fast_track_direct_trades} "
+            f"fast_track_setups_stored={fast_track_setups_stored} "
+            f"fast_track_setups_confirmed={fast_track_setups_confirmed} "
+            f"fast_track_setups_expired={fast_track_setups_expired} "
+            f"controlled_entry_blocks={controlled_entry_blocks} "
+            f"entry_strength_blocks={entry_strength_blocks} "
+            f"late_entry_blocks={late_entry_blocks}"
+        )
         capital = get_account_value(ib, account_id)
         peak_capital = max(peak_capital, capital)
         # Best-effort: cancel real-time bar streams created by this run

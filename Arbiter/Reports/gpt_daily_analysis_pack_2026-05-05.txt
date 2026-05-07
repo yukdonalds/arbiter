@@ -1,0 +1,2574 @@
+ARBITER — GPT DAILY ANALYSIS PACK
+=====================================================================================
+Session report date: 2026-05-05
+Pack generated: 2026-05-06 06:00:01
+
+USAGE
+-------------------------------------------------------------------------------------
+Upload this file to ChatGPT for end-of-day performance and execution analysis.
+Log lines use the PC local timestamp when Arbiter wrote them; compare with US/Eastern
+  lines inside messages.
+
+
+=====================================================================================
+  FILE MANIFEST (paths on this machine)
+=====================================================================================
+BASE_DIR           e:\matts documents\Cursor\Arbiter V1\Arbiter
+daily_report       e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\daily_report_2026-05-05.txt
+gpt pack (this)    e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_daily_analysis_pack_2026-05-05.txt
+session.log        e:\matts documents\Cursor\Arbiter V1\Arbiter\logs\session.log
+trades.csv         e:\matts documents\Cursor\Arbiter V1\Arbiter\logs\trades.csv
+trade_outcomes.csv e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\logs\trade_outcomes.csv
+signals.csv        e:\matts documents\Cursor\Arbiter V1\Arbiter\logs\signals.csv
+blocked_candidates.csv  e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\logs\blocked_candidates.csv
+daily_equity.csv   e:\matts documents\Cursor\Arbiter V1\Arbiter\logs\daily_equity.csv
+daily_regime.csv   e:\matts documents\Cursor\Arbiter V1\Arbiter\logs\daily_regime.csv
+watchlist_cache    e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\data\watchlist_cache.txt
+daily_metrics_csv  e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\data\daily_metrics_cache.csv
+
+
+=====================================================================================
+  CONFIG SNAPSHOT (read-only)
+=====================================================================================
+  MIN_TRADE_SCORE = 55.0
+  LOSS_DAY_MIN_TRADE_SCORE = 70.0
+  TOP_TRADES_TO_TAKE = 3
+  MAX_TRADES_PER_DAY = 6
+  MAX_SIGNALS_PER_DAY = 8
+  MIN_SIGNALS_TO_TRADE = 1
+  MAX_POSITIONS = 6
+  MAX_POSITION_PCT = 0.25
+  MIN_POSITION_DOLLARS = 1500.0
+  MAX_CAPITAL_PCT_USED = 0.98
+  MAX_DAILY_LOSS_PCT = 0.05
+  ENTRY_CUTOFF_HOUR = 14
+  ENTRY_CUTOFF_MINUTE = 0
+  MARKET_OPEN_HOUR = 9
+  MARKET_OPEN_MINUTE = 45
+  STOP_SIGNALS_HOUR = 15
+  STOP_SIGNALS_MINUTE = 55
+  CLOSE_POSITIONS_HOUR = 15
+  CLOSE_POSITIONS_MINUTE = 45
+  SHUTDOWN_HOUR = 16
+  SHUTDOWN_MINUTE = 0
+  BAR_MINUTES = 2
+  ENABLE_SHORTS = True
+  SPY_HARD_TREND_FILTER = True
+  REGIME_ENGINE_ENABLED = True
+  REPORT_DAILY_PNL_PRIMARY = 'broker'
+  IB_ACCOUNT = 'DUP864580'
+  ETF_SYMBOL = 'SPY'
+
+
+=====================================================================================
+  EMBEDDED: daily_report_2026-05-05.txt
+=====================================================================================
+=====================================================================================
+ARBITER DAILY TEAR SHEET             2026-05-05
+=====================================================================================
+
+PERFORMANCE
+-------------------------------------------------------------------------------------
+Starting Daily Capital       $19,763.74
+Net P&L                     $2.56      (+0.01%)
+Gross P&L                   $0.00
+Fees/Recon/Other            $2.56
+Profit Factor               n/a
+Expectancy / Trade         n/a
+
+EXECUTION
+-------------------------------------------------------------------------------------
+Trades Executed              0
+Signals Filled              0
+Signals Qualified           0
+Avg Signal Score            n/a
+Best Signal Score           n/a
+
+RISK
+-------------------------------------------------------------------------------------
+Max Intraday DD            $93.45
+Model Drawdown             $207.14 (1.0%)
+Loss Streak                6
+Worst 5D P&L              $-100.54
+
+SCORE ENGINE
+-------------------------------------------------------------------------------------
+Score Buckets:
+No score data logged yet.
+Threshold Used              55
+Loss-Day Tightening         OFF
+
+SYSTEM STATE
+-------------------------------------------------------------------------------------
+Fee Efficiency              N/A
+Gross/Fee Ratio             n/a
+System Status               IDLE / NO EDGE DEPLOYED
+
+Verdict:
+No edge deployed: no trades recorded.
+
+=====================================================================================
+
+
+=====================================================================================
+  trades.csv — date == 2026-05-05
+=====================================================================================
+(no rows for this date in trades.csv)
+
+
+=====================================================================================
+  trade_outcomes.csv — date == 2026-05-05
+=====================================================================================
+(no rows for this date in trade_outcomes.csv)
+
+
+=====================================================================================
+  blocked_candidates.csv — date == 2026-05-05 (per-block sizing diagnostics; cap 4000
+    rows)
+=====================================================================================
+Date,Time,ticker,side,score,entry_price,capital_now,capital_for_sizing,len_ranked,bias_strength,effective_strength,size_multiplier,regime_mult,dollar_raw,dollar_final,MIN_POSITION_DOLLARS,block_reason
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:26:56,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:16,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,UPS,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,ZBH,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,ZBH,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,ZBH,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,ZBH,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,ZBH,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,ALLE,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,ZBH,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,ALLE,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,ZBH,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,ALLE,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,UPS,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,UPS,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,UPS,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,BEN,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:17,UPS,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,UPS,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,UPS,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,UPS,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,UPS,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,UPS,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,ZBH,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,UPS,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,UPS,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,UPS,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,ZBH,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,ZBH,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,ZBH,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,ZBH,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,UPS,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:18,UPS,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:19,BEN,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:19,ALLE,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:19,ZBH,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:19,ALLE,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:40,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:40,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:40,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:40,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:40,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:40,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:41,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,INTC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:42,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:43,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:43,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:43,CNC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:43,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:43,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:43,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:27:43,CNC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:07,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:07,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:07,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:07,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:07,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:07,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:07,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:07,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,CMG,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,CMG,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:08,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CMG,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CMG,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CMG,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CMG,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CMG,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:09,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,QCOM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,CARR,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:10,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:11,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:11,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:11,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:11,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:11,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:11,MO,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:11,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:11,IRM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:33,GEHC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:33,GEHC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:33,GEHC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:33,GEHC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:33,GEHC,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:33,DXCM,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:33,DXCM,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:33,DXCM,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:33,DXCM,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,SHORT,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:34,DXCM,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,07:28:35,GEHC,LONG,fast_track_setup_expired,,,,,,,,,,,,
+2026-05-05,11:00:06,FISV,LONG,56.358237,58.720000,0.000000,0.000000,0,0.018573,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,11:02:05,FISV,LONG,58.203536,58.490000,0.000000,0.000000,0,0.018573,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,11:04:05,FISV,LONG,55.910476,58.480000,0.000000,0.000000,0,0.018573,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,11:06:05,FISV,LONG,54.674222,58.560000,0.000000,0.000000,0,0.021814,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,11:08:05,FISV,LONG,71.823831,58.550000,0.000000,0.000000,0,0.021814,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,11:10:06,FISV,LONG,73.159100,58.730000,0.000000,0.000000,0,0.023912,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,11:12:05,FISV,LONG,72.439914,58.730000,0.000000,0.000000,0,0.023912,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,11:14:05,FISV,LONG,72.375772,58.790000,0.000000,0.000000,0,0.023912,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,12:22:06,FISV,LONG,73.873771,56.740000,0.000000,0.000000,0,0.013179,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,post_confirmation_quality_failed
+2026-05-05,12:30:07,ADM,LONG,67.345911,80.620000,0.000000,0.000000,0,0.014281,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,12:32:05,ADM,LONG,50.199181,80.640000,0.000000,0.000000,0,0.014281,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,12:42:05,FISV,LONG,73.718179,56.970000,0.000000,0.000000,0,0.012876,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,12:50:05,PLTR,LONG,66.611543,135.670000,0.000000,0.000000,0,0.011116,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,12:56:05,PLTR,LONG,67.289772,136.160000,0.000000,0.000000,0,0.010198,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,12:58:04,PLTR,LONG,66.444509,136.190000,0.000000,0.000000,0,0.010198,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:00:07,PLTR,LONG,66.289071,136.190000,0.000000,0.000000,0,0.009726,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:02:05,FISV,LONG,57.179229,57.150000,0.000000,0.000000,0,0.009726,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:02:05,PLTR,LONG,66.727682,136.080000,0.000000,0.000000,0,0.009726,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:02:07,FISV,LONG,55.779151,56.950000,0.000000,0.000000,0,0.009726,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,late_entry_blocked
+2026-05-05,13:04:07,PLTR,LONG,48.521990,136.100000,0.000000,0.000000,0,0.009726,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:36:05,IQV,LONG,63.528400,169.660000,0.000000,0.000000,0,0.008870,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:40:05,IQV,LONG,64.725459,170.140000,0.000000,0.000000,0,0.010185,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:46:05,IQV,LONG,64.902109,170.550000,0.000000,0.000000,0,0.011291,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:48:05,IQV,LONG,64.896812,170.790000,0.000000,0.000000,0,0.011291,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:50:04,PLTR,LONG,50.358515,136.300000,0.000000,0.000000,0,0.011831,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:52:04,PLTR,LONG,66.214663,136.250000,0.000000,0.000000,0,0.011831,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:52:05,FISV,LONG,58.710784,56.940000,0.000000,0.000000,0,0.011831,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:52:05,IQV,LONG,67.006212,172.050000,0.000000,0.000000,0,0.011831,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:52:05,IT,LONG,64.071669,149.690000,0.000000,0.000000,0,0.011831,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:52:06,FISV,LONG,74.473971,56.690000,0.000000,0.000000,0,0.011831,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,late_entry_blocked
+2026-05-05,13:54:06,IT,LONG,63.605270,149.670000,0.000000,0.000000,0,0.011831,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:54:06,IQV,LONG,63.607319,172.250000,0.000000,0.000000,0,0.011831,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:56:05,FISV,LONG,55.971644,56.950000,0.000000,0.000000,0,0.013723,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:56:05,IQV,LONG,64.901048,172.260000,0.000000,0.000000,0,0.013723,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,13:58:05,IQV,LONG,67.093426,172.350000,0.000000,0.000000,0,0.013723,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:00:08,IQV,LONG,64.923217,172.290000,0.000000,0.000000,0,0.014264,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:02:06,IT,LONG,63.027637,149.790000,0.000000,0.000000,0,0.014264,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:02:06,IQV,LONG,67.002728,172.500000,0.000000,0.000000,0,0.014264,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:04:05,IQV,LONG,65.738744,172.850000,0.000000,0.000000,0,0.014264,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:06:05,IQV,LONG,65.641046,173.110000,0.000000,0.000000,0,0.015310,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:10:05,FISV,LONG,56.704865,56.920000,0.000000,0.000000,0,0.016294,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:10:05,IQV,LONG,65.378858,173.210000,0.000000,0.000000,0,0.016294,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:12:07,IQV,LONG,65.517584,173.360000,0.000000,0.000000,0,0.016294,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:14:05,FISV,LONG,55.776200,56.960000,0.000000,0.000000,0,0.016294,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:14:05,IQV,LONG,69.909722,174.550000,0.000000,0.000000,0,0.016294,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:16:05,IQV,LONG,67.957947,174.430000,0.000000,0.000000,0,0.019812,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:18:07,IQV,LONG,64.608775,174.560000,0.000000,0.000000,0,0.019812,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:20:05,IQV,LONG,67.605316,174.840000,0.000000,0.000000,0,0.020676,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:22:05,IQV,LONG,67.989033,174.420000,0.000000,0.000000,0,0.020676,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:24:07,IQV,LONG,66.404697,175.030000,0.000000,0.000000,0,0.020676,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:24:07,ADM,LONG,71.863725,78.100000,0.000000,0.000000,0,0.020676,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:26:05,IQV,LONG,65.894407,174.980000,0.000000,0.000000,0,0.021918,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:26:05,ADM,LONG,72.244082,78.400000,0.000000,0.000000,0,0.021918,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:28:05,ADM,LONG,70.396504,78.330000,0.000000,0.000000,0,0.021918,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:28:05,IQV,LONG,67.663087,174.970000,0.000000,0.000000,0,0.021918,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:30:06,ADM,LONG,70.640735,78.150000,0.000000,0.000000,0,0.021922,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:32:04,ADM,LONG,70.089271,78.140000,0.000000,0.000000,0,0.021922,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:36:04,ADM,LONG,71.965837,78.280000,0.000000,0.000000,0,0.019525,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:50:05,IT,LONG,63.383706,148.220000,0.000000,0.000000,0,0.014451,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:52:05,IT,LONG,64.606724,148.130000,0.000000,0.000000,0,0.014451,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,14:54:05,IT,LONG,64.952007,148.580000,0.000000,0.000000,0,0.014451,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:06:05,IQV,LONG,51.447469,173.340000,0.000000,0.000000,0,0.011319,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:08:05,IQV,LONG,51.604090,173.850000,0.000000,0.000000,0,0.011319,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:10:08,IT,LONG,45.908033,149.720000,0.000000,0.000000,0,0.013282,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:10:08,IQV,LONG,67.544092,173.740000,0.000000,0.000000,0,0.013282,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:12:06,IQV,LONG,67.959226,174.000000,0.000000,0.000000,0,0.013282,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:14:04,PLTR,LONG,66.582032,135.620000,0.000000,0.000000,0,0.013282,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:14:05,IT,LONG,49.768097,149.880000,0.000000,0.000000,0,0.013282,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:16:07,IT,LONG,46.095466,149.760000,0.000000,0.000000,0,0.015684,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:16:07,IQV,LONG,69.094773,173.890000,0.000000,0.000000,0,0.015684,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:18:05,PLTR,LONG,66.681667,135.840000,0.000000,0.000000,0,0.015684,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:20:05,PLTR,LONG,66.091157,135.840000,0.000000,0.000000,0,0.015684,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:20:05,IT,LONG,47.672291,149.640000,0.000000,0.000000,0,0.015684,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:22:05,PLTR,LONG,47.595840,135.700000,0.000000,0.000000,0,0.016457,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:22:05,ADM,LONG,70.611374,78.450000,0.000000,0.000000,0,0.016457,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:22:05,IQV,LONG,51.062473,175.340000,0.000000,0.000000,0,0.016457,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:24:04,PLTR,LONG,47.460541,135.770000,0.000000,0.000000,0,0.016457,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:24:05,IQV,LONG,54.672277,174.480000,0.000000,0.000000,0,0.016457,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:26:07,ADM,LONG,53.667943,78.860000,0.000000,0.000000,0,0.018067,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:26:07,IT,LONG,47.099330,149.750000,0.000000,0.000000,0,0.018067,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:26:07,IQV,LONG,50.435425,174.810000,0.000000,0.000000,0,0.018067,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:28:05,ADM,LONG,71.103838,78.790000,0.000000,0.000000,0,0.018067,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:28:05,IQV,LONG,53.877842,175.290000,0.000000,0.000000,0,0.018067,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:28:05,FISV,LONG,73.535556,57.310000,0.000000,0.000000,0,0.018067,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:30:04,FISV,LONG,74.461655,57.320000,0.000000,0.000000,0,0.018067,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:30:05,IT,LONG,47.142689,150.090000,0.000000,0.000000,0,0.018067,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:30:05,IQV,LONG,52.216231,175.070000,0.000000,0.000000,0,0.018067,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:30:05,ADM,LONG,52.981852,79.000000,0.000000,0.000000,0,0.018067,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:30:05,AKAM,LONG,44.416631,117.490000,0.000000,0.000000,0,0.018067,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:32:07,AKAM,LONG,43.023747,117.470000,0.000000,0.000000,0,0.016800,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:32:07,FISV,LONG,73.743338,57.210000,0.000000,0.000000,0,0.016800,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:32:07,IT,LONG,65.412287,150.330000,0.000000,0.000000,0,0.016800,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:32:07,ADM,LONG,70.558177,78.950000,0.000000,0.000000,0,0.016800,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:34:05,ON,LONG,66.363044,100.870000,0.000000,0.000000,0,0.016800,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:34:05,IT,LONG,66.846561,150.180000,0.000000,0.000000,0,0.016800,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:36:05,IQV,LONG,68.919905,176.020000,0.000000,0.000000,0,0.015852,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:38:06,ON,LONG,63.703894,101.350000,0.000000,0.000000,0,0.015852,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:38:06,AKAM,LONG,62.842321,117.620000,0.000000,0.000000,0,0.015852,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:40:05,ON,LONG,63.649033,101.170000,0.000000,0.000000,0,0.015852,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:40:05,IQV,LONG,68.938770,176.330000,0.000000,0.000000,0,0.015852,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:48:05,IT,LONG,52.074710,150.310000,0.000000,0.000000,0,0.012614,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:50:04,ON,LONG,63.588998,101.950000,0.000000,0.000000,0,0.012614,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+2026-05-05,15:50:05,IT,LONG,47.932350,150.400000,0.000000,0.000000,0,0.012614,0.000000,0.000000,0.000000,0.000000,0.000000,1500.000000,controlled_entry_filter_failed
+
+
+=====================================================================================
+  signals.csv — date == 2026-05-05 (cap 1500 rows)
+=====================================================================================
+(no rows for this date in signals.csv)
+
+
+=====================================================================================
+  daily_equity.csv — date == 2026-05-05
+=====================================================================================
+Date,Equity,Drawdown,Peak
+2026-05-05,19766.3,,19766.3
+
+
+=====================================================================================
+  daily_regime.csv — date == 2026-05-05
+=====================================================================================
+Date,signals_generated,trades_placed,trades_filled,trades_exited,total_pnl,win_count,loss_count
+2026-05-05,0,0,0,0,0.0,0,0
+
+
+=====================================================================================
+  watchlist_cache.txt (first 40 lines)
+=====================================================================================
+TSN
+ORCL
+MRNA
+HOOD
+EBAY
+DDOG
+APA
+SMCI
+VST
+FTNT
+CF
+EL
+CSGP
+OXY
+BG
+GLW
+IQV
+NOW
+GDDY
+AKAM
+PANW
+LYB
+PLTR
+MCHP
+WDAY
+ARES
+EOG
+PM
+FTV
+DOW
+IBKR
+GEN
+ADM
+FIS
+CRM
+NRG
+COP
+IT
+DVN
+CTRA
+... [e:\matts documents\Cursor\Arbiter V1\Arbiter\data\watchlist_cache.txt truncated
+  after 40 lines]
+
+
+=====================================================================================
+  daily_metrics_cache.csv (first 25 lines)
+=====================================================================================
+ticker,avg_vol_20,atr_pct,prev_close,yesterday_close
+TSN,2728445.0,2.518440543831169,63.68000030517578,68.75
+ORCL,33192680.0,5.125869629074534,171.8300018310547,180.2899932861328
+MRNA,5922315.0,6.111900338307544,45.369998931884766,47.29999923706055
+HOOD,35885940.0,6.5773985065608525,73.66000366210938,76.55000305175781
+EBAY,6444725.0,3.767754060647998,104.06999969482422,109.33000183105469
+DDOG,4976410.0,4.783412888324681,140.52999877929688,146.69000244140625
+APA,7045190.0,3.8001456550135018,40.130001068115234,42.02000045776367
+SMCI,29754590.0,5.832992499515478,27.09000015258789,27.920000076293945
+VST,3712760.0,4.007017890788895,155.27999877929688,160.85000610351562
+FTNT,5628865.0,3.2360569630043114,86.29000091552734,89.23999786376953
+CF,3577405.0,4.270734619713515,122.69000244140625,125.88999938964844
+EL,3908890.0,3.787040608436796,79.30000305175781,81.33000183105469
+CSGP,6502900.0,4.667687677562438,34.720001220703125,35.380001068115234
+OXY,13391965.0,3.0268554269531776,58.709999084472656,60.27000045776367
+BG,1494125.0,3.140462458949859,124.61000061035156,127.62000274658203
+GLW,10322085.0,5.774658034882763,158.25999450683594,159.9600067138672
+IQV,1608150.0,3.8763327839204997,157.77000427246094,160.94000244140625
+NOW,29879890.0,6.088165267337992,91.16000366210938,91.97000122070312
+GDDY,2187990.0,4.11029747033887,86.76000213623047,88.27999877929688
+AKAM,4788810.0,3.6463825360286584,103.87000274658203,105.77999877929688
+PANW,7417540.0,3.4355832764085408,181.0800018310547,184.55999755859375
+LYB,7124885.0,4.094650472669709,74.98999786376953,76.04000091552734
+PLTR,50292110.0,4.044229217312976,144.07000732421875,146.02999877929688
+MCHP,9719525.0,3.7857881322124283,93.94999694824219,95.30000305175781
+... [e:\matts documents\Cursor\Arbiter V1\Arbiter\data\daily_metrics_cache.csv
+  truncated after 25 lines]
+
+
+=====================================================================================
+  session.log — DIAGNOSTIC LINES ONLY (same calendar prefix 2026-05-05)
+=====================================================================================
+2026-05-05 00:08:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=108.57,
+  level=109.15, fast_track=True)
+2026-05-05 00:08:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:08:07
+  trades_filled_today=0 positions_today=0 pending_entry_trades=0 total_pnl_today=0.00
+2026-05-05 00:08:07 [INFO] SCORE STATS: max=96.8 avg=96.8
+2026-05-05 00:08:07 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=96.8 rank=1
+  atr_pct=3.68 rel_vol=1.31 bias_strength=0.010 pct_change_1d=5.03
+2026-05-05 00:08:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:08:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=1 orders_placed=1 exit=complete min_score=55.0 blocks={}
+2026-05-05 00:16:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.16, level=17.31,
+  fast_track=True)
+2026-05-05 00:16:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:16:06
+  trades_filled_today=1 positions_today=1 pending_entry_trades=0 total_pnl_today=0.00
+2026-05-05 00:16:06 [INFO] SCORE STATS: max=76.4 avg=76.4
+2026-05-05 00:16:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=76.4 rank=1
+  atr_pct=5.16 rel_vol=1.12 bias_strength=0.011 pct_change_1d=-5.34
+2026-05-05 00:16:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:16:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:16:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:18:07 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.13, level=17.26,
+  fast_track=True)
+2026-05-05 00:18:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:18:07
+  trades_filled_today=1 positions_today=1 pending_entry_trades=0 total_pnl_today=0.00
+2026-05-05 00:18:07 [INFO] SCORE STATS: max=77.9 avg=77.9
+2026-05-05 00:18:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=77.9 rank=1
+  atr_pct=5.16 rel_vol=1.13 bias_strength=0.011 pct_change_1d=-5.61
+2026-05-05 00:18:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:18:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:18:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:20:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.25, level=17.23,
+  fast_track=True)
+2026-05-05 00:20:05 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:20:05
+  trades_filled_today=1 positions_today=1 pending_entry_trades=0 total_pnl_today=0.00
+2026-05-05 00:20:05 [INFO] SCORE STATS: max=75.9 avg=75.9
+2026-05-05 00:20:05 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=75.9 rank=1
+  atr_pct=5.16 rel_vol=1.14 bias_strength=0.018 pct_change_1d=-5.78
+2026-05-05 00:20:05 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:20:05 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:20:05 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:34:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=109.26,
+  level=109.19, fast_track=False)
+2026-05-05 00:34:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.21, level=17.32,
+  fast_track=True)
+2026-05-05 00:34:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 10:34:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 00:34:07 [INFO] SCORE STATS: max=98.4 avg=89.5
+2026-05-05 00:34:07 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=98.4 rank=1
+  atr_pct=3.68 rel_vol=1.38 bias_strength=0.030 pct_change_1d=5.07
+2026-05-05 00:34:07 [INFO] FUNNEL top5 [2/5]: NCLH LONG score=80.7 rank=2
+  atr_pct=5.16 rel_vol=1.23 bias_strength=0.030 pct_change_1d=-5.28
+2026-05-05 00:34:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=2
+  fallback_to_1=False final_ranked_count=2 top_take=3
+2026-05-05 00:34:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:34:07 [INFO] FUNNEL SUMMARY: raw=2 ranked=2 filtered=2 final=2
+  orders_attempted=1 orders_placed=1 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:36:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=109.73,
+  level=109.72, fast_track=False)
+2026-05-05 00:36:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.33, level=17.31,
+  fast_track=True)
+2026-05-05 00:36:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 10:36:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:36:07 [INFO] SCORE STATS: max=80.9 avg=79.3
+2026-05-05 00:36:07 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=80.9 rank=1
+  atr_pct=3.68 rel_vol=1.39 bias_strength=0.030 pct_change_1d=5.59
+2026-05-05 00:36:07 [INFO] FUNNEL top5 [2/5]: NCLH LONG score=77.6 rank=2
+  atr_pct=5.16 rel_vol=1.23 bias_strength=0.030 pct_change_1d=-5.34
+2026-05-05 00:36:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=2
+  fallback_to_1=False final_ranked_count=2 top_take=3
+2026-05-05 00:36:07 [INFO] BLOCKED: EBAY (already in positions or pending)
+2026-05-05 00:36:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:36:07 [INFO] FUNNEL SUMMARY: raw=2 ranked=2 filtered=2 final=2
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={already_in_position_or_pending=1, blacklist=1}
+2026-05-05 00:48:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.30, level=17.45,
+  fast_track=True)
+2026-05-05 00:48:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:48:06
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:48:06 [INFO] SCORE STATS: max=79.8 avg=79.8
+2026-05-05 00:48:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.8 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.037 pct_change_1d=-4.57
+2026-05-05 00:48:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:48:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:48:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:50:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.30, level=17.40,
+  fast_track=True)
+2026-05-05 00:50:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:50:06
+  trades_filled_today=1 positions_today=0 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 00:50:06 [INFO] SCORE STATS: max=81.2 avg=81.2
+2026-05-05 00:50:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=81.2 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.039 pct_change_1d=-4.84
+2026-05-05 00:50:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:50:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:50:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:52:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=110.60,
+  level=110.23, fast_track=False)
+2026-05-05 00:52:05 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:52:05
+  trades_filled_today=1 positions_today=0 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 00:52:05 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 00:52:05 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=78.5 rank=1
+  atr_pct=3.68 rel_vol=1.42 bias_strength=0.039 pct_change_1d=6.08
+2026-05-05 00:52:05 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:52:05 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=1 orders_placed=1 exit=complete min_score=55.0 blocks={}
+2026-05-05 00:52:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.32, level=17.40,
+  fast_track=True)
+2026-05-05 00:52:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:52:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:52:07 [INFO] SCORE STATS: max=79.4 avg=79.4
+2026-05-05 00:52:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.4 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.039 pct_change_1d=-4.84
+2026-05-05 00:52:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:52:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:52:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:54:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.32, level=17.42,
+  fast_track=True)
+2026-05-05 00:54:05 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:54:05
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:54:05 [INFO] SCORE STATS: max=78.0 avg=78.0
+2026-05-05 00:54:05 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.0 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.039 pct_change_1d=-4.73
+2026-05-05 00:54:05 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:54:05 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:54:05 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:56:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.31, level=17.42,
+  fast_track=True)
+2026-05-05 00:56:08 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:56:08
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:56:08 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 00:56:08 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.039 pct_change_1d=-4.73
+2026-05-05 00:56:08 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:56:08 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:56:08 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:58:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.29, level=17.41,
+  fast_track=True)
+2026-05-05 00:58:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:58:06
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:58:06 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 00:58:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.039 pct_change_1d=-4.79
+2026-05-05 00:58:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:58:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:58:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:00:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.29, level=17.39,
+  fast_track=True)
+2026-05-05 01:00:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:00:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 01:00:07 [INFO] SCORE STATS: max=79.8 avg=79.8
+2026-05-05 01:00:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.8 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.036 pct_change_1d=-4.90
+2026-05-05 01:00:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:00:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:00:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:02:07 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.37, level=17.39,
+  fast_track=True)
+2026-05-05 01:02:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:02:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 01:02:07 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 01:02:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.036 pct_change_1d=-4.90
+2026-05-05 01:02:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:02:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:02:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:04:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.36, level=17.47,
+  fast_track=True)
+2026-05-05 01:04:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:04:06
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 01:04:06 [INFO] SCORE STATS: max=80.3 avg=80.3
+2026-05-05 01:04:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=80.3 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.036 pct_change_1d=-4.46
+2026-05-05 01:04:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:04:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:04:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:06:08 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.34, level=17.46,
+  fast_track=True)
+2026-05-05 01:06:10 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:06:10
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 01:06:10 [INFO] SCORE STATS: max=78.0 avg=78.0
+2026-05-05 01:06:10 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.0 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.500 pct_change_1d=-4.51
+2026-05-05 01:06:10 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:06:10 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:06:10 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:08:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.43, level=17.44,
+  fast_track=True)
+2026-05-05 01:08:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:08:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:08:07 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 01:08:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.500 pct_change_1d=-4.62
+2026-05-05 01:08:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:08:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:08:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:10:07 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.42, level=17.53,
+  fast_track=True)
+2026-05-05 01:10:07 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=110.41,
+  level=110.76, fast_track=True)
+2026-05-05 01:10:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 11:10:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:10:07 [INFO] SCORE STATS: max=96.7 avg=89.6
+2026-05-05 01:10:07 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=96.7 rank=1
+  atr_pct=3.68 rel_vol=1.52 bias_strength=0.500 pct_change_1d=6.58
+2026-05-05 01:10:07 [INFO] FUNNEL top5 [2/5]: NCLH LONG score=82.6 rank=2
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.500 pct_change_1d=-4.13
+2026-05-05 01:10:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=2
+  fallback_to_1=False final_ranked_count=2 top_take=3
+2026-05-05 01:10:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:10:07 [INFO] FUNNEL SUMMARY: raw=2 ranked=2 filtered=2 final=2
+  orders_attempted=1 orders_placed=1 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:12:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.39, level=17.52,
+  fast_track=True)
+2026-05-05 01:12:06 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=110.17,
+  level=110.88, fast_track=True)
+2026-05-05 01:12:08 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 11:12:08
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:12:08 [INFO] SCORE STATS: max=96.3 avg=87.4
+2026-05-05 01:12:08 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=96.3 rank=1
+  atr_pct=3.68 rel_vol=1.52 bias_strength=0.500 pct_change_1d=6.70
+2026-05-05 01:12:08 [INFO] FUNNEL top5 [2/5]: NCLH LONG score=78.5 rank=2
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.500 pct_change_1d=-4.18
+2026-05-05 01:12:08 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=2
+  fallback_to_1=False final_ranked_count=2 top_take=3
+2026-05-05 01:12:08 [INFO] BLOCKED: EBAY (already in positions or pending)
+2026-05-05 01:12:08 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:12:08 [INFO] FUNNEL SUMMARY: raw=2 ranked=2 filtered=2 final=2
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={already_in_position_or_pending=1, blacklist=1}
+2026-05-05 01:14:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.39, level=17.49,
+  fast_track=True)
+2026-05-05 01:14:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:14:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:14:06 [INFO] SCORE STATS: max=78.9 avg=78.9
+2026-05-05 01:14:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.9 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.500 pct_change_1d=-4.35
+2026-05-05 01:14:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:14:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:14:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:16:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.35, level=17.49,
+  fast_track=True)
+2026-05-05 01:16:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:16:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:16:06 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 01:16:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.500 pct_change_1d=-4.35
+2026-05-05 01:16:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:16:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:16:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:18:07 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.37, level=17.45,
+  fast_track=True)
+2026-05-05 01:18:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:18:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:18:07 [INFO] SCORE STATS: max=79.4 avg=79.4
+2026-05-05 01:18:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.4 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.500 pct_change_1d=-4.57
+2026-05-05 01:18:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:18:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:18:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:20:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.34, level=17.47,
+  fast_track=True)
+2026-05-05 01:20:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:20:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:20:07 [INFO] SCORE STATS: max=78.0 avg=78.0
+2026-05-05 01:20:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.0 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.500 pct_change_1d=-4.46
+2026-05-05 01:20:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:20:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:20:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:22:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.30, level=17.44,
+  fast_track=True)
+2026-05-05 01:22:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:22:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:22:06 [INFO] SCORE STATS: max=78.9 avg=78.9
+2026-05-05 01:22:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.9 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.500 pct_change_1d=-4.62
+2026-05-05 01:22:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:22:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:22:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:24:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.25, level=17.40,
+  fast_track=True)
+2026-05-05 01:24:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:24:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:24:06 [INFO] SCORE STATS: max=80.3 avg=80.3
+2026-05-05 01:24:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=80.3 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.500 pct_change_1d=-4.84
+2026-05-05 01:24:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:24:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:24:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:28:05 [INFO] Confirmed: NCLH SHORT on bar 1/1 (close=17.37,
+  level=17.15, fast_track=True)
+2026-05-05 01:28:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:28:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:28:07 [INFO] SCORE STATS: max=96.0 avg=96.0
+2026-05-05 01:28:07 [INFO] FUNNEL top5 [1/5]: NCLH SHORT score=96.0 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.029 pct_change_1d=-5.12
+2026-05-05 01:28:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:28:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:28:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:30:05 [INFO] Confirmed: NCLH SHORT on bar 1/1 (close=17.30,
+  level=17.27, fast_track=True)
+2026-05-05 01:30:05 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:30:05
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:30:05 [INFO] SCORE STATS: max=102.0 avg=102.0
+2026-05-05 01:30:05 [INFO] FUNNEL top5 [1/5]: NCLH SHORT score=102.0 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.042 pct_change_1d=-4.46
+2026-05-05 01:30:05 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:30:05 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:30:05 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:32:07 [INFO] Confirmed: NCLH SHORT on bar 1/1 (close=17.21,
+  level=17.20, fast_track=True)
+2026-05-05 01:32:08 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:32:08
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:32:08 [INFO] SCORE STATS: max=97.8 avg=97.8
+2026-05-05 01:32:08 [INFO] FUNNEL top5 [1/5]: NCLH SHORT score=97.8 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.042 pct_change_1d=-4.84
+2026-05-05 01:32:08 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:32:08 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:32:08 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 03:46:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.10, level=17.14,
+  fast_track=True)
+2026-05-05 03:46:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 13:46:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 03:46:06 [INFO] SCORE STATS: max=79.4 avg=79.4
+2026-05-05 03:46:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.4 rank=1
+  atr_pct=5.16 rel_vol=1.33 bias_strength=0.009 pct_change_1d=-6.27
+2026-05-05 03:46:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 03:46:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 03:46:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 03:54:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.12, level=17.21,
+  fast_track=True)
+2026-05-05 03:54:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 13:54:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 03:54:06 [INFO] SCORE STATS: max=79.9 avg=79.9
+2026-05-05 03:54:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.9 rank=1
+  atr_pct=5.16 rel_vol=1.34 bias_strength=0.010 pct_change_1d=-5.89
+2026-05-05 03:54:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 03:54:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 03:54:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 03:56:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.16, level=17.22,
+  fast_track=True)
+2026-05-05 03:56:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 13:56:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 03:56:06 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 03:56:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.34 bias_strength=0.014 pct_change_1d=-5.83
+2026-05-05 03:56:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 03:56:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 03:56:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 03:58:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.14, level=17.26,
+  fast_track=True)
+2026-05-05 03:58:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 13:58:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 03:58:07 [INFO] SCORE STATS: max=79.9 avg=79.9
+2026-05-05 03:58:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.9 rank=1
+  atr_pct=5.16 rel_vol=1.34 bias_strength=0.014 pct_change_1d=-5.61
+2026-05-05 03:58:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 03:58:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 03:58:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 05:10:05 [INFO] Confirmed: CCL SHORT on bar 1/1 (close=25.34, level=25.18,
+  fast_track=True)
+2026-05-05 05:10:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:10:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:10:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:10:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:12:07 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.33, level=25.48,
+  fast_track=True)
+2026-05-05 05:12:08 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:12:08
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:12:08 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:12:08 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:14:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.34, level=25.47,
+  fast_track=True)
+2026-05-05 05:14:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:14:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:14:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:14:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:16:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.00, level=17.10,
+  fast_track=True)
+2026-05-05 05:16:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.33, level=25.48,
+  fast_track=True)
+2026-05-05 05:16:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:16:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:16:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:16:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:18:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=16.98, level=17.10,
+  fast_track=True)
+2026-05-05 05:18:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.32, level=25.47,
+  fast_track=True)
+2026-05-05 05:18:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:18:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:18:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:18:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:20:06 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.37, level=25.46,
+  fast_track=True)
+2026-05-05 05:20:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.03, level=17.08,
+  fast_track=True)
+2026-05-05 05:20:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:20:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:20:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:20:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:22:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.53, level=25.51,
+  fast_track=True)
+2026-05-05 05:22:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.07, level=17.13,
+  fast_track=True)
+2026-05-05 05:22:06 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:22:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:22:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:22:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:24:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.10, level=17.17,
+  fast_track=True)
+2026-05-05 05:24:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:24:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:24:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:24:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:26:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.12, level=17.20,
+  fast_track=True)
+2026-05-05 05:26:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.52, level=25.60,
+  fast_track=True)
+2026-05-05 05:26:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:26:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:26:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:26:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:30:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.48, level=25.69,
+  fast_track=True)
+2026-05-05 05:30:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.10, level=17.19,
+  fast_track=True)
+2026-05-05 05:30:06 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:30:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:30:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:30:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:32:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.14, level=17.20,
+  fast_track=True)
+2026-05-05 05:32:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.54, level=25.62,
+  fast_track=True)
+2026-05-05 05:32:06 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:32:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:32:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:32:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:34:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.20, level=17.24,
+  fast_track=True)
+2026-05-05 05:34:06 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.57, level=25.68,
+  fast_track=True)
+2026-05-05 05:34:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:34:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:34:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:34:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:38:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.28, level=17.36,
+  fast_track=True)
+2026-05-05 05:38:05 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:38:05
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:38:05 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:38:05 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:40:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.27, level=17.38,
+  fast_track=True)
+2026-05-05 05:40:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:40:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:40:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:40:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:42:05 [INFO] Confirmed: IQV LONG on bar 1/1 (close=159.04,
+  level=159.84, fast_track=True)
+2026-05-05 05:42:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.21, level=17.37,
+  fast_track=True)
+2026-05-05 05:42:06 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:42:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:42:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:42:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:48:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=109.02,
+  level=109.57, fast_track=True)
+2026-05-05 05:48:05 [INFO] Confirmed: IQV LONG on bar 1/1 (close=159.19,
+  level=159.82, fast_track=True)
+2026-05-05 05:48:06 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:48:06
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:48:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:48:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:50:08 [INFO] Confirmed: IQV LONG on bar 1/1 (close=159.09,
+  level=159.92, fast_track=True)
+2026-05-05 05:50:10 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:50:10
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:50:10 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:50:10 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:52:06 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=109.35,
+  level=109.64, fast_track=True)
+2026-05-05 05:52:06 [INFO] Confirmed: IQV LONG on bar 1/1 (close=159.44,
+  level=159.82, fast_track=True)
+2026-05-05 05:52:06 [INFO] Confirmed: BR LONG on bar 1/1 (close=153.80, level=154.64,
+  fast_track=True)
+2026-05-05 05:52:07 [INFO] FUNNEL start: signals_this_bar=3 time=2026-05-04 15:52:07
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:52:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:52:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:54:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=109.15,
+  level=109.81, fast_track=True)
+2026-05-05 05:54:05 [INFO] Confirmed: IQV LONG on bar 1/1 (close=159.84,
+  level=160.17, fast_track=True)
+2026-05-05 05:54:05 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:54:05
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:54:05 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:54:05 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:54:06 [INFO] Confirmed: BR LONG on bar 1/1 (close=153.82, level=154.36,
+  fast_track=True)
+2026-05-05 05:54:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:54:07
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:54:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:54:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:56:05 [INFO] Confirmed: BR SHORT on bar 1/1 (close=153.86,
+  level=153.26, fast_track=True)
+2026-05-05 05:56:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:56:06
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:56:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:56:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:58:06 [INFO] Confirmed: CCL SHORT on bar 1/1 (close=25.65, level=25.53,
+  fast_track=True)
+2026-05-05 05:58:06 [INFO] Confirmed: IQV SHORT on bar 1/1 (close=160.53,
+  level=159.32, fast_track=True)
+2026-05-05 05:58:06 [INFO] Confirmed: BR SHORT on bar 1/1 (close=153.84,
+  level=153.30, fast_track=True)
+2026-05-05 05:58:06 [INFO] FUNNEL start: signals_this_bar=3 time=2026-05-04 15:58:06
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:58:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:58:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 06:00:01 [INFO] Session end reason: us_eastern_shutdown_reached
+2026-05-05 07:34:18 [INFO] Session end reason: us_eastern_shutdown_reached
+
+
+=====================================================================================
+  session.log — SUPPLEMENT (lines mentioning US/Eastern now=2026-05-05)
+=====================================================================================
+2026-05-05 22:23:33 [INFO] Entering main loop. US/Eastern now=2026-05-05 08:23:33 —
+  runs until 16:00 ET, then report + disconnect. Ctrl+C to stop. Create
+  "KILL_SWITCH.txt" to stop safely.
+
+
+=====================================================================================
+  session.log — FULL PREFIX 2026-05-05 (up to 2500 lines)
+=====================================================================================
+2026-05-05 00:00:05 [INFO] Skipped: EBAY LONG confirmation failed (close=109.30,
+  level=109.55)
+2026-05-05 00:01:57 [INFO] Bias: LONG (0.01) via SPY
+2026-05-05 00:02:06 [INFO] Skipped: EBAY LONG confirmation failed (close=108.96,
+  level=109.80)
+2026-05-05 00:04:05 [INFO] Skipped: EBAY LONG confirmation failed (close=108.82,
+  level=109.76)
+2026-05-05 00:06:05 [INFO] Skipped: EBAY LONG confirmation failed (close=108.69,
+  level=109.42)
+2026-05-05 00:06:58 [INFO] Bias: LONG (0.01) via SPY
+2026-05-05 00:08:05 [INFO] Skipped: EBAY LONG confirmation failed (close=108.57,
+  level=109.28)
+2026-05-05 00:08:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=108.57,
+  level=109.15, fast_track=True)
+2026-05-05 00:08:05 [INFO] Skipped: EBAY LONG near support/resistance zone
+2026-05-05 00:08:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:08:07
+  trades_filled_today=0 positions_today=0 pending_entry_trades=0 total_pnl_today=0.00
+2026-05-05 00:08:07 [INFO] SCORE STATS: max=96.8 avg=96.8
+2026-05-05 00:08:07 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=96.8 rank=1
+  atr_pct=3.68 rel_vol=1.31 bias_strength=0.010 pct_change_1d=5.03
+2026-05-05 00:08:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:08:07 [INFO] SIZE DIAG: EBAY LONG score=96.81 bias_dir=LONG
+  raw_strength=0.0104 effective_strength=0.7526 size_multiplier=0.6000
+  regime_mult=0.8500 dollar_raw_trade=4849.47 dollar=1861.38
+  min_position_dollars=1500.00
+2026-05-05 00:08:07 [INFO]   Signal: EBAY LONG @ 108.69 x 17 (pending fill)
+2026-05-05 00:08:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=1 orders_placed=1 exit=complete min_score=55.0 blocks={}
+2026-05-05 00:08:09 [INFO]   Filled entry: EBAY LONG @ 108.61 x 17.0 -> TP1=111.01 (0
+  sh), RUN_CAP=118.99 (17 sh), STP=105.42
+2026-05-05 00:11:59 [INFO] Bias: LONG (0.01) via SPY
+2026-05-05 00:16:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.16,
+  level=17.26)
+2026-05-05 00:16:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.16, level=17.31,
+  fast_track=True)
+2026-05-05 00:16:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:16:06
+  trades_filled_today=1 positions_today=1 pending_entry_trades=0 total_pnl_today=0.00
+2026-05-05 00:16:06 [INFO] SCORE STATS: max=76.4 avg=76.4
+2026-05-05 00:16:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=76.4 rank=1
+  atr_pct=5.16 rel_vol=1.12 bias_strength=0.011 pct_change_1d=-5.34
+2026-05-05 00:16:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:16:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:16:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:17:01 [INFO] Bias: LONG (0.02) via SPY
+2026-05-05 00:18:07 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.13, level=17.26,
+  fast_track=True)
+2026-05-05 00:18:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:18:07
+  trades_filled_today=1 positions_today=1 pending_entry_trades=0 total_pnl_today=0.00
+2026-05-05 00:18:07 [INFO] SCORE STATS: max=77.9 avg=77.9
+2026-05-05 00:18:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=77.9 rank=1
+  atr_pct=5.16 rel_vol=1.13 bias_strength=0.011 pct_change_1d=-5.61
+2026-05-05 00:18:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:18:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:18:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:19:25 [INFO]   Break-even lock: EBAY LONG stop moved to 108.72 at 0.81%
+2026-05-05 00:20:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.25, level=17.23,
+  fast_track=True)
+2026-05-05 00:20:05 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:20:05
+  trades_filled_today=1 positions_today=1 pending_entry_trades=0 total_pnl_today=0.00
+2026-05-05 00:20:05 [INFO] SCORE STATS: max=75.9 avg=75.9
+2026-05-05 00:20:05 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=75.9 rank=1
+  atr_pct=5.16 rel_vol=1.14 bias_strength=0.018 pct_change_1d=-5.78
+2026-05-05 00:20:05 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:20:05 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:20:05 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:22:02 [INFO] Bias: LONG (0.02) via SPY
+2026-05-05 00:24:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.12,
+  level=17.35)
+2026-05-05 00:26:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.12,
+  level=17.34)
+2026-05-05 00:27:03 [INFO] Bias: LONG (0.03) via SPY
+2026-05-05 00:28:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.15,
+  level=17.22)
+2026-05-05 00:30:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.14,
+  level=17.22)
+2026-05-05 00:31:59 [INFO] TRADE | EBAY | score=96.81 | pnl=0.68
+2026-05-05 00:31:59 [INFO]   Filled exit: EBAY LONG @ 108.65 PnL $0.68 (0.04%)
+2026-05-05 00:32:04 [INFO] Bias: LONG (0.03) via SPY
+2026-05-05 00:32:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.22,
+  level=17.25)
+2026-05-05 00:34:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=109.26,
+  level=109.19, fast_track=False)
+2026-05-05 00:34:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.21,
+  level=17.24)
+2026-05-05 00:34:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.21, level=17.32,
+  fast_track=True)
+2026-05-05 00:34:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 10:34:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 00:34:07 [INFO] SCORE STATS: max=98.4 avg=89.5
+2026-05-05 00:34:07 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=98.4 rank=1
+  atr_pct=3.68 rel_vol=1.38 bias_strength=0.030 pct_change_1d=5.07
+2026-05-05 00:34:07 [INFO] FUNNEL top5 [2/5]: NCLH LONG score=80.7 rank=2
+  atr_pct=5.16 rel_vol=1.23 bias_strength=0.030 pct_change_1d=-5.28
+2026-05-05 00:34:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=2
+  fallback_to_1=False final_ranked_count=2 top_take=3
+2026-05-05 00:34:07 [INFO] SIZE DIAG: EBAY LONG score=98.35 bias_dir=LONG
+  raw_strength=0.0296 effective_strength=0.7574 size_multiplier=0.6000
+  regime_mult=0.8500 dollar_raw_trade=4849.14 dollar=1873.11
+  min_position_dollars=1500.00
+2026-05-05 00:34:07 [INFO]   Signal: EBAY LONG @ 108.73 x 17 (pending fill)
+2026-05-05 00:34:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:34:07 [INFO] FUNNEL SUMMARY: raw=2 ranked=2 filtered=2 final=2
+  orders_attempted=1 orders_placed=1 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:36:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=109.73,
+  level=109.72, fast_track=False)
+2026-05-05 00:36:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.33, level=17.31,
+  fast_track=True)
+2026-05-05 00:36:05 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 00:36:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 10:36:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:36:07 [INFO] SCORE STATS: max=80.9 avg=79.3
+2026-05-05 00:36:07 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=80.9 rank=1
+  atr_pct=3.68 rel_vol=1.39 bias_strength=0.030 pct_change_1d=5.59
+2026-05-05 00:36:07 [INFO] FUNNEL top5 [2/5]: NCLH LONG score=77.6 rank=2
+  atr_pct=5.16 rel_vol=1.23 bias_strength=0.030 pct_change_1d=-5.34
+2026-05-05 00:36:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=2
+  fallback_to_1=False final_ranked_count=2 top_take=3
+2026-05-05 00:36:07 [INFO] BLOCKED: EBAY (already in positions or pending)
+2026-05-05 00:36:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:36:07 [INFO] FUNNEL SUMMARY: raw=2 ranked=2 filtered=2 final=2
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={already_in_position_or_pending=1, blacklist=1}
+2026-05-05 00:37:05 [INFO] Bias: LONG (0.03) via SPY
+2026-05-05 00:40:05 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 00:42:07 [INFO] Bias: LONG (0.04) via SPY
+2026-05-05 00:42:07 [INFO] Skipped: NCLH LONG confirmation failed (close=17.37,
+  level=17.40)
+2026-05-05 00:46:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.35,
+  level=17.47)
+2026-05-05 00:47:08 [INFO] Bias: LONG (0.04) via SPY
+2026-05-05 00:48:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.30,
+  level=17.50)
+2026-05-05 00:48:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.30, level=17.45,
+  fast_track=True)
+2026-05-05 00:48:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:48:06
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:48:06 [INFO] SCORE STATS: max=79.8 avg=79.8
+2026-05-05 00:48:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.8 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.037 pct_change_1d=-4.57
+2026-05-05 00:48:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:48:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:48:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:49:08 [INFO]   Entry order timeout (900s): cancelled EBAY, can retry
+  later (bumped down)
+2026-05-05 00:50:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.30, level=17.40,
+  fast_track=True)
+2026-05-05 00:50:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:50:06
+  trades_filled_today=1 positions_today=0 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 00:50:06 [INFO] SCORE STATS: max=81.2 avg=81.2
+2026-05-05 00:50:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=81.2 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.039 pct_change_1d=-4.84
+2026-05-05 00:50:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:50:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:50:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:52:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=110.60,
+  level=110.23, fast_track=False)
+2026-05-05 00:52:05 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:52:05
+  trades_filled_today=1 positions_today=0 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 00:52:05 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 00:52:05 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=78.5 rank=1
+  atr_pct=3.68 rel_vol=1.42 bias_strength=0.039 pct_change_1d=6.08
+2026-05-05 00:52:05 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:52:05 [INFO] SIZE DIAG: EBAY LONG score=78.51 bias_dir=LONG
+  raw_strength=0.0392 effective_strength=0.7598 size_multiplier=0.6000
+  regime_mult=0.5766 dollar_raw_trade=4849.14 dollar=1842.17
+  min_position_dollars=1500.00
+2026-05-05 00:52:05 [INFO]   Signal: EBAY LONG @ 109.77 x 16 (pending fill)
+2026-05-05 00:52:05 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=1 orders_placed=1 exit=complete min_score=55.0 blocks={}
+2026-05-05 00:52:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.32, level=17.40,
+  fast_track=True)
+2026-05-05 00:52:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:52:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:52:07 [INFO] SCORE STATS: max=79.4 avg=79.4
+2026-05-05 00:52:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.4 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.039 pct_change_1d=-4.84
+2026-05-05 00:52:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:52:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:52:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:52:09 [INFO] Bias: LONG (0.04) via SPY
+2026-05-05 00:54:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.32, level=17.42,
+  fast_track=True)
+2026-05-05 00:54:05 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:54:05
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:54:05 [INFO] SCORE STATS: max=78.0 avg=78.0
+2026-05-05 00:54:05 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.0 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.039 pct_change_1d=-4.73
+2026-05-05 00:54:05 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:54:05 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:54:05 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:56:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.31, level=17.42,
+  fast_track=True)
+2026-05-05 00:56:06 [INFO] Skipped: EBAY LONG confirmation failed (close=111.00,
+  level=111.07)
+2026-05-05 00:56:08 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:56:08
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:56:08 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 00:56:08 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.039 pct_change_1d=-4.73
+2026-05-05 00:56:08 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:56:08 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:56:08 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 00:57:10 [INFO] Bias: LONG (0.04) via SPY
+2026-05-05 00:58:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.29, level=17.41,
+  fast_track=True)
+2026-05-05 00:58:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 10:58:06
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 00:58:06 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 00:58:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.039 pct_change_1d=-4.79
+2026-05-05 00:58:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 00:58:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 00:58:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:00:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.29, level=17.39,
+  fast_track=True)
+2026-05-05 01:00:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:00:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 01:00:07 [INFO] SCORE STATS: max=79.8 avg=79.8
+2026-05-05 01:00:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.8 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.036 pct_change_1d=-4.90
+2026-05-05 01:00:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:00:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:00:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:02:07 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.37, level=17.39,
+  fast_track=True)
+2026-05-05 01:02:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:02:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 01:02:07 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 01:02:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.036 pct_change_1d=-4.90
+2026-05-05 01:02:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:02:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:02:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:02:11 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 01:04:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.36, level=17.47,
+  fast_track=True)
+2026-05-05 01:04:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:04:06
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 01:04:06 [INFO] SCORE STATS: max=80.3 avg=80.3
+2026-05-05 01:04:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=80.3 rank=1
+  atr_pct=5.16 rel_vol=1.31 bias_strength=0.036 pct_change_1d=-4.46
+2026-05-05 01:04:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:04:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:04:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:06:08 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.34, level=17.46,
+  fast_track=True)
+2026-05-05 01:06:10 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:06:10
+  trades_filled_today=1 positions_today=0 pending_entry_trades=1 total_pnl_today=0.68
+2026-05-05 01:06:10 [INFO] SCORE STATS: max=78.0 avg=78.0
+2026-05-05 01:06:10 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.0 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.500 pct_change_1d=-4.51
+2026-05-05 01:06:10 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:06:10 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:06:10 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:07:06 [INFO]   Entry order timeout (900s): cancelled EBAY, can retry
+  later (bumped down)
+2026-05-05 01:07:12 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 01:08:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.43, level=17.44,
+  fast_track=True)
+2026-05-05 01:08:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:08:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:08:07 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 01:08:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.500 pct_change_1d=-4.62
+2026-05-05 01:08:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:08:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:08:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:10:07 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.42, level=17.53,
+  fast_track=True)
+2026-05-05 01:10:07 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=110.41,
+  level=110.76, fast_track=True)
+2026-05-05 01:10:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 11:10:07
+  trades_filled_today=1 positions_today=0 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:10:07 [INFO] SCORE STATS: max=96.7 avg=89.6
+2026-05-05 01:10:07 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=96.7 rank=1
+  atr_pct=3.68 rel_vol=1.52 bias_strength=0.500 pct_change_1d=6.58
+2026-05-05 01:10:07 [INFO] FUNNEL top5 [2/5]: NCLH LONG score=82.6 rank=2
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.500 pct_change_1d=-4.13
+2026-05-05 01:10:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=2
+  fallback_to_1=False final_ranked_count=2 top_take=3
+2026-05-05 01:10:07 [INFO] SIZE DIAG: EBAY LONG score=96.65 bias_dir=LONG
+  raw_strength=0.5000 effective_strength=0.8750 size_multiplier=1.0000
+  regime_mult=0.4916 dollar_raw_trade=4849.14 dollar=2121.50
+  min_position_dollars=1500.00
+2026-05-05 01:10:07 [INFO]   Signal: EBAY LONG @ 110.29 x 19 (pending fill)
+2026-05-05 01:10:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:10:07 [INFO] FUNNEL SUMMARY: raw=2 ranked=2 filtered=2 final=2
+  orders_attempted=1 orders_placed=1 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:11:03 [INFO]   Filled entry: EBAY LONG @ 110.40 x 19.0 -> TP1=112.83 (0
+  sh), RUN_CAP=120.95 (19 sh), STP=107.15
+2026-05-05 01:12:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.39, level=17.52,
+  fast_track=True)
+2026-05-05 01:12:06 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=110.17,
+  level=110.88, fast_track=True)
+2026-05-05 01:12:08 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 11:12:08
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:12:08 [INFO] SCORE STATS: max=96.3 avg=87.4
+2026-05-05 01:12:08 [INFO] FUNNEL top5 [1/5]: EBAY LONG score=96.3 rank=1
+  atr_pct=3.68 rel_vol=1.52 bias_strength=0.500 pct_change_1d=6.70
+2026-05-05 01:12:08 [INFO] FUNNEL top5 [2/5]: NCLH LONG score=78.5 rank=2
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.500 pct_change_1d=-4.18
+2026-05-05 01:12:08 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=2
+  fallback_to_1=False final_ranked_count=2 top_take=3
+2026-05-05 01:12:08 [INFO] BLOCKED: EBAY (already in positions or pending)
+2026-05-05 01:12:08 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:12:08 [INFO] FUNNEL SUMMARY: raw=2 ranked=2 filtered=2 final=2
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={already_in_position_or_pending=1, blacklist=1}
+2026-05-05 01:12:14 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 01:14:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.39, level=17.49,
+  fast_track=True)
+2026-05-05 01:14:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:14:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:14:06 [INFO] SCORE STATS: max=78.9 avg=78.9
+2026-05-05 01:14:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.9 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.500 pct_change_1d=-4.35
+2026-05-05 01:14:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:14:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:14:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:16:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.35, level=17.49,
+  fast_track=True)
+2026-05-05 01:16:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:16:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:16:06 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 01:16:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.500 pct_change_1d=-4.35
+2026-05-05 01:16:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:16:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:16:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:17:15 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 01:18:07 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.37, level=17.45,
+  fast_track=True)
+2026-05-05 01:18:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:18:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:18:07 [INFO] SCORE STATS: max=79.4 avg=79.4
+2026-05-05 01:18:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.4 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.500 pct_change_1d=-4.57
+2026-05-05 01:18:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:18:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:18:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:20:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.34, level=17.47,
+  fast_track=True)
+2026-05-05 01:20:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:20:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:20:07 [INFO] SCORE STATS: max=78.0 avg=78.0
+2026-05-05 01:20:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.0 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.500 pct_change_1d=-4.46
+2026-05-05 01:20:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:20:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:20:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:22:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.30, level=17.44,
+  fast_track=True)
+2026-05-05 01:22:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:22:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:22:06 [INFO] SCORE STATS: max=78.9 avg=78.9
+2026-05-05 01:22:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.9 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.500 pct_change_1d=-4.62
+2026-05-05 01:22:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:22:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:22:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:22:16 [INFO] Bias: SHORT (0.03) via SPY
+2026-05-05 01:24:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.25, level=17.40,
+  fast_track=True)
+2026-05-05 01:24:05 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 01:24:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:24:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:24:06 [INFO] SCORE STATS: max=80.3 avg=80.3
+2026-05-05 01:24:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=80.3 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.500 pct_change_1d=-4.84
+2026-05-05 01:24:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:24:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:24:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:27:17 [INFO] Bias: SHORT (0.04) via SPY
+2026-05-05 01:28:05 [INFO] Confirmed: NCLH SHORT on bar 1/1 (close=17.37,
+  level=17.15, fast_track=True)
+2026-05-05 01:28:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:28:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:28:07 [INFO] SCORE STATS: max=96.0 avg=96.0
+2026-05-05 01:28:07 [INFO] FUNNEL top5 [1/5]: NCLH SHORT score=96.0 rank=1
+  atr_pct=5.16 rel_vol=1.29 bias_strength=0.029 pct_change_1d=-5.12
+2026-05-05 01:28:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:28:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:28:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:30:05 [INFO] Confirmed: NCLH SHORT on bar 1/1 (close=17.30,
+  level=17.27, fast_track=True)
+2026-05-05 01:30:05 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:30:05
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:30:05 [INFO] SCORE STATS: max=102.0 avg=102.0
+2026-05-05 01:30:05 [INFO] FUNNEL top5 [1/5]: NCLH SHORT score=102.0 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.042 pct_change_1d=-4.46
+2026-05-05 01:30:05 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:30:05 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:30:05 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:32:07 [INFO] Confirmed: NCLH SHORT on bar 1/1 (close=17.21,
+  level=17.20, fast_track=True)
+2026-05-05 01:32:07 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 01:32:08 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 11:32:08
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 01:32:08 [INFO] SCORE STATS: max=97.8 avg=97.8
+2026-05-05 01:32:08 [INFO] FUNNEL top5 [1/5]: NCLH SHORT score=97.8 rank=1
+  atr_pct=5.16 rel_vol=1.30 bias_strength=0.042 pct_change_1d=-4.84
+2026-05-05 01:32:08 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 01:32:08 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 01:32:08 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 01:32:18 [INFO] Bias: SHORT (0.05) via SPY
+2026-05-05 01:37:19 [INFO] Bias: SHORT (0.06) via SPY
+2026-05-05 01:38:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.23,
+  level=17.13)
+2026-05-05 01:40:07 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.22,
+  level=17.16)
+2026-05-05 01:42:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.20,
+  level=17.13)
+2026-05-05 01:42:05 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 01:42:20 [INFO] Bias: SHORT (0.07) via SPY
+2026-05-05 01:44:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.18,
+  level=17.12)
+2026-05-05 01:44:06 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 01:47:21 [INFO] Bias: SHORT (0.07) via SPY
+2026-05-05 01:48:06 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 01:50:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.14,
+  level=17.09)
+2026-05-05 01:50:05 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 01:52:22 [INFO] Bias: SHORT (0.07) via SPY
+2026-05-05 01:56:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.27,
+  level=17.03)
+2026-05-05 01:57:23 [INFO] Bias: SHORT (0.07) via SPY
+2026-05-05 01:58:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.25,
+  level=17.11)
+2026-05-05 02:00:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.21,
+  level=17.17)
+2026-05-05 02:02:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.22,
+  level=17.15)
+2026-05-05 02:02:24 [INFO] Bias: SHORT (0.07) via SPY
+2026-05-05 02:04:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.21,
+  level=17.11)
+2026-05-05 02:06:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.17,
+  level=17.12)
+2026-05-05 02:07:26 [INFO] Bias: SHORT (0.07) via SPY
+2026-05-05 02:08:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.13,
+  level=17.11)
+2026-05-05 02:10:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.13,
+  level=17.07)
+2026-05-05 02:12:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.13,
+  level=17.03)
+2026-05-05 02:12:27 [INFO] Bias: SHORT (0.08) via SPY
+2026-05-05 02:14:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.11,
+  level=17.03)
+2026-05-05 02:14:06 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 02:16:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.10,
+  level=17.03)
+2026-05-05 02:16:05 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 02:17:28 [INFO] Bias: SHORT (0.09) via SPY
+2026-05-05 02:22:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.27,
+  level=17.02)
+2026-05-05 02:22:29 [INFO] Bias: SHORT (0.07) via SPY
+2026-05-05 02:24:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.25,
+  level=17.03)
+2026-05-05 02:26:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.25,
+  level=17.17)
+2026-05-05 02:27:30 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 02:28:08 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.18,
+  level=17.15)
+2026-05-05 02:30:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.16,
+  level=17.15)
+2026-05-05 02:32:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.21,
+  level=17.28)
+2026-05-05 02:32:31 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 02:34:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.22,
+  level=17.26)
+2026-05-05 02:36:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.26,
+  level=17.31)
+2026-05-05 02:37:33 [INFO] Bias: SHORT (0.06) via SPY
+2026-05-05 02:38:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.23,
+  level=17.32)
+2026-05-05 02:40:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.20,
+  level=17.36)
+2026-05-05 02:42:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.25,
+  level=17.13)
+2026-05-05 02:42:34 [INFO] Bias: SHORT (0.05) via SPY
+2026-05-05 02:44:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.28,
+  level=17.10)
+2026-05-05 02:46:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.23,
+  level=17.15)
+2026-05-05 02:47:35 [INFO] Bias: SHORT (0.05) via SPY
+2026-05-05 02:48:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.19,
+  level=17.18)
+2026-05-05 02:50:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.18,
+  level=17.13)
+2026-05-05 02:52:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.18,
+  level=17.09)
+2026-05-05 02:52:36 [INFO] Bias: SHORT (0.05) via SPY
+2026-05-05 02:54:07 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.17,
+  level=17.08)
+2026-05-05 02:56:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.19,
+  level=17.08)
+2026-05-05 02:57:37 [INFO] Bias: SHORT (0.05) via SPY
+2026-05-05 02:58:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.16,
+  level=17.07)
+2026-05-05 03:00:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.19,
+  level=17.09)
+2026-05-05 03:02:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.16,
+  level=17.06)
+2026-05-05 03:02:06 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 03:02:38 [INFO] Bias: SHORT (0.04) via SPY
+2026-05-05 03:04:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.16,
+  level=17.09)
+2026-05-05 03:04:05 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 03:07:40 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 03:08:06 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:10:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.13,
+  level=17.07)
+2026-05-05 03:10:06 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:12:06 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:12:41 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 03:14:05 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:17:42 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 03:20:07 [INFO] Skipped: NCLH LONG confirmation failed (close=17.14,
+  level=17.22)
+2026-05-05 03:22:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.16,
+  level=17.26)
+2026-05-05 03:22:43 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 03:24:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.13,
+  level=17.24)
+2026-05-05 03:26:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.11,
+  level=17.26)
+2026-05-05 03:26:05 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:27:44 [INFO] Bias: LONG (0.00) via SPY
+2026-05-05 03:28:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.12,
+  level=17.23)
+2026-05-05 03:30:08 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:32:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.09,
+  level=17.22)
+2026-05-05 03:32:06 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:32:45 [INFO] Bias: LONG (0.01) via SPY
+2026-05-05 03:34:06 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:36:05 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:37:46 [INFO] Bias: LONG (0.01) via SPY
+2026-05-05 03:38:05 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:40:05 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:42:06 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 03:42:47 [INFO] Bias: LONG (0.01) via SPY
+2026-05-05 03:46:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.10, level=17.14,
+  fast_track=True)
+2026-05-05 03:46:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 13:46:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 03:46:06 [INFO] SCORE STATS: max=79.4 avg=79.4
+2026-05-05 03:46:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.4 rank=1
+  atr_pct=5.16 rel_vol=1.33 bias_strength=0.009 pct_change_1d=-6.27
+2026-05-05 03:46:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 03:46:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 03:46:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 03:47:48 [INFO] Bias: LONG (0.01) via SPY
+2026-05-05 03:50:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.08,
+  level=17.20)
+2026-05-05 03:52:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.11,
+  level=17.19)
+2026-05-05 03:52:50 [INFO] Bias: LONG (0.01) via SPY
+2026-05-05 03:54:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.12,
+  level=17.18)
+2026-05-05 03:54:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.12, level=17.21,
+  fast_track=True)
+2026-05-05 03:54:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 13:54:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 03:54:06 [INFO] SCORE STATS: max=79.9 avg=79.9
+2026-05-05 03:54:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.9 rank=1
+  atr_pct=5.16 rel_vol=1.34 bias_strength=0.010 pct_change_1d=-5.89
+2026-05-05 03:54:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 03:54:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 03:54:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 03:56:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.16, level=17.22,
+  fast_track=True)
+2026-05-05 03:56:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 13:56:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 03:56:06 [INFO] SCORE STATS: max=78.5 avg=78.5
+2026-05-05 03:56:06 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=78.5 rank=1
+  atr_pct=5.16 rel_vol=1.34 bias_strength=0.014 pct_change_1d=-5.83
+2026-05-05 03:56:06 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 03:56:06 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 03:56:06 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 03:57:51 [INFO] Bias: LONG (0.02) via SPY
+2026-05-05 03:58:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.14, level=17.26,
+  fast_track=True)
+2026-05-05 03:58:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 13:58:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 03:58:07 [INFO] SCORE STATS: max=79.9 avg=79.9
+2026-05-05 03:58:07 [INFO] FUNNEL top5 [1/5]: NCLH LONG score=79.9 rank=1
+  atr_pct=5.16 rel_vol=1.34 bias_strength=0.014 pct_change_1d=-5.61
+2026-05-05 03:58:07 [INFO] FUNNEL score filter: min_score_used=55.0 filtered_count=1
+  fallback_to_1=False final_ranked_count=1 top_take=3
+2026-05-05 03:58:07 [INFO] BLOCKED: NCLH (LOW_RANGE_BLACKLIST)
+2026-05-05 03:58:07 [INFO] FUNNEL SUMMARY: raw=1 ranked=1 filtered=1 final=1
+  orders_attempted=0 orders_placed=0 exit=complete min_score=55.0
+  blocks={blacklist=1}
+2026-05-05 04:02:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.11,
+  level=17.24)
+2026-05-05 04:02:52 [INFO] Bias: LONG (0.02) via SPY
+2026-05-05 04:04:08 [INFO] Skipped: NCLH LONG confirmation failed (close=17.14,
+  level=17.22)
+2026-05-05 04:06:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.11,
+  level=17.21)
+2026-05-05 04:07:53 [INFO] Bias: LONG (0.02) via SPY
+2026-05-05 04:08:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.10,
+  level=17.24)
+2026-05-05 04:10:08 [INFO] Skipped: NCLH LONG confirmation failed (close=17.13,
+  level=17.21)
+2026-05-05 04:12:07 [INFO] Skipped: NCLH LONG confirmation failed (close=17.12,
+  level=17.20)
+2026-05-05 04:12:54 [INFO] Bias: LONG (0.02) via SPY
+2026-05-05 04:14:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.10,
+  level=17.23)
+2026-05-05 04:16:09 [INFO] Skipped: NCLH LONG confirmation failed (close=17.05,
+  level=17.22)
+2026-05-05 04:17:55 [INFO] Bias: LONG (0.02) via SPY
+2026-05-05 04:18:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.13,
+  level=17.20)
+2026-05-05 04:20:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.12,
+  level=17.15)
+2026-05-05 04:22:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.07,
+  level=17.23)
+2026-05-05 04:22:56 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 04:24:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.10,
+  level=17.22)
+2026-05-05 04:26:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.10,
+  level=17.17)
+2026-05-05 04:27:58 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 04:28:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.07,
+  level=17.20)
+2026-05-05 04:30:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.08,
+  level=17.20)
+2026-05-05 04:32:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.13,
+  level=17.17)
+2026-05-05 04:32:59 [INFO] Bias: SHORT (0.00) via SPY
+2026-05-05 04:34:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.14,
+  level=17.18)
+2026-05-05 04:36:07 [INFO] Skipped: NCLH LONG confirmation failed (close=17.13,
+  level=17.23)
+2026-05-05 04:38:00 [INFO] Bias: SHORT (0.01) via SPY
+2026-05-05 04:38:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.07,
+  level=17.04)
+2026-05-05 04:40:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.11,
+  level=17.03)
+2026-05-05 04:42:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.12,
+  level=16.97)
+2026-05-05 04:43:01 [INFO] Bias: SHORT (0.01) via SPY
+2026-05-05 04:44:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.12,
+  level=17.01)
+2026-05-05 04:46:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.12,
+  level=17.02)
+2026-05-05 04:48:02 [INFO] Bias: SHORT (0.01) via SPY
+2026-05-05 04:48:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.07,
+  level=17.02)
+2026-05-05 04:48:06 [INFO] Skipped: GEHC SHORT confirmation failed (close=61.14,
+  level=60.76)
+2026-05-05 04:48:06 [INFO] Skipped: GEHC SHORT near support/resistance zone
+2026-05-05 04:50:08 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.10,
+  level=17.02)
+2026-05-05 04:50:08 [INFO] Skipped: GEHC SHORT confirmation failed (close=61.14,
+  level=60.76)
+2026-05-05 04:50:08 [INFO] Skipped: GEHC SHORT near support/resistance zone
+2026-05-05 04:52:05 [INFO] Skipped: GEHC SHORT near support/resistance zone
+2026-05-05 04:52:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.09,
+  level=16.97)
+2026-05-05 04:53:03 [INFO] Bias: SHORT (0.01) via SPY
+2026-05-05 04:54:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.07,
+  level=17.00)
+2026-05-05 04:56:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.07,
+  level=16.99)
+2026-05-05 04:56:05 [INFO] Skipped: GEHC SHORT near support/resistance zone
+2026-05-05 04:58:04 [INFO] Bias: SHORT (0.01) via SPY
+2026-05-05 04:58:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.05,
+  level=16.97)
+2026-05-05 04:58:05 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 04:58:05 [INFO] Skipped: GEHC SHORT confirmation failed (close=61.22,
+  level=60.84)
+2026-05-05 04:58:05 [INFO] Skipped: GEHC SHORT near support/resistance zone
+2026-05-05 05:00:05 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.02,
+  level=16.97)
+2026-05-05 05:00:05 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 05:00:05 [INFO] Skipped: GEHC SHORT near support/resistance zone
+2026-05-05 05:02:05 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 05:03:05 [INFO] Bias: SHORT (0.02) via SPY
+2026-05-05 05:04:07 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 05:06:05 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 05:06:05 [INFO] Skipped: GEHC SHORT confirmation failed (close=61.13,
+  level=60.82)
+2026-05-05 05:08:05 [INFO] Skipped: NCLH SHORT near support/resistance zone
+2026-05-05 05:08:05 [INFO] Skipped: GEHC SHORT confirmation failed (close=61.18,
+  level=60.84)
+2026-05-05 05:08:07 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 05:10:05 [INFO] Confirmed: CCL SHORT on bar 1/1 (close=25.34, level=25.18,
+  fast_track=True)
+2026-05-05 05:10:05 [INFO] Skipped: GEHC SHORT confirmation failed (close=61.21,
+  level=60.85)
+2026-05-05 05:10:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:10:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:10:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:10:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:12:07 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 05:12:07 [INFO] Skipped: GEHC SHORT confirmation failed (close=61.15,
+  level=60.90)
+2026-05-05 05:12:07 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.33, level=25.48,
+  fast_track=True)
+2026-05-05 05:12:08 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:12:08
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:12:08 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:12:08 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:13:08 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 05:14:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.00,
+  level=17.08)
+2026-05-05 05:14:05 [INFO] Skipped: GEHC LONG confirmation failed (close=61.16,
+  level=61.49)
+2026-05-05 05:14:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.34, level=25.47,
+  fast_track=True)
+2026-05-05 05:14:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:14:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:14:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:14:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:16:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.00, level=17.10,
+  fast_track=True)
+2026-05-05 05:16:05 [INFO] Skipped: GEHC LONG confirmation failed (close=61.13,
+  level=61.43)
+2026-05-05 05:16:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.33, level=25.48,
+  fast_track=True)
+2026-05-05 05:16:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:16:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:16:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:16:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:18:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=16.98, level=17.10,
+  fast_track=True)
+2026-05-05 05:18:05 [INFO] Skipped: GEHC LONG confirmation failed (close=61.15,
+  level=61.44)
+2026-05-05 05:18:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.32, level=25.47,
+  fast_track=True)
+2026-05-05 05:18:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:18:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:18:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:18:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:18:09 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 05:20:06 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.37, level=25.46,
+  fast_track=True)
+2026-05-05 05:20:06 [INFO] Skipped: GEHC LONG confirmation failed (close=61.13,
+  level=61.41)
+2026-05-05 05:20:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.03, level=17.08,
+  fast_track=True)
+2026-05-05 05:20:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:20:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:20:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:20:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:22:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.53, level=25.51,
+  fast_track=True)
+2026-05-05 05:22:05 [INFO] Skipped: CCL LONG near support/resistance zone
+2026-05-05 05:22:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.07, level=17.13,
+  fast_track=True)
+2026-05-05 05:22:05 [INFO] Skipped: GEHC LONG confirmation failed (close=61.13,
+  level=61.43)
+2026-05-05 05:22:06 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:22:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:22:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:22:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:23:10 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 05:24:05 [INFO] Skipped: GEHC LONG confirmation failed (close=61.11,
+  level=61.41)
+2026-05-05 05:24:05 [INFO] Skipped: IQV LONG near support/resistance zone
+2026-05-05 05:24:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.10, level=17.17,
+  fast_track=True)
+2026-05-05 05:24:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:24:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:24:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:24:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:26:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.12, level=17.20,
+  fast_track=True)
+2026-05-05 05:26:05 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 05:26:05 [INFO] Skipped: GEHC LONG confirmation failed (close=61.15,
+  level=61.41)
+2026-05-05 05:26:05 [INFO] Skipped: IQV LONG near support/resistance zone
+2026-05-05 05:26:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.52, level=25.60,
+  fast_track=True)
+2026-05-05 05:26:05 [INFO] Skipped: CCL LONG near support/resistance zone
+2026-05-05 05:26:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:26:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:26:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:26:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:28:06 [INFO] Skipped: GEHC LONG confirmation failed (close=61.19,
+  level=61.39)
+2026-05-05 05:28:06 [INFO] Skipped: IQV LONG near support/resistance zone
+2026-05-05 05:28:11 [INFO] Bias: LONG (0.50) via SPY
+2026-05-05 05:30:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.48, level=25.69,
+  fast_track=True)
+2026-05-05 05:30:05 [INFO] Skipped: GEHC LONG confirmation failed (close=61.18,
+  level=61.43)
+2026-05-05 05:30:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.10, level=17.19,
+  fast_track=True)
+2026-05-05 05:30:05 [INFO] Skipped: IQV LONG near support/resistance zone
+2026-05-05 05:30:06 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:30:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:30:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:30:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:32:05 [INFO] Skipped: GEHC LONG confirmation failed (close=61.27,
+  level=61.47)
+2026-05-05 05:32:05 [INFO] Skipped: GEHC LONG near support/resistance zone
+2026-05-05 05:32:05 [INFO] Skipped: IQV LONG near support/resistance zone
+2026-05-05 05:32:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.14, level=17.20,
+  fast_track=True)
+2026-05-05 05:32:05 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.54, level=25.62,
+  fast_track=True)
+2026-05-05 05:32:06 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:32:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:32:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:32:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:33:12 [INFO] Bias: LONG (0.00) via SPY
+2026-05-05 05:34:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.20, level=17.24,
+  fast_track=True)
+2026-05-05 05:34:05 [INFO] Skipped: NCLH LONG near support/resistance zone
+2026-05-05 05:34:06 [INFO] Skipped: IQV LONG near support/resistance zone
+2026-05-05 05:34:06 [INFO] Skipped: GEHC LONG confirmation failed (close=61.19,
+  level=61.46)
+2026-05-05 05:34:06 [INFO] Confirmed: CCL LONG on bar 1/1 (close=25.57, level=25.68,
+  fast_track=True)
+2026-05-05 05:34:06 [INFO] Skipped: CCL LONG near support/resistance zone
+2026-05-05 05:34:07 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:34:07
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:34:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:34:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:36:05 [INFO] Skipped: CCL LONG near support/resistance zone
+2026-05-05 05:36:05 [INFO] Skipped: IQV LONG near support/resistance zone
+2026-05-05 05:38:05 [INFO] Skipped: IQV LONG near support/resistance zone
+2026-05-05 05:38:05 [INFO] Skipped: GEHC LONG confirmation failed (close=61.21,
+  level=61.47)
+2026-05-05 05:38:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.28, level=17.36,
+  fast_track=True)
+2026-05-05 05:38:05 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:38:05
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:38:05 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:38:05 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:38:05 [INFO] Skipped: CCL LONG near support/resistance zone
+2026-05-05 05:38:13 [INFO] Bias: LONG (0.00) via SPY
+2026-05-05 05:40:05 [INFO] Skipped: GEHC LONG confirmation failed (close=61.26,
+  level=61.47)
+2026-05-05 05:40:05 [INFO] Skipped: GEHC LONG near support/resistance zone
+2026-05-05 05:40:06 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.27, level=17.38,
+  fast_track=True)
+2026-05-05 05:40:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:40:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:40:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:40:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:42:05 [INFO] Confirmed: IQV LONG on bar 1/1 (close=159.04,
+  level=159.84, fast_track=True)
+2026-05-05 05:42:05 [INFO] Skipped: IQV LONG near support/resistance zone
+2026-05-05 05:42:05 [INFO] Confirmed: NCLH LONG on bar 1/1 (close=17.21, level=17.37,
+  fast_track=True)
+2026-05-05 05:42:05 [INFO] Skipped: GEHC LONG confirmation failed (close=61.18,
+  level=61.49)
+2026-05-05 05:42:06 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:42:06
+  trades_filled_today=2 positions_today=1 pending_entry_trades=0 total_pnl_today=0.68
+2026-05-05 05:42:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:42:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:43:15 [INFO] Bias: LONG (0.00) via SPY
+2026-05-05 05:44:05 [INFO] Skipped: CCL LONG confirmation failed (close=25.57,
+  level=25.71)
+2026-05-05 05:44:05 [INFO] Skipped: GEHC LONG near support/resistance zone
+2026-05-05 05:44:05 [INFO] Skipped: IQV LONG near support/resistance zone
+2026-05-05 05:45:01 [INFO]   EOD close: placed market close EBAY (pos 19.0)
+2026-05-05 05:45:02 [INFO] TRADE | EBAY | score=96.65 | pnl=-26.60
+2026-05-05 05:45:02 [INFO]   Filled exit: EBAY LONG @ 109.00 PnL $-26.60 (-1.27%)
+2026-05-05 05:46:07 [INFO] Skipped: CCL LONG confirmation failed (close=25.55,
+  level=25.69)
+2026-05-05 05:46:07 [INFO] Skipped: GEHC LONG confirmation failed (close=60.98,
+  level=61.46)
+2026-05-05 05:46:07 [INFO] Skipped: GEHC LONG near support/resistance zone
+2026-05-05 05:46:07 [INFO] Skipped: NCLH LONG confirmation failed (close=17.26,
+  level=17.31)
+2026-05-05 05:48:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=109.02,
+  level=109.57, fast_track=True)
+2026-05-05 05:48:05 [INFO] Skipped: EBAY LONG near support/resistance zone
+2026-05-05 05:48:05 [INFO] Confirmed: IQV LONG on bar 1/1 (close=159.19,
+  level=159.82, fast_track=True)
+2026-05-05 05:48:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.29,
+  level=17.39)
+2026-05-05 05:48:06 [INFO] Skipped: DOC LONG near support/resistance zone
+2026-05-05 05:48:06 [INFO] Skipped: CCL LONG confirmation failed (close=25.68,
+  level=25.71)
+2026-05-05 05:48:06 [INFO] Skipped: CCL LONG near support/resistance zone
+2026-05-05 05:48:06 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:48:06
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:48:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:48:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:48:16 [INFO] Bias: LONG (0.00) via SPY
+2026-05-05 05:50:05 [INFO] Skipped: CCL LONG confirmation failed (close=25.67,
+  level=25.69)
+2026-05-05 05:50:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.28,
+  level=17.36)
+2026-05-05 05:50:08 [INFO] Confirmed: IQV LONG on bar 1/1 (close=159.09,
+  level=159.92, fast_track=True)
+2026-05-05 05:50:08 [INFO] Skipped: DOC LONG confirmation failed (close=16.26,
+  level=16.28)
+2026-05-05 05:50:08 [INFO] Skipped: DOC LONG near support/resistance zone
+2026-05-05 05:50:10 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:50:10
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:50:10 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:50:10 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:52:06 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=109.35,
+  level=109.64, fast_track=True)
+2026-05-05 05:52:06 [INFO] Skipped: DOC LONG near support/resistance zone
+2026-05-05 05:52:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.20,
+  level=17.39)
+2026-05-05 05:52:06 [INFO] Confirmed: IQV LONG on bar 1/1 (close=159.44,
+  level=159.82, fast_track=True)
+2026-05-05 05:52:06 [INFO] Confirmed: BR LONG on bar 1/1 (close=153.80, level=154.64,
+  fast_track=True)
+2026-05-05 05:52:06 [INFO] Skipped: GEHC LONG confirmation failed (close=60.93,
+  level=61.31)
+2026-05-05 05:52:06 [INFO] Skipped: GEHC LONG near support/resistance zone
+2026-05-05 05:52:07 [INFO] FUNNEL start: signals_this_bar=3 time=2026-05-04 15:52:07
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:52:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:52:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:53:17 [INFO] Bias: SHORT (0.00) via SPY
+2026-05-05 05:54:05 [INFO] Skipped: CCL LONG confirmation failed (close=25.59,
+  level=25.81)
+2026-05-05 05:54:05 [INFO] Confirmed: EBAY LONG on bar 1/1 (close=109.15,
+  level=109.81, fast_track=True)
+2026-05-05 05:54:05 [INFO] Confirmed: IQV LONG on bar 1/1 (close=159.84,
+  level=160.17, fast_track=True)
+2026-05-05 05:54:05 [INFO] Skipped: IQV SHORT near support/resistance zone
+2026-05-05 05:54:05 [INFO] FUNNEL start: signals_this_bar=2 time=2026-05-04 15:54:05
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:54:05 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:54:05 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:54:06 [INFO] Skipped: NCLH LONG confirmation failed (close=17.21,
+  level=17.38)
+2026-05-05 05:54:06 [INFO] Skipped: DOC SHORT near support/resistance zone
+2026-05-05 05:54:06 [INFO] Skipped: GEHC LONG confirmation failed (close=60.96,
+  level=61.32)
+2026-05-05 05:54:06 [INFO] Confirmed: BR LONG on bar 1/1 (close=153.82, level=154.36,
+  fast_track=True)
+2026-05-05 05:54:07 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:54:07
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:54:07 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:54:07 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:56:05 [INFO] Confirmed: BR SHORT on bar 1/1 (close=153.86,
+  level=153.26, fast_track=True)
+2026-05-05 05:56:05 [INFO] Skipped: NCLH LONG confirmation failed (close=17.23,
+  level=17.30)
+2026-05-05 05:56:05 [INFO] Skipped: DOC SHORT near support/resistance zone
+2026-05-05 05:56:05 [INFO] Skipped: CCL LONG confirmation failed (close=25.67,
+  level=25.77)
+2026-05-05 05:56:06 [INFO] FUNNEL start: signals_this_bar=1 time=2026-05-04 15:56:06
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:56:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:56:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:58:06 [INFO] Skipped: CCL SHORT confirmation failed (close=25.65,
+  level=25.45)
+2026-05-05 05:58:06 [INFO] Confirmed: CCL SHORT on bar 1/1 (close=25.65, level=25.53,
+  fast_track=True)
+2026-05-05 05:58:06 [INFO] Skipped: NCLH SHORT confirmation failed (close=17.21,
+  level=17.11)
+2026-05-05 05:58:06 [INFO] Skipped: DOC SHORT near support/resistance zone
+2026-05-05 05:58:06 [INFO] Confirmed: IQV SHORT on bar 1/1 (close=160.53,
+  level=159.32, fast_track=True)
+2026-05-05 05:58:06 [INFO] Skipped: GEHC SHORT confirmation failed (close=61.03,
+  level=60.68)
+2026-05-05 05:58:06 [INFO] Confirmed: BR SHORT on bar 1/1 (close=153.84,
+  level=153.30, fast_track=True)
+2026-05-05 05:58:06 [INFO] Skipped: EBAY SHORT confirmation failed (close=109.33,
+  level=108.69)
+2026-05-05 05:58:06 [INFO] Skipped: ON SHORT near support/resistance zone
+2026-05-05 05:58:06 [INFO] FUNNEL start: signals_this_bar=3 time=2026-05-04 15:58:06
+  trades_filled_today=2 positions_today=0 pending_entry_trades=0
+  total_pnl_today=-25.92
+2026-05-05 05:58:06 [INFO] FUNNEL early return: entry cutoff reached (now >= 14:00
+  ET)
+2026-05-05 05:58:06 [INFO] FUNNEL SUMMARY: raw=0 ranked=0 filtered=0 final=0
+  orders_attempted=0 orders_placed=0 exit=entry_cutoff min_score=n/a blocks={}
+2026-05-05 05:58:18 [INFO] Bias: SHORT (0.00) via SPY
+2026-05-05 06:00:01 [INFO] Session end reason: us_eastern_shutdown_reached
+2026-05-05 06:00:01 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\daily_report_2026-05-04.txt
+2026-05-05 06:00:01 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_daily_analysis_pack_2026-05-04.txt
+2026-05-05 06:00:01 [INFO] Daily report: e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\daily_report_2026-05-04.txt
+2026-05-05 06:00:01 [INFO] Disconnected. Session log: e:\matts
+  documents\Cursor\Arbiter V1\Arbiter\logs\session.log; trades/equity in e:\matts
+  documents\Cursor\Arbiter V1\Arbiter\logs
+2026-05-05 07:33:53 [INFO] ARBITER- Startup
+2026-05-05 07:33:53 [INFO] Loaded 501 tickers from list
+2026-05-05 07:33:53 [INFO] IB startup: connecting...
+2026-05-05 07:33:54 [INFO] IB startup: connected socket; resolving account...
+2026-05-05 07:33:54 [INFO] IB startup: using account DUP864580
+2026-05-05 07:33:56 [INFO] IB startup: reading account values...
+2026-05-05 07:33:56 [INFO] Connected. Account: DUP864580, NetLiquidation: $19,763.74
+2026-05-05 07:33:56 [INFO] USE_FIXED_UNIVERSE=False: backtest-aligned universe
+  (metrics as of prior session 2026-05-01)...
+2026-05-05 07:34:13 [INFO]   Rescan OK: 150 tickers (top 5: PSKY, ORCL, DDOG, INTC,
+  CHTR)
+2026-05-05 07:34:13 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF
+  SPY)...
+2026-05-05 07:34:18 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 07:34:18 [INFO] Entering main loop. US/Eastern now=2026-05-04 17:34:18 —
+  runs until 16:00 ET, then report + disconnect. Ctrl+C to stop. Create
+  "KILL_SWITCH.txt" to stop safely.
+2026-05-05 07:34:18 [INFO] WARNING: Eastern time is already at/after configured
+  shutdown; this launch will not enter the live loop. For a full US session, start
+  Arbiter before that time (config SHUTDOWN_HOUR / SHUTDOWN_MINUTE) or the prior
+  calendar evening in your local zone.
+2026-05-05 07:34:18 [INFO] Session end reason: us_eastern_shutdown_reached
+2026-05-05 07:34:18 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\daily_report_2026-05-04.txt
+2026-05-05 07:34:18 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_daily_analysis_pack_2026-05-04.txt
+2026-05-05 07:34:18 [INFO] Daily report: e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\daily_report_2026-05-04.txt
+2026-05-05 07:34:18 [INFO] Disconnected. Session log: e:\matts
+  documents\Cursor\Arbiter V1\Arbiter\logs\session.log; trades/equity in e:\matts
+  documents\Cursor\Arbiter V1\Arbiter\logs
+2026-05-05 07:36:55 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\daily_report_2026-04-01.txt
+2026-05-05 07:36:55 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_daily_analysis_pack_2026-04-01.txt
+2026-05-05 15:23:10 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-05-04.txt
+2026-05-05 15:35:30 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-05-04.txt
+2026-05-05 15:35:30 [REPORT] GPT backtest pack: e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-05-04.txt
+2026-05-05 16:56:35 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-05-04.txt
+2026-05-05 16:56:35 [REPORT] GPT backtest pack: e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-05-04.txt
+2026-05-05 16:57:40 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-05-04.txt
+2026-05-05 16:57:40 [REPORT] GPT backtest pack: e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-05-04.txt
+2026-05-05 17:01:45 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-05-04.txt
+2026-05-05 17:01:45 [REPORT] GPT backtest pack: e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-05-04.txt
+2026-05-05 17:03:16 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-05-04.txt
+2026-05-05 17:03:16 [REPORT] GPT backtest pack: e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-05-04.txt
+2026-05-05 20:00:09 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:00:09 [REPORT] GPT backtest pack: e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:14:35 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:14:35 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:22:45 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:22:45 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:25:33 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:25:33 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:32:55 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:32:55 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:35:42 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:35:42 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:43:07 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:43:07 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:47:15 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:47:15 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:53:12 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:53:12 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:58:34 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 20:58:34 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 21:02:47 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 21:02:47 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 21:07:12 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 21:07:12 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 21:20:18 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 21:20:18 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 21:28:36 [REPORT_MIRROR] OK -> C:\Users\Matthew\OneDrive\Arbiter
+  Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 21:28:36 [REPORT] GPT backtest pack: E:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-27_to_2026-05-01.txt
+2026-05-05 22:23:10 [INFO] ARBITER- Startup
+2026-05-05 22:23:10 [INFO] Loaded 501 tickers from list
+2026-05-05 22:23:10 [INFO] IB startup: connecting...
+2026-05-05 22:23:10 [INFO] IB startup: connected socket; resolving account...
+2026-05-05 22:23:10 [INFO] IB startup: using account DUP864580
+2026-05-05 22:23:12 [INFO] IB startup: reading account values...
+2026-05-05 22:23:12 [INFO] Connected. Account: DUP864580, NetLiquidation: $19,766.30
+2026-05-05 22:23:12 [INFO] USE_FIXED_UNIVERSE=False: backtest-aligned universe
+  (metrics as of prior session 2026-05-04)...
+2026-05-05 22:23:28 [INFO]   Rescan OK: 150 tickers (top 5: TSN, ORCL, MRNA, HOOD,
+  EBAY)
+2026-05-05 22:23:28 [INFO] Subscribing to 5-sec bars for 100 tickers (incl ETF
+  SPY)...
+2026-05-05 22:23:33 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 22:23:33 [INFO] Entering main loop. US/Eastern now=2026-05-05 08:23:33 —
+  runs until 16:00 ET, then report + disconnect. Ctrl+C to stop. Create
+  "KILL_SWITCH.txt" to stop safely.
+2026-05-05 22:28:35 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 22:33:36 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 22:38:37 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 22:43:38 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 22:48:39 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 22:53:40 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 22:58:41 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:03:42 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:08:44 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:13:45 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:18:46 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:23:47 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:28:48 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:33:49 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:38:50 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:43:52 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:48:53 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:53:54 [INFO] Bias: NEUTRAL (0.00) via SPY
+2026-05-05 23:58:55 [INFO] Bias: NEUTRAL (0.00) via SPY

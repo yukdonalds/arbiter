@@ -102,10 +102,31 @@ VOLUME_LOOKBACK = 20
 # Confirmation / breakout sensitivity
 CONFIRMATION_BUFFER = 0.10
 BREAKOUT_THRESHOLD = 0.015
+CONFIRMATION_MIN_MOVE_PCT = 0.0015
 # Momentum volume gate used by signal engine
 MIN_VOLUME_MULTIPLIER = 1.1
 # Keep momentum confirmation strict (high-probability setups only).
 REQUIRE_MOMENTUM_CONFIRMATION = True
+# Fast-track confirmation: require both strong trend and strong relative volume.
+FAST_TRACK_ADX_MIN = 30.0
+FAST_TRACK_REL_VOL_MIN = 1.5
+FAST_TRACK_REQUIRE_BOTH = True
+# If False, fast-track confirmations are diagnostics/setup only (not tradable).
+ALLOW_FAST_TRACK_TO_TRADE = False
+ALLOW_FAST_TRACK_AS_SETUP = True
+FAST_TRACK_SETUP_CONFIRM_BARS = 2
+# Post-confirmation quality gate (applies after confirmation, before ranking/trading).
+POST_CONFIRM_MIN_REL_VOL = 1.1
+POST_CONFIRM_MAX_VWAP_DIST_PCT = 0.40
+POST_CONFIRM_REQUIRE_SPY_ALIGNMENT = False
+# Entry-time strength gate (applied immediately before order placement).
+ENABLE_ENTRY_STRENGTH_GATE = True
+# Early hard-risk exit for losers that fail quickly after entry.
+ENABLE_EARLY_LOSS_EXIT = True
+EARLY_LOSS_EXIT_MINUTES = 30
+EARLY_LOSS_EXIT_PCT = -1.5
+EARLY_LOSS_EXIT_REQUIRE_LOW_MFE = True
+EARLY_LOSS_EXIT_MFE_THRESHOLD = 0.5
 # Optional SL widening trigger for high-vol names
 VOLATILITY_SL_THRESHOLD = 5.0
 VOLATILITY_SL_BUFFER_PCT = 0.05
@@ -118,7 +139,7 @@ MAX_SIGNALS_PER_DAY = 8
 MIN_SIGNALS_TO_TRADE = 1
 MAX_TRADES_PER_DAY = 6
 # Score-gated selection engine.
-MIN_TRADE_SCORE = 55.0
+MIN_TRADE_SCORE = 65.0
 LOSS_DAY_MIN_TRADE_SCORE = 70.0
 TOP_TRADES_TO_TAKE = 3
 
@@ -128,9 +149,9 @@ MAX_CAPITAL_PCT_USED = 0.98
 # Position-size floor to avoid fee-inefficient micro trades.
 MIN_POSITION_DOLLARS = 1500.0
 # Pullback / controlled-entry: treat |dist_vwap| <= this as "near VWAP" (% units).
-CONTROLLED_ENTRY_NEAR_VWAP_PCT = 0.25
+CONTROLLED_ENTRY_NEAR_VWAP_PCT = 0.50
 # Recent closed bars used for pullback-from-high / bounce-from-low (BarBuilder bars).
-CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS = 15
+CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS = 8
 # Minimum pullback/bounce from recent intraday extreme required for controlled entry (% units).
 CONTROLLED_ENTRY_MIN_PULLBACK_PCT = 0.30
 
@@ -142,7 +163,7 @@ MIN_ATR_PCT = 0.008
 ENTRY_ORDER_TIMEOUT_SECONDS = 900  # 15 min
 
 TARGET_PCT = 0.05
-STOP_PCT = 0.025
+STOP_PCT = 0.015
 
 # Trailing stop (direction-aware in FPLS runner)
 TRAIL_BREAKEVEN_MFE_PCT = 1.5
@@ -151,9 +172,9 @@ TRAIL_DISTANCE_PCT = 2.5
 
 # --- Exits: partial TP + runner (FPLS) ---
 # Take partial profits, then manage remainder with trailing stop.
-PARTIAL_TP_PCT = 0.015          # +1.5% (LONG) / -1.5% (SHORT) – lock gains on drifting stocks
-PARTIAL_TP_FRACTION = 0.00      # fee-defense mode: disable TP1 split to reduce commission-heavy extra exits
-RUNNER_CAP_PCT = 0.065          # cap remainder at +6.5% / -6.5% (optional "TP2")
+PARTIAL_TP_PCT = 0.010          # +1.0% (LONG) / -1.0% (SHORT) partial take-profit trigger
+PARTIAL_TP_FRACTION = 0.50      # close 50% at TP1, keep 50% as runner
+RUNNER_CAP_PCT = 0.10           # cap remainder at +10.0% / -10.0% (optional "TP2")
 # Do not place partial TP if expected dollars are too small to beat fees.
 MIN_PROFIT_DOLLARS = 6.0
 # Optional weak-symbol blacklist for low-range names.
@@ -164,6 +185,9 @@ RUNNER_SECURE_GAIN_BUFFER_PCT = 0.005
 MARKET_OPEN_HOUR, MARKET_OPEN_MINUTE = 9, 45
 # US/Eastern: no new entry orders at or after this time (matches Arbiter Launch process_signals).
 ENTRY_CUTOFF_HOUR, ENTRY_CUTOFF_MINUTE = 14, 0
+# Additional late-entry hard block (independent from entry cutoff).
+BLOCK_ENTRIES_AFTER_HOUR = 13
+BLOCK_ENTRIES_AFTER_MINUTE = 0
 STOP_SIGNALS_HOUR, STOP_SIGNALS_MINUTE = 15, 55
 CLOSE_POSITIONS_HOUR, CLOSE_POSITIONS_MINUTE = 15, 45
 SHUTDOWN_HOUR, SHUTDOWN_MINUTE = 16, 0

@@ -45,6 +45,7 @@ from metrics_cache import load_cached_metrics, load_cached_watchlist
 from parallel_fetch import build_watchlist_parallel_for_date, fetch_daily_metrics_parallel_for_date
 from daily_report import generate_backtest_report
 from universe_rescan import rescan_universe_for_day
+from stats_collector import init_trade_outcomes_log, log_trade_outcome
 
 EASTERN = pytz.timezone("America/New_York")
 BAR_MINUTES = getattr(config, "BAR_MINUTES", 2)
@@ -631,6 +632,7 @@ def run_backtest(
     pending_trades = {}
     signals_this_bar = []
     pending_confirmations = {}
+    pending_fast_track_setups = {}
     last_closed_bar_key = {}
     last_intrabar_signal_key = {}
     capital = start_capital
@@ -652,11 +654,19 @@ def run_backtest(
     ticker_placed_today: set[str] = set()
     controlled_entry_block_count = 0
     same_ticker_reentry_block_count = 0
+    post_confirmation_quality_block_count = 0
+    entry_strength_block_count = 0
+    fast_track_trade_block_count = 0
+    late_entry_block_count = 0
+    fast_track_setups_stored_count = 0
+    fast_track_setups_confirmed_count = 0
+    fast_track_setups_expired_count = 0
     close_hour = getattr(config, "CLOSE_POSITIONS_HOUR", 15)
     close_minute = getattr(config, "CLOSE_POSITIONS_MINUTE", 45)
     eod_done = False
     last_close: dict[str, float] = {}
     fill_model = str(getattr(config, "BACKTEST_FILL_MODEL", "live_parity") or "live_parity").strip().lower()
+    blocked_candidates_path = os.path.join(config.LOG_DIR, "blocked_candidates.csv")
 
     # Partial TP + runner settings (match live FPLS)
     TP1_PCT = float(getattr(config, "PARTIAL_TP_PCT", 0.025))
@@ -812,11 +822,58 @@ def run_backtest(
         pending_confirmations.setdefault(sig["ticker"], []).append(item)
 
     def _process_confirmations_on_bar_close(sym: str, closed_bar: dict, closed_bar_key: tuple) -> None:
-        queue = pending_confirmations.get(sym)
-        if not queue:
-            return
+        nonlocal fast_track_trade_block_count, fast_track_setups_stored_count, fast_track_setups_confirmed_count, fast_track_setups_expired_count
         close_px = float(closed_bar.get("close") or 0.0)
         if close_px <= 0:
+            return
+        confirmation_min_move_pct = float(getattr(config, "CONFIRMATION_MIN_MOVE_PCT", 0.0) or 0.0)
+        setup_confirm_bars = int(getattr(config, "FAST_TRACK_SETUP_CONFIRM_BARS", 2) or 2)
+        setups = pending_fast_track_setups.get(sym) or []
+        if setups:
+            keep_setups = []
+            for st in setups:
+                if tuple(st.get("created_bar_key") or ()) == closed_bar_key:
+                    keep_setups.append(st)
+                    continue
+                side = (st.get("side") or "LONG").upper()
+                st["bars_waited"] = int(st.get("bars_waited") or 0) + 1
+                confirm_level = float(st.get("confirm_level") or 0.0)
+                if side == "LONG":
+                    confirm_move_ok = (
+                        confirm_level > 0
+                        and ((close_px - confirm_level) / confirm_level) >= confirmation_min_move_pct
+                    )
+                    strict_confirmed = close_px >= confirm_level and confirm_move_ok
+                else:
+                    confirm_move_ok = (
+                        confirm_level > 0
+                        and ((confirm_level - close_px) / confirm_level) >= confirmation_min_move_pct
+                    )
+                    strict_confirmed = close_px <= confirm_level and confirm_move_ok
+                if strict_confirmed:
+                    sig = dict(st.get("signal") or {})
+                    sig["confirmation_type"] = "strict"
+                    sig["confirmed_bars"] = st["bars_waited"]
+                    signals_this_bar.append(sig)
+                    confirmation_counts["strict"] += 1
+                    fast_track_setups_confirmed_count += 1
+                    continue
+                if st["bars_waited"] >= setup_confirm_bars:
+                    fast_track_setups_expired_count += 1
+                    _append_blocked_candidate_backtest(
+                        datetime.now(EASTERN),
+                        dict(st.get("signal") or {}),
+                        "fast_track_setup_expired",
+                    )
+                    continue
+                keep_setups.append(st)
+            if keep_setups:
+                pending_fast_track_setups[sym] = keep_setups
+            else:
+                pending_fast_track_setups.pop(sym, None)
+
+        queue = pending_confirmations.get(sym)
+        if not queue:
             return
         keep = []
         for item in queue:
@@ -826,20 +883,59 @@ def run_backtest(
             side = (item.get("side") or "LONG").upper()
             item["bars_checked"] = int(item.get("bars_checked") or 0) + 1
             confirm_level = float(item.get("confirm_level") or 0.0)
-            confirmed = close_px >= confirm_level if side == "LONG" else close_px <= confirm_level
+            if side == "LONG":
+                confirm_move_ok = (
+                    confirm_level > 0
+                    and ((close_px - confirm_level) / confirm_level) >= confirmation_min_move_pct
+                )
+                confirmed = close_px >= confirm_level and confirm_move_ok
+            else:
+                confirm_move_ok = (
+                    confirm_level > 0
+                    and ((confirm_level - close_px) / confirm_level) >= confirmation_min_move_pct
+                )
+                confirmed = close_px <= confirm_level and confirm_move_ok
             sig = dict(item.get("signal") or {})
             sig_adx = float(sig.get("adx") or 0.0)
             sig_rel_vol = float(sig.get("rel_vol") or 0.0)
-            fast_track = (sig_adx > 30.0) or (sig_rel_vol > 1.5)
-            if fast_track or confirmed:
+            fast_track_adx_min = float(getattr(config, "FAST_TRACK_ADX_MIN", 30.0) or 30.0)
+            fast_track_rel_vol_min = float(getattr(config, "FAST_TRACK_REL_VOL_MIN", 1.5) or 1.5)
+            fast_track_require_both = bool(getattr(config, "FAST_TRACK_REQUIRE_BOTH", True))
+            adx_pass = sig_adx > fast_track_adx_min
+            rel_vol_pass = sig_rel_vol > fast_track_rel_vol_min
+            fast_track = (adx_pass and rel_vol_pass) if fast_track_require_both else (adx_pass or rel_vol_pass)
+            if fast_track:
+                print(f"[CONFIRM] FAST TRACK USED: {sym} {side} fast_track={fast_track}", flush=True)
+                confirmation_counts["fast_track"] += 1
                 sig = dict(item.get("signal") or {})
+                if bool(getattr(config, "ALLOW_FAST_TRACK_TO_TRADE", False)):
+                    sig["confirmation_type"] = "fast_track"
+                    sig["confirmed_bars"] = item["bars_checked"]
+                    signals_this_bar.append(sig)
+                elif bool(getattr(config, "ALLOW_FAST_TRACK_AS_SETUP", True)):
+                    setup_item = {
+                        "signal": sig,
+                        "side": side,
+                        "confirm_level": float(confirm_level),
+                        "created_bar_key": closed_bar_key,
+                        "bars_waited": 0,
+                    }
+                    pending_fast_track_setups.setdefault(sym, []).append(setup_item)
+                    fast_track_setups_stored_count += 1
+                else:
+                    fast_track_trade_block_count += 1
+                    _append_blocked_candidate_backtest(
+                        datetime.now(EASTERN),
+                        sig,
+                        "fast_track_trade_blocked",
+                    )
+                continue
+            if confirmed:
+                sig = dict(item.get("signal") or {})
+                sig["confirmation_type"] = "strict"
                 sig["confirmed_bars"] = item["bars_checked"]
                 signals_this_bar.append(sig)
-                print(f"[CONFIRM] FAST TRACK USED: {sym} {side} fast_track={fast_track}", flush=True)
-                if fast_track:
-                    confirmation_counts["fast_track"] += 1
-                else:
-                    confirmation_counts["strict"] += 1
+                confirmation_counts["strict"] += 1
                 continue
             if item["bars_checked"] >= 2:
                 continue
@@ -873,6 +969,13 @@ def run_backtest(
         if side == "SHORT":
             return (entry - low) / entry * 100.0
         return (high - entry) / entry * 100.0
+
+    def _mae_pct(side: str, entry: float, high: float, low: float) -> float:
+        if entry <= 0:
+            return 0.0
+        if side == "SHORT":
+            return (entry - high) / entry * 100.0
+        return (low - entry) / entry * 100.0
 
     def _trail_update(info: dict) -> None:
         """Update runner stop based on MFE (direction-aware), mimicking live runner logic."""
@@ -967,10 +1070,55 @@ def run_backtest(
                 "exit_reason": exit_reason,
                 "pnl_dollars": pnl_d,
                 "pnl_pct": (pnl_d / (entry * qty) * 100.0) if entry * qty else 0,
+                "score": float(info.get("score") or 0.0),
+                "rank_position": int(info.get("rank_position") or 0),
+                "rel_vol": float(info.get("rel_vol") or 0.0),
+                "atr_pct": float(info.get("atr_pct") or 0.0),
+                "dist_vwap_pct": float(info.get("dist_vwap_pct") or 0.0),
+                "bias_dir": str(info.get("bias_dir") or "NEUTRAL").upper(),
+                "bias_strength": float(info.get("bias_strength") or 0.0),
+                "confirmation_type": str(info.get("confirmation_type") or "unknown"),
+                "MFE_pct": _mfe_pct(
+                    side,
+                    entry,
+                    float(info.get("high_since_entry") or entry),
+                    float(info.get("low_since_entry") or entry),
+                ),
+                "MAE_pct": _mae_pct(
+                    side,
+                    entry,
+                    float(info.get("high_since_entry") or entry),
+                    float(info.get("low_since_entry") or entry),
+                ),
+                "time_in_trade_minutes": (
+                    max(0.0, (t_et - info.get("entry_dt")).total_seconds() / 60.0)
+                    if isinstance(info.get("entry_dt"), datetime)
+                    else 0.0
+                ),
             }
         )
 
-    def _check_exits(sym: str, bar_high: float, bar_low: float, t_et: datetime):
+    def _append_blocked_candidate_backtest(t_et: datetime, sig: dict, block_reason: str) -> None:
+        row = {
+            "Date": t_et.strftime("%Y-%m-%d"),
+            "Time": t_et.strftime("%H:%M:%S"),
+            "ticker": str(sig.get("ticker") or ""),
+            "side": str((sig.get("side") or "LONG")).upper(),
+            "block_reason": block_reason,
+        }
+        fields = ["Date", "Time", "ticker", "side", "block_reason"]
+        try:
+            os.makedirs(config.LOG_DIR, exist_ok=True)
+            file_exists = os.path.isfile(blocked_candidates_path)
+            with open(blocked_candidates_path, "a", newline="", encoding="utf-8") as bf:
+                writer = csv.DictWriter(bf, fieldnames=fields)
+                if not file_exists:
+                    writer.writeheader()
+                writer.writerow(row)
+        except OSError:
+            pass
+
+    def _check_exits(sym: str, bar_high: float, bar_low: float, bar_close: float, t_et: datetime):
         if sym not in pending_trades:
             return
         info = pending_trades[sym]
@@ -1006,6 +1154,85 @@ def run_backtest(
                     _emit_trade_row(sym, info, runner_rem, tp2_price, "TP", t_et, tp2_price, stop_price)
                     runner_rem = 0.0
 
+        # --- Time-based quality exits (after stop/target checks, before EOD) ---
+        rem_qty = tp1_rem + runner_rem
+        if rem_qty > 0:
+            entry_dt = info.get("entry_dt")
+            open_minutes = 0.0
+            if isinstance(entry_dt, datetime):
+                open_minutes = max(0.0, (t_et - entry_dt).total_seconds() / 60.0)
+            current_price = float(bar_close or 0.0)
+            early_loss_enabled = bool(getattr(config, "ENABLE_EARLY_LOSS_EXIT", True))
+            early_loss_min_minutes = float(getattr(config, "EARLY_LOSS_EXIT_MINUTES", 20) or 20)
+            early_loss_pct = float(getattr(config, "EARLY_LOSS_EXIT_PCT", -1.0) or -1.0)
+            early_loss_require_low_mfe = bool(getattr(config, "EARLY_LOSS_EXIT_REQUIRE_LOW_MFE", False))
+            early_loss_mfe_threshold = float(getattr(config, "EARLY_LOSS_EXIT_MFE_THRESHOLD", 0.5) or 0.5)
+            high_se = float(info.get("high_since_entry") or ep)
+            low_se = float(info.get("low_since_entry") or ep)
+            mfe_pct = _mfe_pct(side, ep, high_se, low_se) if ep > 0 else 0.0
+            if current_price > 0 and ep > 0:
+                unrealized_pct = (
+                    ((current_price - ep) / ep * 100.0)
+                    if side == "LONG"
+                    else ((ep - current_price) / ep * 100.0)
+                )
+            else:
+                unrealized_pct = 0.0
+            early_loss_exit = (
+                early_loss_enabled
+                and open_minutes >= early_loss_min_minutes
+                and unrealized_pct <= early_loss_pct
+                and current_price > 0
+                and (not early_loss_require_low_mfe or mfe_pct < early_loss_mfe_threshold)
+            )
+            if early_loss_exit:
+                _emit_trade_row(sym, info, rem_qty, current_price, "EARLY_LOSS_EXIT", t_et, tp2_price, stop_price)
+                tp1_rem = 0.0
+                runner_rem = 0.0
+
+        rem_qty = tp1_rem + runner_rem
+        if rem_qty > 0:
+            entry_dt = info.get("entry_dt")
+            open_minutes = 0.0
+            if isinstance(entry_dt, datetime):
+                open_minutes = max(0.0, (t_et - entry_dt).total_seconds() / 60.0)
+            current_price = float(bar_close or 0.0)
+            high_se = float(info.get("high_since_entry") or ep)
+            low_se = float(info.get("low_since_entry") or ep)
+            mfe_pct = _mfe_pct(side, ep, high_se, low_se) if ep > 0 else 0.0
+
+            weakness_exit = False
+            if open_minutes >= 30.0 and mfe_pct < 0.5 and current_price > 0 and ep > 0:
+                if side == "LONG":
+                    weakness_exit = ((current_price - ep) / ep * 100.0) <= -0.3
+                else:
+                    weakness_exit = ((ep - current_price) / ep * 100.0) <= -0.3
+            if weakness_exit:
+                _emit_trade_row(sym, info, rem_qty, current_price, "WEAKNESS_EXIT", t_et, tp2_price, stop_price)
+                tp1_rem = 0.0
+                runner_rem = 0.0
+
+        rem_qty = tp1_rem + runner_rem
+        if rem_qty > 0:
+            entry_dt = info.get("entry_dt")
+            open_minutes = 0.0
+            if isinstance(entry_dt, datetime):
+                open_minutes = max(0.0, (t_et - entry_dt).total_seconds() / 60.0)
+            current_price = float(bar_close or 0.0)
+            if current_price > 0 and ep > 0:
+                unrealized_pct = (
+                    ((current_price - ep) / ep * 100.0)
+                    if side == "LONG"
+                    else ((ep - current_price) / ep * 100.0)
+                )
+            else:
+                unrealized_pct = 0.0
+            stale_exit = open_minutes >= 90.0 and (-0.3 <= unrealized_pct <= 0.3)
+            if stale_exit and current_price > 0:
+                _emit_trade_row(sym, info, rem_qty, current_price, "STALE_EXIT", t_et, tp2_price, stop_price)
+                tp1_rem = 0.0
+                runner_rem = 0.0
+
         # --- TP1 exit (independent limit) ---
         if tp1_rem > 0 and tp1_price:
             if side == "LONG":
@@ -1028,13 +1255,21 @@ def run_backtest(
 
     def _process_signals(t_et):
         """Mirror Arbiter Launch `process_signals` gates and sizing (instant fill for backtest)."""
-        nonlocal capital, n_filled, spy_soft_penalties, trades_filled_today, last_regime_snapshot, controlled_entry_block_count, same_ticker_reentry_block_count
+        nonlocal capital, n_filled, spy_soft_penalties, trades_filled_today, last_regime_snapshot, controlled_entry_block_count, same_ticker_reentry_block_count, post_confirmation_quality_block_count, entry_strength_block_count, fast_track_trade_block_count, late_entry_block_count, fast_track_setups_stored_count, fast_track_setups_confirmed_count, fast_track_setups_expired_count
         if not signals_this_bar:
             return
 
         ec_h = int(getattr(config, "ENTRY_CUTOFF_HOUR", 14))
         ec_m = int(getattr(config, "ENTRY_CUTOFF_MINUTE", 0))
         if (t_et.hour, t_et.minute) >= (ec_h, ec_m):
+            signals_this_bar.clear()
+            return
+        late_block_h = int(getattr(config, "BLOCK_ENTRIES_AFTER_HOUR", 13))
+        late_block_m = int(getattr(config, "BLOCK_ENTRIES_AFTER_MINUTE", 0))
+        if (t_et.hour, t_et.minute) >= (late_block_h, late_block_m):
+            for sig in signals_this_bar:
+                late_entry_block_count += 1
+                _append_blocked_candidate_backtest(t_et, sig, "late_entry_blocked")
             signals_this_bar.clear()
             return
 
@@ -1055,7 +1290,39 @@ def run_backtest(
             signals_this_bar.clear()
             return
 
-        ranked = rank_and_cap(signals_this_bar, config.MAX_SIGNALS_PER_DAY)
+        spy_trend = _compute_spy_trend_from_barbuilder(bar_builder, ETF_SYMBOL)
+        spy_dir = (spy_trend.get("direction") or "NEUTRAL").upper()
+        min_trade_score = float(getattr(config, "MIN_TRADE_SCORE", 55.0) or 55.0)
+        post_min_rel_vol = float(getattr(config, "POST_CONFIRM_MIN_REL_VOL", 1.2) or 1.2)
+        post_max_vwap_dist = float(getattr(config, "POST_CONFIRM_MAX_VWAP_DIST_PCT", 0.35) or 0.35)
+        post_require_spy_align = bool(getattr(config, "POST_CONFIRM_REQUIRE_SPY_ALIGNMENT", True))
+        atr_pct_min = float(getattr(config, "ATR_PCT_MIN", 0.0) or 0.0)
+        atr_pct_max = float(getattr(config, "ATR_PCT_MAX", 999.0) or 999.0)
+
+        quality_passed = []
+        allow_fast_track_to_trade = bool(getattr(config, "ALLOW_FAST_TRACK_TO_TRADE", False))
+        for sig in signals_this_bar:
+            if (str(sig.get("confirmation_type") or "") == "fast_track") and not allow_fast_track_to_trade:
+                fast_track_trade_block_count += 1
+                _append_blocked_candidate_backtest(t_et, sig, "fast_track_trade_blocked")
+                continue
+            side = (sig.get("side") or "LONG").upper()
+            score_ok = float(sig.get("score") or 0.0) >= min_trade_score
+            rel_vol_ok = float(sig.get("rel_vol") or 0.0) >= post_min_rel_vol
+            vwap_ok = abs(float(sig.get("dist_vwap_pct") or 0.0)) <= post_max_vwap_dist
+            atr_pct_sig = float(sig.get("atr_pct") or 0.0)
+            atr_ok = atr_pct_min <= atr_pct_sig <= atr_pct_max
+            if post_require_spy_align:
+                spy_align_ok = side == spy_dir and spy_dir in {"LONG", "SHORT"}
+            else:
+                spy_align_ok = True
+            if score_ok and rel_vol_ok and vwap_ok and atr_ok and spy_align_ok:
+                quality_passed.append(sig)
+            else:
+                post_confirmation_quality_block_count += 1
+                _append_blocked_candidate_backtest(t_et, sig, "post_confirmation_quality_failed")
+
+        ranked = rank_and_cap(quality_passed, config.MAX_SIGNALS_PER_DAY)
         signals_this_bar.clear()
 
         ranked = sorted(ranked, key=lambda s: s["ticker"] in tickers_cancelled_today)
@@ -1070,9 +1337,6 @@ def run_backtest(
         max_loss = float(getattr(config, "MAX_DAILY_LOSS_PCT", 0.05))
         if session_start_capital > 0 and (session_start_capital - capital_now) / session_start_capital >= max_loss:
             return
-
-        spy_trend = _compute_spy_trend_from_barbuilder(bar_builder, ETF_SYMBOL)
-        spy_dir = (spy_trend.get("direction") or "NEUTRAL").upper()
 
         regime_state = compute_regime_from_barbuilder(bar_builder, ETF_SYMBOL)
         regime_mult = (
@@ -1146,6 +1410,20 @@ def run_backtest(
                 controlled_entry_block_count += 1
                 continue
 
+            if bool(getattr(config, "ENABLE_ENTRY_STRENGTH_GATE", True)):
+                sig_bar = sig.get("bar") or {}
+                cur_close = float(sig_bar.get("close") or 0.0)
+                bar_open = float(sig_bar.get("open") or 0.0)
+                prev_closed = float(sig.get("prev_close") or 0.0)
+                if side == "LONG":
+                    strength_ok = cur_close > bar_open
+                else:
+                    strength_ok = cur_close < bar_open
+                if not strength_ok:
+                    entry_strength_block_count += 1
+                    _append_blocked_candidate_backtest(t_et, sig, "entry_strength_failed")
+                    continue
+
             dollar, _ = size_per_trade(len(ranked), size_cap, entry_price)
             dollar *= effective_strength * max(0.2, float(size_multiplier) * regime_mult)
             if dollar <= 0:
@@ -1178,7 +1456,16 @@ def run_backtest(
             pending_trades[ticker] = {
                 "side": side,
                 "entry_time": t_et.strftime("%H:%M:%S"),
+                "entry_dt": t_et,
                 "entry_price": entry_price,
+                "score": float(sig.get("score") or 0.0),
+                "rank_position": int(rank_pos),
+                "rel_vol": float(sig.get("rel_vol") or 0.0),
+                "atr_pct": float(sig.get("atr_pct") or 0.0),
+                "dist_vwap_pct": float(sig.get("dist_vwap_pct") or 0.0),
+                "bias_dir": str(sig.get("bias_dir") or "NEUTRAL").upper(),
+                "bias_strength": float(sig.get("bias_strength") or 0.0),
+                "confirmation_type": str(sig.get("confirmation_type") or "unknown"),
                 "tp1_price": tp1_price,
                 "tp2_price": tp2_price,
                 "stop_price": stop_price,
@@ -1223,7 +1510,7 @@ def run_backtest(
             eod_done = True
 
         _update_bias(t_et)
-        _check_exits(sym, h, l, t_et)
+        _check_exits(sym, h, l, c, t_et)
         bar_builder.push_ohlcv(sym, o, h, l, c, vol, t_et)
         minute = t_et.minute
         hour = t_et.hour
@@ -1294,6 +1581,7 @@ def run_backtest(
                                     "score": score_weighted, "bar": bar_dict,
                                     "pct_change_1d": pct_1d, "rel_vol": rel_vol,
                                     "atr_pct": atr_pct, "adx": adx, "dist_vwap_pct": dist_vwap,
+                                    "prev_close": prev,
                                 }, bar_key)
                         last_intrabar_signal_key[sym] = bar_key
 
@@ -1350,6 +1638,7 @@ def run_backtest(
                             "score": score_weighted, "bar": closed_with_adx,
                             "pct_change_1d": pct_1d, "rel_vol": rel_vol,
                             "atr_pct": atr_pct, "adx": adx, "dist_vwap_pct": dist_vwap,
+                            "prev_close": prev,
                         }, boundary)
 
         if minute % BAR_MINUTES == 0 and t_et.second >= 5 and signals_this_bar:
@@ -1366,6 +1655,13 @@ def run_backtest(
         "spy_soft_penalties": spy_soft_penalties,
         "controlled_entry_blocks": controlled_entry_block_count,
         "same_ticker_reentry_blocks": same_ticker_reentry_block_count,
+        "post_confirmation_quality_blocks": post_confirmation_quality_block_count,
+        "entry_strength_blocks": entry_strength_block_count,
+        "fast_track_trade_blocks": fast_track_trade_block_count,
+        "late_entry_blocks": late_entry_block_count,
+        "fast_track_setups_stored": fast_track_setups_stored_count,
+        "fast_track_setups_confirmed": fast_track_setups_confirmed_count,
+        "fast_track_setups_expired": fast_track_setups_expired_count,
         "fill_model": fill_model,
         "events_processed": len(events),
         "regime_last": dict(last_regime_snapshot),
@@ -1495,6 +1791,13 @@ def main():
     agg_spy_soft_penalties = 0
     agg_controlled_entry_blocks = 0
     agg_same_ticker_reentry_blocks = 0
+    agg_post_confirmation_quality_blocks = 0
+    agg_entry_strength_blocks = 0
+    agg_fast_track_trade_blocks = 0
+    agg_late_entry_blocks = 0
+    agg_fast_track_setups_stored = 0
+    agg_fast_track_setups_confirmed = 0
+    agg_fast_track_setups_expired = 0
     fill_model_seen = ""
 
     try:
@@ -1600,6 +1903,13 @@ def main():
             agg_spy_soft_penalties += int(diag.get("spy_soft_penalties", 0) or 0)
             agg_controlled_entry_blocks += int(diag.get("controlled_entry_blocks", 0) or 0)
             agg_same_ticker_reentry_blocks += int(diag.get("same_ticker_reentry_blocks", 0) or 0)
+            agg_post_confirmation_quality_blocks += int(diag.get("post_confirmation_quality_blocks", 0) or 0)
+            agg_entry_strength_blocks += int(diag.get("entry_strength_blocks", 0) or 0)
+            agg_fast_track_trade_blocks += int(diag.get("fast_track_trade_blocks", 0) or 0)
+            agg_late_entry_blocks += int(diag.get("late_entry_blocks", 0) or 0)
+            agg_fast_track_setups_stored += int(diag.get("fast_track_setups_stored", 0) or 0)
+            agg_fast_track_setups_confirmed += int(diag.get("fast_track_setups_confirmed", 0) or 0)
+            agg_fast_track_setups_expired += int(diag.get("fast_track_setups_expired", 0) or 0)
             fill_model_seen = str(diag.get("fill_model", fill_model_seen) or fill_model_seen)
 
         disconnect_ib(ib)
@@ -1615,6 +1925,13 @@ def main():
     print("Per-condition hits:", agg_condition, flush=True)
     print("Controlled-entry blocks:", agg_controlled_entry_blocks, flush=True)
     print("Same-ticker reentry blocks:", agg_same_ticker_reentry_blocks, flush=True)
+    print("Post-confirmation quality blocks:", agg_post_confirmation_quality_blocks, flush=True)
+    print("Entry-strength blocks:", agg_entry_strength_blocks, flush=True)
+    print("Fast-track trade blocks:", agg_fast_track_trade_blocks, flush=True)
+    print("Late-entry blocks:", agg_late_entry_blocks, flush=True)
+    print("Fast-track setups stored:", agg_fast_track_setups_stored, flush=True)
+    print("Fast-track setups confirmed:", agg_fast_track_setups_confirmed, flush=True)
+    print("Fast-track setups expired:", agg_fast_track_setups_expired, flush=True)
     if last_diag:
         # Last-day snapshot of parity diagnostics from run_backtest.
         print("Confirmation hits:", last_diag.get("confirmation_counts", {}), flush=True)
@@ -1627,11 +1944,33 @@ def main():
     with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=[
             "date", "ticker", "side", "entry_time", "entry_price", "shares", "target", "stop",
-            "exit_time", "exit_price", "exit_reason", "pnl_dollars", "pnl_pct"
+            "exit_time", "exit_price", "exit_reason", "pnl_dollars", "pnl_pct",
+            "score", "rank_position", "rel_vol", "atr_pct", "dist_vwap_pct",
+            "bias_dir", "bias_strength", "confirmation_type", "MFE_pct", "MAE_pct",
+            "time_in_trade_minutes",
         ])
         w.writeheader()
         for t in all_trades:
             w.writerow({k: t.get(k, "") for k in w.fieldnames})
+    # Keep trade_outcomes.csv in sync for backtest exits/reason analysis.
+    init_trade_outcomes_log()
+    for t in all_trades:
+        log_trade_outcome(
+            str(t.get("date") or ""),
+            str(t.get("ticker") or ""),
+            str(t.get("side") or ""),
+            str(t.get("entry_time") or ""),
+            str(t.get("exit_time") or ""),
+            float(t.get("entry_price") or 0.0),
+            float(t.get("exit_price") or 0.0),
+            float(t.get("entry_price") or 0.0),
+            float(t.get("shares") or 0.0),
+            float(t.get("target") or 0.0),
+            float(t.get("stop") or 0.0),
+            float(t.get("pnl_dollars") or 0.0),
+            float(t.get("pnl_pct") or 0.0),
+            str(t.get("exit_reason") or ""),
+        )
     total_pnl = sum(t["pnl_dollars"] for t in all_trades)
     print(f"\nTrades: {len(all_trades)}", flush=True)
     print(f"Start capital: ${base_start_capital:,.2f}", flush=True)
@@ -1660,6 +1999,13 @@ def main():
             "spy_soft_penalties": agg_spy_soft_penalties,
             "controlled_entry_blocks": agg_controlled_entry_blocks,
             "same_ticker_reentry_blocks": agg_same_ticker_reentry_blocks,
+            "post_confirmation_quality_blocks": agg_post_confirmation_quality_blocks,
+            "entry_strength_blocks": agg_entry_strength_blocks,
+            "fast_track_trade_blocks": agg_fast_track_trade_blocks,
+            "late_entry_blocks": agg_late_entry_blocks,
+            "fast_track_setups_stored": agg_fast_track_setups_stored,
+            "fast_track_setups_confirmed": agg_fast_track_setups_confirmed,
+            "fast_track_setups_expired": agg_fast_track_setups_expired,
             "fill_model": fill_model_seen or (last_diag.get("fill_model", "live_parity") if last_diag else "live_parity"),
         },
         backtest_trades_csv_path=path,

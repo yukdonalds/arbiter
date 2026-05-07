@@ -1615,6 +1615,13 @@ def generate_backtest_report(
     fill_model = (diag_summary or {}).get("fill_model", "live_parity")
     spy_soft_penalties = int((diag_summary or {}).get("spy_soft_penalties", 0) or 0)
     controlled_entry_blocks = int((diag_summary or {}).get("controlled_entry_blocks", 0) or 0)
+    post_confirmation_quality_blocks = int((diag_summary or {}).get("post_confirmation_quality_blocks", 0) or 0)
+    entry_strength_blocks = int((diag_summary or {}).get("entry_strength_blocks", 0) or 0)
+    fast_track_trade_blocks = int((diag_summary or {}).get("fast_track_trade_blocks", 0) or 0)
+    late_entry_blocks = int((diag_summary or {}).get("late_entry_blocks", 0) or 0)
+    fast_track_setups_stored = int((diag_summary or {}).get("fast_track_setups_stored", 0) or 0)
+    fast_track_setups_confirmed = int((diag_summary or {}).get("fast_track_setups_confirmed", 0) or 0)
+    fast_track_setups_expired = int((diag_summary or {}).get("fast_track_setups_expired", 0) or 0)
     conf_counts = (diag_summary or {}).get("confirmation_counts", {}) or {}
     conf_strict = int(conf_counts.get("strict", 0) or 0)
     conf_fast = int(conf_counts.get("fast_track", 0) or 0)
@@ -1695,6 +1702,13 @@ def generate_backtest_report(
         f"  Confirmations (strict/fast)   {conf_strict} / {conf_fast}",
         f"  SPY soft penalties            {spy_soft_penalties}",
         f"  Controlled-entry blocks       {controlled_entry_blocks}",
+        f"  Post-confirm quality blocks   {post_confirmation_quality_blocks}",
+        f"  Entry-strength blocks         {entry_strength_blocks}",
+        f"  Fast-track trade blocks       {fast_track_trade_blocks}",
+        f"  Late-entry blocks             {late_entry_blocks}",
+        f"  Fast-track setups stored      {fast_track_setups_stored}",
+        f"  Fast-track setups confirmed   {fast_track_setups_confirmed}",
+        f"  Fast-track setups expired     {fast_track_setups_expired}",
         f"  Fill model                    {fill_model}",
         f"  Events processed              {events_processed}",
         f"  Per-condition hits            {agg_condition}",

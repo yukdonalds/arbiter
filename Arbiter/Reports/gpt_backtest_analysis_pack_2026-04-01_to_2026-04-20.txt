@@ -1,0 +1,158 @@
+ARBITER — GPT BACKTEST ANALYSIS PACK
+=====================================================================================
+Backtest range: 2026-04-01 to 2026-04-20
+Pack generated: 2026-05-07 15:08:58
+
+USAGE
+-------------------------------------------------------------------------------------
+Upload this file to ChatGPT for backtest performance, entry-filter, and regime
+  review.
+This pack reflects replayed 5-sec bars and model fills — not live broker execution.
+
+
+=====================================================================================
+  FILE MANIFEST (paths on this machine)
+=====================================================================================
+BASE_DIR              e:\matts documents\Cursor\Arbiter V1\Arbiter
+backtest_report       e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\backtest_report_2026-04-01_to_2026-04-20.txt
+gpt pack (this)       e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-01_to_2026-04-20.txt
+backtest_trades_csv   e:\matts documents\Cursor\Arbiter
+  V1\Arbiter\logs\backtest_trades_2026-04-01_2026-04-20.csv
+
+
+=====================================================================================
+  CONFIG SNAPSHOT (read-only)
+=====================================================================================
+  MAX_DISTANCE_FROM_VWAP_PCT = 0.5
+  CONTROLLED_ENTRY_NEAR_VWAP_PCT = 0.35
+  CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS = 15
+  SPY_HARD_TREND_FILTER = True
+  BIAS_NEUTRAL_FALLBACK = None
+  ALLOW_TRADES_IN_NEUTRAL = True
+  ETF_SYMBOL = 'SPY'
+  ENABLE_SHORTS = True
+  REGIME_ENGINE_ENABLED = True
+  MIN_TRADE_SCORE = 55.0
+  LOSS_DAY_MIN_TRADE_SCORE = 70.0
+  TOP_TRADES_TO_TAKE = 3
+  MAX_TRADES_PER_DAY = 6
+  MAX_SIGNALS_PER_DAY = 8
+  MAX_POSITIONS = 6
+  MAX_POSITION_PCT = 0.25
+  MIN_POSITION_DOLLARS = 1500.0
+  MAX_CAPITAL_PCT_USED = 0.98
+  MAX_DAILY_LOSS_PCT = 0.05
+  ENTRY_CUTOFF_HOUR = 14
+  ENTRY_CUTOFF_MINUTE = 0
+  MARKET_OPEN_HOUR = 9
+  MARKET_OPEN_MINUTE = 45
+  BAR_MINUTES = 2
+  STOP_PCT = 0.025
+  PARTIAL_TP_PCT = 0.015
+  RUNNER_CAP_PCT = 0.065
+  USE_FIXED_UNIVERSE = False
+  WATCHLIST_TOP_N = 150
+  MAX_REALTIME_SUBSCRIPTIONS = 100
+  BACKTEST_IB_5SEC_ONLY = True
+  BACKTEST_USE_CACHE = True
+
+
+=====================================================================================
+  AGGREGATED BACKTEST DIAGNOSTICS (from runner)
+=====================================================================================
+  confirmation_counts      {'strict': 45, 'fast_track': 283}
+  spy_soft_penalties       0
+  controlled_entry_blocks  149
+  fill_model               live_parity
+
+
+=====================================================================================
+  EMBEDDED: backtest_report_2026-04-01_to_2026-04-20.txt
+=====================================================================================
+=====================================================================================
+  Fast Paper Long/Short – BACKTEST Report  2026-04-01 to 2026-04-20
+=====================================================================================
+
+  *** BACKTEST – not live trading ***
+
+  Generated: 2026-05-07 15:08
+
+-------------------------------------------------------------------------------------
+  BACKTEST RANGE
+-------------------------------------------------------------------------------------
+
+  Date from                     2026-04-01
+  Date to                       2026-04-20
+  Trading days requested        14
+  Trading days replayed         14
+
+  Capital / position rules
+    Max positions per day         6
+    Max position per trade        25% of capital
+    Entry order timeout           15 min
+
+  Exit rules
+    TP1                          1.5%  x0%
+    Runner cap                   6%
+    Stop                         2%
+
+-------------------------------------------------------------------------------------
+  BACKTEST RESULTS
+-------------------------------------------------------------------------------------
+
+  Total trades                  3
+  Avg trades / replay day       0.21
+  Wins / Losses                 1 / 2
+  Win rate                      33.3%
+  Start capital                 $19,766.30
+  End capital                   $19,766.30
+  Total P&L                     $0.00
+  Return                        0.00%
+  Avg daily P&L                 $0.00
+  Best day                      2026-04-14  P&L $0.45
+  Worst day                     2026-04-16  P&L $-0.25
+  Max drawdown                  $0.25 (0.0%)
+  Exit reason mix               STALE_EXIT:3
+
+-------------------------------------------------------------------------------------
+  CLUSTERING & RISK
+-------------------------------------------------------------------------------------
+
+  Worst 5-day rolling P&L       $-0.20  (ending 2026-04-07)
+  Max stops in one day          0 (approx: PnL <= -2.5%)
+  Stops per day distribution    0 stops: 3 days, 1: 0, 2: 0, 3+: 0
+  Longest losing streak         1 trades  P&L $-0.25
+  Worst 10 consecutive trades   P&L $0.00  (0.0%)
+  Theoretical one-day loss      3.8% of capital
+
+-------------------------------------------------------------------------------------
+  DIAGNOSTICS
+-------------------------------------------------------------------------------------
+
+  Bias distribution             LONG: 408, SHORT: 172, NEUTRAL: 512
+  Signal hits (long / short)    1012 / 573
+  Confirmations (strict/fast)   45 / 283
+  SPY soft penalties            0
+  Controlled-entry blocks       149
+  Post-confirm quality blocks   0
+  Entry-strength blocks         11
+  Fast-track trade blocks       0
+  Late-entry blocks             6
+  Fast-track setups stored      283
+  Fast-track setups confirmed   15
+  Fast-track setups expired     268
+  Fill model                    live_parity
+  Events processed              6523920
+  Per-condition hits            {'liquidity': 2363, 'price': 141068, 'momentum':
+    2537, 'volatility': 142305, 'structural': 78805}
+
+
+=====================================================================================
+  backtest_trades CSV — backtest_trades_2026-04-01_2026-04-20.csv
+=====================================================================================
+date,ticker,side,entry_time,entry_price,shares,target,stop,exit_time,exit_price,exit_reason,pnl_dollars,pnl_pct,score,rank_position,rel_vol,atr_pct,dist_vwap_pct,bias_dir,bias_strength,confirmation_type,MFE_pct,MAE_pct,time_in_trade_minutes
+2026-04-07,PSKY,LONG,12:52:05,10.76,10.0,11.459399999999999,10.491,14:22:05,10.74,STALE_EXIT,-0.19999999999999574,-0.18587360594795144,98.98044085687681,1,2.5172693382943363,4.097171428366724,0.12418503570320065,LONG,0.05539846469498808,strict,1.301115241635693,-0.27881040892192716,90.0
+2026-04-14,ORCL,LONG,12:24:05,163.38,1.0,173.9997,159.2955,13:54:20,163.83,STALE_EXIT,0.45000000000001705,0.27543150936468175,78.24509303323029,1,2.961609525240803,4.3309350171561265,0.010212209717929478,LONG,0.04972582862706323,strict,0.667156322683317,-0.38560411311053705,90.25
+2026-04-16,HOOD,LONG,12:02:05,86.91,1.0,92.55914999999999,84.73724999999999,13:43:40,86.66,STALE_EXIT,-0.25,-0.28765389483373605,96.55299539170495,1,2.235504077388665,5.1834798619194915,0.023041474654373298,LONG,0.03367000453800177,strict,1.1045909561615557,-1.4612817857553746,101.58333333333333
