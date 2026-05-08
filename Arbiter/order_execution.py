@@ -374,3 +374,41 @@ def cancel_gats_that_would_short(ib, account_id: str = "") -> None:
             except Exception:
                 pass
 
+
+def qqq_order_ref() -> str:
+    return str(getattr(config, "QQQ_ORDER_REF", "QQQ_INTRADAY"))
+
+
+def place_qqq_market_order(
+    ib,
+    ticker: str,
+    qty: int,
+    side_long: bool,
+    *,
+    account_id: str = "",
+    action: str | None = None,
+):
+    """Market BUY/SELL with orderRef QQQ_INTRADAY for fill routing."""
+    contract = make_stock(ticker)
+    account_id = resolve_account_id(ib, account_id)
+    if action is None:
+        act = "BUY" if side_long else "SELL"
+    else:
+        act = str(action).upper()
+    order = MarketOrder(act, int(abs(qty)))
+    order.account = account_id
+    order.tif = "DAY"
+    order.orderRef = qqq_order_ref()
+    return ib.placeOrder(contract, order)
+
+
+def place_qqq_market_close(ib, ticker: str, account_id: str = ""):
+    """Flatten QQQ position with tagged market order."""
+    account_id = resolve_account_id(ib, account_id)
+    pos = get_position_signed(ib, account_id, ticker)
+    q = int(abs(pos))
+    if q <= 0:
+        return None
+    side_long = pos > 0
+    return place_qqq_market_order(ib, ticker, q, side_long=side_long, account_id=account_id, action="SELL" if side_long else "BUY")
+

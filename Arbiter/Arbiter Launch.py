@@ -41,6 +41,8 @@ from order_execution import (
     place_marketable_limit_entry_side,
     place_stop_order_side,
     runner_secure_stop_price,
+    place_qqq_market_order,
+    place_qqq_market_close,
 )
 from trade_logger import init_trade_log, init_equity_log, log_trade, log_daily_equity
 from stats_collector import (
@@ -63,6 +65,11 @@ from parallel_fetch import build_watchlist_parallel
 from external_screen import build_watchlist_external
 from universe_rescan import prior_trading_session_date, rescan_universe_for_day
 from regime_engine import compute_regime_from_barbuilder
+
+try:
+    from strategies.qqq_intraday_strategy import QQQIntradayStrategy
+except ImportError:
+    QQQIntradayStrategy = None  # type: ignore[misc, assignment]
 
 EASTERN = pytz.timezone("America/New_York")
 
@@ -283,6 +290,37 @@ def run():
     init_trade_outcomes_log()
     init_daily_regime_log()
 
+    qqq_strategy = None
+    qqq_sym_u = getattr(config, "QQQ_SYMBOL", "QQQ").upper()
+    account_equity_live = float(capital)
+
+    def _qqq_blocked_row(row: dict) -> None:
+        path = os.path.join(config.LOG_DIR, "qqq_blocked_candidates.csv")
+        fields = ["Date", "Time", "strategy", "symbol", "block_reason", "detail"]
+        try:
+            os.makedirs(config.LOG_DIR, exist_ok=True)
+            exists = os.path.isfile(path)
+            with open(path, "a", newline="", encoding="utf-8") as bf:
+                w = csv.DictWriter(bf, fieldnames=fields)
+                if not exists:
+                    w.writeheader()
+                w.writerow(
+                    {
+                        "Date": now_et().strftime("%Y-%m-%d"),
+                        "Time": now_et().strftime("%H:%M:%S"),
+                        "strategy": row.get("strategy", "QQQ_INTRADAY"),
+                        "symbol": qqq_sym_u,
+                        "block_reason": row.get("block_reason", ""),
+                        "detail": row.get("detail", ""),
+                    }
+                )
+        except OSError:
+            pass
+
+    if getattr(config, "ENABLE_QQQ_INTRADAY", False) and QQQIntradayStrategy:
+        qqq_strategy = QQQIntradayStrategy(log_fn=log_info, blocked_csv_fn=_qqq_blocked_row)
+        qqq_strategy.reset_session(now_et().strftime("%Y-%m-%d"), float(capital))
+
     bar_builder = BarBuilder()
     positions_today: set[str] = set()
     # Block same-ticker reentry only after a confirmed entry fill (not on unfilled placement).
@@ -314,6 +352,7 @@ def run():
 
     pending_entry_trades: dict = {}  # ticker -> {"trade": trade, "placed_at": datetime, "side": "LONG"/"SHORT", ...}
     pending_trades: dict = {}  # ticker -> active trade info (incl side)
+    qqq_pending_meta: dict[int, dict] = {}  # IB orderId -> entry meta for QQQ_INTRADAY fills
     tickers_cancelled_today: set[str] = set()
     last_closed_bar_key: dict[str, tuple[int, int]] = {}
     last_intrabar_signal_key: dict[str, tuple[int, int]] = {}
@@ -355,7 +394,14 @@ def run():
             return list(L)
         return list(L) + [dict(bar)]
 
-    def _is_controlled_entry(sym: str, side: str, close_price: float, signal_bar: dict) -> bool:
+    def _is_controlled_entry(
+        sym: str,
+        side: str,
+        close_price: float,
+        signal_bar: dict,
+        *,
+        max_vwap_extension_pct: float | None = None,
+    ) -> bool:
         """
         Hard gate for entry quality:
         - Must respect favorable VWAP extension cap.
@@ -387,7 +433,7 @@ def run():
             return False
         dist_vwap_pct = (c - vwap) / vwap * 100.0
 
-        max_ext = float(getattr(config, "MAX_DISTANCE_FROM_VWAP_PCT", 0.5) or 0.5)
+        max_ext = float(max_vwap_extension_pct if max_vwap_extension_pct is not None else getattr(config, "MAX_DISTANCE_FROM_VWAP_PCT", 0.5) or 0.5)
         near_vwap_pct = float(getattr(config, "CONTROLLED_ENTRY_NEAR_VWAP_PCT", 0.25) or 0.25)
         pullback_pct = float(getattr(config, "CONTROLLED_ENTRY_MIN_PULLBACK_PCT", 0.30) or 0.30)
         lookback = int(getattr(config, "CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS", 15) or 15)
@@ -597,6 +643,7 @@ def run():
                     sig = dict(st.get("signal") or {})
                     sig["confirmation_type"] = "strict"
                     sig["confirmed_bars"] = st["bars_waited"]
+                    sig["confirmation_price"] = float(close_px)
                     signals_this_bar.append(sig)
                     continue
                 if st["bars_waited"] >= setup_confirm_bars:
@@ -666,6 +713,7 @@ def run():
                 sig = dict(item.get("signal") or {})
                 sig["confirmation_type"] = "strict"
                 sig["confirmed_bars"] = item["bars_checked"]
+                sig["confirmation_price"] = float(close_px)
                 signals_this_bar.append(sig)
                 log_info(
                     f"Confirmed: {sym} {side} on bar {item['bars_checked']}/1 "
@@ -807,6 +855,71 @@ def run():
             return
         bar = bars_list[-1]
 
+        qqq_sym = getattr(config, "QQQ_SYMBOL", "QQQ").upper()
+        if (
+            sym.upper() == qqq_sym
+            and qqq_strategy is not None
+            and getattr(config, "ENABLE_QQQ_INTRADAY", False)
+        ):
+            t = getattr(bar, "time", None) or getattr(bar, "date", None) or now_et()
+            if t and hasattr(t, "tzinfo") and getattr(t, "tzinfo") is None:
+                t = EASTERN.localize(t)
+            if not t:
+                t = now_et()
+            o = float(getattr(bar, "open_", getattr(bar, "open", bar.close)))
+            h = float(getattr(bar, "high", bar.close))
+            l_ = float(getattr(bar, "low", bar.close))
+            c = float(bar.close)
+            v = max(0, float(getattr(bar, "volume", 0)))
+            max_loss = float(getattr(config, "MAX_DAILY_LOSS_PCT", 0.05))
+            breach = start_capital > 0 and (start_capital - account_equity_live) / start_capital >= max_loss
+            acts = qqq_strategy.on_bar(
+                t,
+                o,
+                h,
+                l_,
+                c,
+                v,
+                global_loss_breach=breach,
+                backtest=False,
+                defer_entry_fill=True,
+            )
+            for a in acts:
+                try:
+                    if a.get("type") == "entry":
+                        side_long = (a.get("side") or "LONG").upper() == "LONG"
+                        tr = place_qqq_market_order(
+                            ib,
+                            qqq_sym,
+                            int(a.get("qty") or 0),
+                            side_long,
+                            account_id=account_id,
+                        )
+                        oid = getattr(getattr(tr, "order", None), "orderId", None)
+                        if oid is not None:
+                            qqq_pending_meta[int(oid)] = {
+                                "side": a.get("side"),
+                                "stop_price": a.get("stop_price"),
+                                "setup_type": a.get("setup_type"),
+                            }
+                    elif a.get("type") == "close_partial":
+                        side_long = (a.get("side") or "LONG").upper() == "LONG"
+                        q = int(a.get("qty") or 0)
+                        close_act = "SELL" if side_long else "BUY"
+                        place_qqq_market_order(
+                            ib,
+                            qqq_sym,
+                            q,
+                            False,
+                            account_id=account_id,
+                            action=close_act,
+                        )
+                    elif a.get("type") == "close":
+                        place_qqq_market_close(ib, qqq_sym, account_id)
+                except Exception as e:
+                    log_info(f"QQQ order action failed: {a} err={e}")
+            return
+
         # Update MFE/MAE + trailing stops for open positions (direction-aware)
         if sym in pending_trades:
             info = pending_trades[sym]
@@ -886,7 +999,7 @@ def run():
                     except Exception as e:
                         log_info(f"  Forced exit failed {sym} {side} reason={forced_reason}: {e}")
                     return
-
+    
             trail_be_mfe = float(getattr(config, "TRAIL_BREAKEVEN_MFE_PCT", 2.0))
             trail_act_mfe = float(getattr(config, "TRAIL_ACTIVATE_MFE_PCT", 3.0))
             trail_dist_pct = float(getattr(config, "TRAIL_DISTANCE_PCT", 1.5))
@@ -903,7 +1016,7 @@ def run():
                         return
                     if side == "SHORT" and pos > -shares:
                         return
-
+    
                     # --- POST-CUTOFF TRADE PROTECTION (14:00 ET) ---
                     after_cutoff = (now_et().hour, now_et().minute) >= (14, 0)
                     if after_cutoff:
@@ -930,7 +1043,7 @@ def run():
                                 log_info(
                                     f"  Post-cutoff protection: {sym} {side} green pnl; stop->{secure_stop:.2f}, trail_dist_pct={trail_dist_pct:.2f}"
                                 )
-
+    
                     high_se = float(info.get("high_since_entry", ep))
                     low_se = float(info.get("low_since_entry", ep))
                     mfe_pct, _ = _mfe_mae_pct(side, ep, high_se, low_se)
@@ -940,7 +1053,7 @@ def run():
                         if side == "LONG"
                         else ((ep - cur_price) / ep * 100.0)
                     )
-
+    
                     if unrealized_pct >= hard_be_trigger_pct:
                         be_stop = ep * (1.001 if side == "LONG" else 0.999)
                         current_stop = float(info.get("current_stop_price") or 0.0)
@@ -956,7 +1069,7 @@ def run():
                             info["current_stop_price"] = be_stop
                             info["stop_at_breakeven"] = True
                             log_info(f"  Break-even lock: {sym} {side} stop moved to {be_stop:.2f} at {unrealized_pct:.2f}%")
-
+    
                     if mfe_pct >= trail_be_mfe and not info.get("stop_at_breakeven"):
                         ib.cancelOrder(stop_trade.order)
                         secure_stop = runner_secure_stop_price(ep, side)
@@ -986,7 +1099,7 @@ def run():
                                 log_info(f"  Trail: {sym} {side} stop moved to {new_stop:.2f}")
                 except Exception as e:
                     log_info(f"  Trail stop update failed {sym}: {e}")
-
+    
         t = getattr(bar, "time", None) or getattr(bar, "date", None) or now_et()
         if t and hasattr(t, "tzinfo") and t.tzinfo is None:
             t = EASTERN.localize(t)
@@ -1268,6 +1381,7 @@ def run():
             "high_since_entry": float(avg_price),
             "low_since_entry": float(avg_price),
             "entry_dt": now_et(),
+            "entry_reason_tag": entry_info.get("entry_reason_tag") or "",
         }
         positions_today.add(ticker)
         ticker_placed_today.add(ticker.upper())
@@ -1496,6 +1610,29 @@ def run():
     def on_exec_details(trade, fill):
         try:
             ticker = trade.contract.symbol
+            oref = getattr(trade.order, "orderRef", "") or ""
+            qqq_ref = getattr(config, "QQQ_ORDER_REF", "QQQ_INTRADAY")
+            if (
+                oref == qqq_ref
+                and ticker.upper() == getattr(config, "QQQ_SYMBOL", "QQQ").upper()
+                and qqq_strategy is not None
+            ):
+                status = getattr(trade.orderStatus, "status", None)
+                if status != "Filled":
+                    return
+                action = getattr(trade.order, "action", None)
+                filled = float(getattr(trade.orderStatus, "filled", 0) or 0)
+                avg_price = float(actual_fill_price_from_ib(trade, fill) or 0)
+                oid = getattr(trade.order, "orderId", None)
+                if oid is not None:
+                    meta = qqq_pending_meta.pop(int(oid), None)
+                    if meta and avg_price > 0:
+                        qqq_strategy.finalize_entry_fill(now_et(), avg_price, filled, meta)
+                log_info(
+                    f"QQQ_INTRADAY execDetails {ticker} action={action} px={avg_price:.2f} qty={filled}"
+                )
+                return
+
             status = getattr(trade.orderStatus, "status", None)
             if status != "Filled":
                 return
@@ -1530,8 +1667,30 @@ def run():
 
     def on_order_status(trade):
         try:
-            status = getattr(trade.orderStatus, "status", None)
             ticker = trade.contract.symbol
+            oref = getattr(trade.order, "orderRef", "") or ""
+            qqq_ref = getattr(config, "QQQ_ORDER_REF", "QQQ_INTRADAY")
+            if (
+                oref == qqq_ref
+                and ticker.upper() == getattr(config, "QQQ_SYMBOL", "QQQ").upper()
+                and qqq_strategy is not None
+            ):
+                status = getattr(trade.orderStatus, "status", None)
+                if status == "Filled":
+                    action = getattr(trade.order, "action", None)
+                    filled = float(getattr(trade.orderStatus, "filled", 0) or 0)
+                    avg_price = float(getattr(trade.orderStatus, "avgFillPrice", 0) or 0)
+                    oid = getattr(trade.order, "orderId", None)
+                    if oid is not None and avg_price > 0:
+                        meta = qqq_pending_meta.pop(int(oid), None)
+                        if meta:
+                            qqq_strategy.finalize_entry_fill(now_et(), avg_price, filled, meta)
+                    log_info(
+                        f"QQQ_INTRADAY orderStatus Filled {ticker} action={action} px={avg_price:.2f} qty={filled}"
+                    )
+                return
+
+            status = getattr(trade.orderStatus, "status", None)
             action = getattr(trade.order, "action", None)
             filled = float(getattr(trade.orderStatus, "filled", 0) or 0)
             avg_price = float(getattr(trade.orderStatus, "avgFillPrice", 0) or 0)
@@ -1608,6 +1767,10 @@ def run():
 
         try:
             now = now_et()
+
+            ec_h = int(getattr(config, "ENTRY_CUTOFF_HOUR", 14))
+            ec_m = int(getattr(config, "ENTRY_CUTOFF_MINUTE", 0))
+
             if not signals_this_bar:
                 exit_reason = "no_signals_this_bar"
                 log_info("FUNNEL early return: no signals_this_bar")
@@ -1622,9 +1785,6 @@ def run():
                 f"total_pnl_today={float(total_pnl_today):.2f}"
             )
 
-            # Hard entry cutoff (configurable; default 14:00 ET).
-            ec_h = int(getattr(config, "ENTRY_CUTOFF_HOUR", 14))
-            ec_m = int(getattr(config, "ENTRY_CUTOFF_MINUTE", 0))
             if (now.hour, now.minute) >= (ec_h, ec_m):
                 exit_reason = "entry_cutoff"
                 signals_this_bar.clear()
@@ -2149,7 +2309,15 @@ def run():
         else:
             to_subscribe.append(etf_symbol)
 
-    log_info(f"Subscribing to 5-sec bars for {len(to_subscribe)} tickers (incl ETF {etf_symbol})...")
+    qqq_sym_sub = getattr(config, "QQQ_SYMBOL", "QQQ").upper()
+    if getattr(config, "ENABLE_QQQ_INTRADAY", False) and qqq_sym_sub not in to_subscribe:
+        if len(to_subscribe) >= max_subs:
+            to_subscribe = to_subscribe[:-1] + [qqq_sym_sub]
+        else:
+            to_subscribe.append(qqq_sym_sub)
+
+    q_extra = f", {qqq_sym_sub}" if getattr(config, "ENABLE_QQQ_INTRADAY", False) else ""
+    log_info(f"Subscribing to 5-sec bars for {len(to_subscribe)} tickers (incl ETF {etf_symbol}{q_extra})...")
     for sym in to_subscribe:
         try:
             bars = ib.reqRealTimeBars(make_stock(sym), 5, "TRADES", False)
@@ -2192,6 +2360,11 @@ def run():
                     break
 
                 _update_bias_if_due(force=False)
+
+                try:
+                    account_equity_live = float(get_account_value(ib, account_id))
+                except Exception:
+                    pass
 
                 now = now_et()
                 if (now.hour, now.minute) >= (close_hour, close_minute):

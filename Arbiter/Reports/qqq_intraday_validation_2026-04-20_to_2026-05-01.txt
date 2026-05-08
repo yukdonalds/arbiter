@@ -1,0 +1,354 @@
+QQQ INTRADAY VALIDATION REPORT
+Range: 2026-04-20 .. 2026-05-01
+
+Each section ran backtest_fpls_yesterday.py in a separate subprocess.
+Sections: STOCK ARBITER RESULTS | QQQ INTRADAY RESULTS | COMBINED RESULTS | QQQ DIAGNOSTICS
+
+--- subprocess: arbiter-only ---
+C:\Users\Matthew\AppData\Local\Programs\Python\Python311\python.exe E:\matts documents\Cursor\Arbiter V1\Arbiter\backtest_fpls_yesterday.py --from 2026-04-20 --to 2026-05-01 --arbiter-only
+exit_code=0
+stdout (tail):
+IRM    | LONG  | 2026-04-30 12:16:00 | 98.898  | 0    | 2.768   | 2.495   | -0.121        |              | entry_strength_failed | -0.160      | -0.401      | -0.445      | 0.730        | 0.770   | -1.027  | Y           |             |             | Y           | Y           |            
+QCOM   | LONG  | 2026-04-30 12:32:00 | 96.310  | 0    | 4.240   | 3.524   | -0.013        |              | entry_strength_failed | -0.948      | -1.738      | -1.537      | -1.058       | 0.044   | -2.132  |             |             |             | Y           | Y           | Y          
+MO     | LONG  | 2026-04-30 12:52:00 | 78.112  | 0    | 2.670   | 1.908   | 0.005         |              | entry_strength_failed | -0.021      | 0.139       | 0.319       | 0.472        | 0.639   | -0.445  | Y           |             |             |             |             |            
+QCOM   | LONG  | 2026-04-30 13:16:00 | 97.079  | 0    | 3.698   | 3.524   | 0.045         |              | late_entry_blocked    | -0.480      | 0.346       | 0.134       | -0.087       | 0.790   | -0.826  | Y           |             |             | Y           |             |            
+QCOM   | LONG  | 2026-04-30 13:16:00 | 96.090  | 0    | 3.678   | 3.524   | -0.004        |              | late_entry_blocked    | -0.480      | 0.346       | 0.134       | -0.087       | 0.790   | -0.826  | Y           |             |             | Y           |             |            
+QCOM   | LONG  | 2026-04-30 13:36:00 | 96.269  | 0    | 3.514   | 3.524   | 0.011         |              | late_entry_blocked    | -0.011      | -0.400      | -0.149      | 0.239        | 0.442   | -1.168  |             |             |             | Y           | Y           |            
+QCOM   | LONG  | 2026-04-30 13:36:00 | 96.359  | 0    | 3.495   | 3.524   | -0.015        |              | late_entry_blocked    | -0.011      | -0.400      | -0.149      | 0.239        | 0.442   | -1.168  |             |             |             | Y           | Y           |            
+IRM    | LONG  | 2026-04-30 14:02:00 | 78.580  | 0    | 2.010   | 2.495   | -0.024        |              | entry_cutoff_blocked  | 0.734       | 0.842       | 1.259       |              | 1.387   | -0.000  | Y           | Y           |             |             |             |            
+CMG    | LONG  | 2026-04-30 14:14:00 | 97.651  | 0    | 1.489   | 3.068   | -0.069        |              | entry_cutoff_blocked  | -0.147      | 0.000       | -0.308      |              | 0.117   | -1.276  |             |             |             | Y           | Y           |            
+TXT    | LONG  | 2026-04-30 14:14:00 | 97.035  | 0    | 1.336   | 2.221   | -0.043        |              | entry_cutoff_blocked  | 0.483       | 0.837       | 3.027       |              | 3.790   | -0.064  | Y           | Y           | Y           |             |             |            
+TXT    | LONG  | 2026-04-30 14:16:00 | 96.949  | 0    | 1.327   | 2.221   | 0.040         |              | entry_cutoff_blocked  | 0.687       | 0.854       | 2.882       |              | 3.756   | -0.097  | Y           | Y           | Y           |             |             |            
+IRM    | LONG  | 2026-04-30 14:54:00 | 96.127  | 0    | 2.003   | 2.495   | -0.005        |              | entry_cutoff_blocked  | -0.123      | -0.436      | -0.626      |              | 0.143   | -1.188  |             |             |             | Y           | Y           |            
+CMG    | LONG  | 2026-04-30 15:02:00 | 78.708  | 0    | 1.419   | 3.068   | -0.030        |              | entry_cutoff_blocked  | -0.499      | -0.792      |             |              | 0.059   | -1.305  |             |             |             | Y           | Y           |            
+CMG    | LONG  | 2026-04-30 15:02:00 | 78.945  | 0    | 1.418   | 3.068   | -0.039        |              | entry_cutoff_blocked  | -0.499      | -0.792      |             |              | 0.059   | -1.305  |             |             |             | Y           | Y           |            
+TXT    | LONG  | 2026-04-30 15:02:00 | 98.356  | 0    | 1.304   | 2.221   | -0.098        |              | entry_cutoff_blocked  | 0.351       | 0.204       |             |              | 1.267   | -0.775  | Y           | Y           |             | Y           |             |            
+QCOM   | LONG  | 2026-04-30 15:26:00 | 78.135  | 0    | 2.713   | 3.524   | 0.006         |              | entry_cutoff_blocked  | 0.625       | 0.366       |             |              | 0.916   | -0.117  | Y           |             |             |             |             |            
+TXT    | LONG  | 2026-04-30 15:30:00 | 96.251  | 0    | 1.372   | 2.221   | 0.010         |              | entry_cutoff_blocked  | -1.114      |             |             |              | 0.156   | -1.395  |             |             |             | Y           | Y           |            
+TXT    | LONG  | 2026-04-30 15:30:00 | 98.594  | 0    | 1.379   | 2.221   | -0.108        |              | entry_cutoff_blocked  | -1.114      |             |             |              | 0.156   | -1.395  |             |             |             | Y           | Y           |            
+BR     | LONG  | 2026-04-30 15:42:00 | 51.974  | 0    | 0.911   | 2.771   | 0.004         |              | entry_cutoff_blocked  | 2.057       |             |             |              | 2.077   | -0.099  | Y           | Y           | Y           |             |             |            
+BR     | LONG  | 2026-04-30 15:42:00 | 70.430  | 0    | 0.910   | 2.771   | -0.024        |              | entry_cutoff_blocked  | 2.057       |             |             |              | 2.077   | -0.099  | Y           | Y           | Y           |             |             |            
+CMG    | LONG  | 2026-04-30 15:50:00 | 79.183  | 0    | 1.452   | 3.068   | -0.049        |              | entry_cutoff_blocked  |             |             |             |              | 0.250   | -0.515  |             |             |             | Y           |             |            
+SWKS   | LONG  | 2026-04-30 15:56:00 | 97.178  | 0    | 1.242   | 2.979   | -0.057        |              | entry_cutoff_blocked  |             |             |             |              | 0.399   | -0.114  |             |             |             |             |             |            
+TXT    | LONG  | 2026-04-30 15:56:00 | 97.933  | 0    | 1.532   | 2.221   | -0.081        |              | entry_cutoff_blocked  |             |             |             |              | 0.492   | -0.335  |             |             |             |             |             |            
+MO     | LONG  | 2026-04-30 15:58:00 | 80.328  | 0    | 2.007   | 1.908   | 0.097         |              | entry_cutoff_blocked  |             |             |             |              | 0.303   | -0.083  |             |             |             |             |             |            
+LNT    | LONG  | 2026-05-01 14:04:00 | 78.215  | 0    | 1.274   | 1.688   | -0.009        |              | entry_cutoff_blocked  | -0.469      | -0.422      | -0.409      |              | -0.000  | -0.771  |             |             |             | Y           |             |            
+LNT    | LONG  | 2026-05-01 14:04:00 | 78.431  | 0    | 1.270   | 1.688   | -0.018        |              | entry_cutoff_blocked  | -0.469      | -0.422      | -0.409      |              | -0.000  | -0.771  |             |             |             | Y           |             |            
+Wrote E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\forensic_executed_strict_confirmations_2026-04-20_2026-05-01.csv
+Wrote E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\forensic_missed_strict_confirmations_2026-04-20_2026-05-01.csv
+
+Forensic Summary (Missed Strict Confirmations)
+- Average MFE: 0.758%
+- Average MAE: -1.058%
+- Missed confirmations reaching +1.0%: 21
+- Missed confirmations hitting -1.0%: 42
+- Block reason with highest average missed MFE: late_entry_blocked (1.106%)
+- controlled_entry blocking profitable setups (+1.0% reached): NO (0 missed, 0.0% hit +1.0%)
+- late_entry blocking profitable setups (+1.0% reached): NO (21 missed, 38.1% hit +1.0%)
+- capital/max position limits blocking profitable setups (+1.0% reached): NO (0 missed, 0.0% hit +1.0%)
+Backtest report: E:\matts documents\Cursor\Arbiter V1\Arbiter\Reports\backtest_report_2026-04-20_to_2026-05-01.txt
+GPT backtest pack: E:\matts documents\Cursor\Arbiter V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-20_to_2026-05-01.txt
+stderr:
+51 of 503 completed
+[**********************90%******************     ]  452 of 503 completed
+[**********************90%******************     ]  453 of 503 completed
+[**********************90%******************     ]  454 of 503 completed
+[**********************90%******************     ]  455 of 503 completed
+[**********************91%*******************    ]  456 of 503 completed
+[**********************91%*******************    ]  457 of 503 completed
+[**********************91%*******************    ]  458 of 503 completed
+[**********************91%*******************    ]  459 of 503 completed
+[**********************91%*******************    ]  460 of 503 completed
+[**********************92%*******************    ]  461 of 503 completed
+[**********************92%*******************    ]  462 of 503 completed
+[**********************92%*******************    ]  463 of 503 completed
+[**********************92%*******************    ]  464 of 503 completed
+[**********************92%*******************    ]  465 of 503 completed
+[**********************93%********************   ]  466 of 503 completed
+[**********************93%********************   ]  467 of 503 completed
+[**********************93%********************   ]  468 of 503 completed
+[**********************93%********************   ]  469 of 503 completed
+[**********************93%********************   ]  470 of 503 completed
+[**********************94%********************   ]  471 of 503 completed
+[**********************94%********************   ]  472 of 503 completed
+[**********************94%********************   ]  473 of 503 completed
+[**********************94%********************   ]  474 of 503 completed
+[**********************94%********************   ]  475 of 503 completed
+[**********************95%*********************  ]  476 of 503 completed
+[**********************95%*********************  ]  477 of 503 completed
+[**********************95%*********************  ]  478 of 503 completed
+[**********************95%*********************  ]  479 of 503 completed
+[**********************95%*********************  ]  480 of 503 completed
+[**********************96%*********************  ]  481 of 503 completed
+[**********************96%*********************  ]  482 of 503 completed
+[**********************96%*********************  ]  483 of 503 completed
+[**********************96%*********************  ]  484 of 503 completed
+[**********************96%*********************  ]  485 of 503 completed
+[**********************97%********************** ]  486 of 503 completed
+[**********************97%********************** ]  487 of 503 completed
+[**********************97%********************** ]  488 of 503 completed
+[**********************97%********************** ]  489 of 503 completed
+[**********************97%********************** ]  490 of 503 completed
+[**********************98%********************** ]  491 of 503 completed
+[**********************98%********************** ]  492 of 503 completed
+[**********************98%********************** ]  493 of 503 completed
+[**********************98%********************** ]  494 of 503 completed
+[**********************98%********************** ]  495 of 503 completed
+[**********************99%***********************]  496 of 503 completed
+[**********************99%***********************]  496 of 503 completed
+[**********************99%***********************]  498 of 503 completed
+[**********************99%***********************]  499 of 503 completed
+[**********************99%***********************]  500 of 503 completed
+[*********************100%***********************]  501 of 503 completed
+[*********************100%***********************]  502 of 503 completed
+[*********************100%***********************]  503 of 503 completed
+
+2 Failed downloads:
+['BRK.B']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+['BF.B']: possibly delisted; no price data found  (1d 2026-01-25 -> 2026-05-01)
+
+
+--- subprocess: qqq-only ---
+C:\Users\Matthew\AppData\Local\Programs\Python\Python311\python.exe E:\matts documents\Cursor\Arbiter V1\Arbiter\backtest_fpls_yesterday.py --from 2026-04-20 --to 2026-05-01 --qqq-only
+exit_code=0
+stdout (tail):
+Bias distribution: {'LONG': 0, 'SHORT': 0, 'NEUTRAL': 0}
+Long  signal hits: 0
+Short signal hits: 0
+Events processed: 46800
+Per-condition hits: {'liquidity': 0, 'price': 0, 'momentum': 0, 'volatility': 0, 'structural': 0}
+Controlled-entry blocks: 0
+Same-ticker reentry blocks: 0
+Post-confirmation quality blocks: 0
+Entry-strength blocks: 0
+Fast-track trade blocks: 0
+Late-entry blocks: 0
+Fast-track setups stored: 0
+Fast-track setups confirmed: 0
+Fast-track setups expired: 0
+
+--- QQQ replay diagnostics (aggregate) ---
+  Sessions with QQQ replay: 10
+  Totals: bars_received=46800, regime_pass=27662, regime_fail=15506, trend_up_bars=20507, trend_down_bars=12487, chop_bars=13784, vwap_setups=2317, entry_triggers=22, qqq_fills=22, qqq_trade_rows=23
+Confirmation hits: {'strict': 0, 'fast_track': 0}
+SPY soft penalties: 0
+Fill model: live_parity
+
+Trades: 0
+Start capital: $19,768.00
+End capital:   $19,794.36
+Total PnL:     $0.00
+Max drawdown:  0.00% (peak-to-trough vs peak equity)
+
+--- Block reason summary (aggregated diagnostics) ---
+  controlled_entry_blocks:        0
+  same_ticker_reentry_blocks:     0
+  post_confirmation_quality_blocks: 0
+  entry_strength_blocks:          0
+  fast_track_trade_blocks:        0
+  late_entry_blocks:              0
+Wrote E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\backtest_trades_2026-04-20_2026-05-01.csv
+Wrote E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\qqq_backtest_trades_2026-04-20_2026-05-01.csv (23 QQQ legs)
+Wrote E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\qqq_backtest_session_diag_qqq_2026-04-20_2026-05-01.json
+Backtest report: E:\matts documents\Cursor\Arbiter V1\Arbiter\Reports\backtest_report_2026-04-20_to_2026-05-01.txt
+GPT backtest pack: E:\matts documents\Cursor\Arbiter V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-20_to_2026-05-01.txt
+
+--- subprocess: combined ---
+C:\Users\Matthew\AppData\Local\Programs\Python\Python311\python.exe E:\matts documents\Cursor\Arbiter V1\Arbiter\backtest_fpls_yesterday.py --from 2026-04-20 --to 2026-05-01 --combined
+exit_code=0
+stdout (tail):
+IRM    | LONG  | 2026-04-30 12:16:00 | 98.898  | 0    | 2.768   | 2.495   | -0.121        |              | entry_strength_failed | -0.160      | -0.401      | -0.445      | 0.730        | 0.770   | -1.027  | Y           |             |             | Y           | Y           |            
+QCOM   | LONG  | 2026-04-30 12:32:00 | 96.310  | 0    | 4.240   | 3.524   | -0.013        |              | entry_strength_failed | -0.948      | -1.738      | -1.537      | -1.058       | 0.044   | -2.132  |             |             |             | Y           | Y           | Y          
+MO     | LONG  | 2026-04-30 12:52:00 | 78.112  | 0    | 2.670   | 1.908   | 0.005         |              | entry_strength_failed | -0.021      | 0.139       | 0.319       | 0.472        | 0.639   | -0.445  | Y           |             |             |             |             |            
+QCOM   | LONG  | 2026-04-30 13:16:00 | 97.079  | 0    | 3.698   | 3.524   | 0.045         |              | late_entry_blocked    | -0.480      | 0.346       | 0.134       | -0.087       | 0.790   | -0.826  | Y           |             |             | Y           |             |            
+QCOM   | LONG  | 2026-04-30 13:16:00 | 96.090  | 0    | 3.678   | 3.524   | -0.004        |              | late_entry_blocked    | -0.480      | 0.346       | 0.134       | -0.087       | 0.790   | -0.826  | Y           |             |             | Y           |             |            
+QCOM   | LONG  | 2026-04-30 13:36:00 | 96.269  | 0    | 3.514   | 3.524   | 0.011         |              | late_entry_blocked    | -0.011      | -0.400      | -0.149      | 0.239        | 0.442   | -1.168  |             |             |             | Y           | Y           |            
+QCOM   | LONG  | 2026-04-30 13:36:00 | 96.359  | 0    | 3.495   | 3.524   | -0.015        |              | late_entry_blocked    | -0.011      | -0.400      | -0.149      | 0.239        | 0.442   | -1.168  |             |             |             | Y           | Y           |            
+IRM    | LONG  | 2026-04-30 14:02:00 | 78.580  | 0    | 2.010   | 2.495   | -0.024        |              | entry_cutoff_blocked  | 0.734       | 0.842       | 1.259       |              | 1.387   | -0.000  | Y           | Y           |             |             |             |            
+CMG    | LONG  | 2026-04-30 14:14:00 | 97.651  | 0    | 1.489   | 3.068   | -0.069        |              | entry_cutoff_blocked  | -0.147      | 0.000       | -0.308      |              | 0.117   | -1.276  |             |             |             | Y           | Y           |            
+TXT    | LONG  | 2026-04-30 14:14:00 | 97.035  | 0    | 1.336   | 2.221   | -0.043        |              | entry_cutoff_blocked  | 0.483       | 0.837       | 3.027       |              | 3.790   | -0.064  | Y           | Y           | Y           |             |             |            
+TXT    | LONG  | 2026-04-30 14:16:00 | 96.949  | 0    | 1.327   | 2.221   | 0.040         |              | entry_cutoff_blocked  | 0.687       | 0.854       | 2.882       |              | 3.756   | -0.097  | Y           | Y           | Y           |             |             |            
+IRM    | LONG  | 2026-04-30 14:54:00 | 96.127  | 0    | 2.003   | 2.495   | -0.005        |              | entry_cutoff_blocked  | -0.123      | -0.436      | -0.626      |              | 0.143   | -1.188  |             |             |             | Y           | Y           |            
+CMG    | LONG  | 2026-04-30 15:02:00 | 78.708  | 0    | 1.419   | 3.068   | -0.030        |              | entry_cutoff_blocked  | -0.499      | -0.792      |             |              | 0.059   | -1.305  |             |             |             | Y           | Y           |            
+CMG    | LONG  | 2026-04-30 15:02:00 | 78.945  | 0    | 1.418   | 3.068   | -0.039        |              | entry_cutoff_blocked  | -0.499      | -0.792      |             |              | 0.059   | -1.305  |             |             |             | Y           | Y           |            
+TXT    | LONG  | 2026-04-30 15:02:00 | 98.356  | 0    | 1.304   | 2.221   | -0.098        |              | entry_cutoff_blocked  | 0.351       | 0.204       |             |              | 1.267   | -0.775  | Y           | Y           |             | Y           |             |            
+QCOM   | LONG  | 2026-04-30 15:26:00 | 78.135  | 0    | 2.713   | 3.524   | 0.006         |              | entry_cutoff_blocked  | 0.625       | 0.366       |             |              | 0.916   | -0.117  | Y           |             |             |             |             |            
+TXT    | LONG  | 2026-04-30 15:30:00 | 96.251  | 0    | 1.372   | 2.221   | 0.010         |              | entry_cutoff_blocked  | -1.114      |             |             |              | 0.156   | -1.395  |             |             |             | Y           | Y           |            
+TXT    | LONG  | 2026-04-30 15:30:00 | 98.594  | 0    | 1.379   | 2.221   | -0.108        |              | entry_cutoff_blocked  | -1.114      |             |             |              | 0.156   | -1.395  |             |             |             | Y           | Y           |            
+BR     | LONG  | 2026-04-30 15:42:00 | 51.974  | 0    | 0.911   | 2.771   | 0.004         |              | entry_cutoff_blocked  | 2.057       |             |             |              | 2.077   | -0.099  | Y           | Y           | Y           |             |             |            
+BR     | LONG  | 2026-04-30 15:42:00 | 70.430  | 0    | 0.910   | 2.771   | -0.024        |              | entry_cutoff_blocked  | 2.057       |             |             |              | 2.077   | -0.099  | Y           | Y           | Y           |             |             |            
+CMG    | LONG  | 2026-04-30 15:50:00 | 79.183  | 0    | 1.452   | 3.068   | -0.049        |              | entry_cutoff_blocked  |             |             |             |              | 0.250   | -0.515  |             |             |             | Y           |             |            
+SWKS   | LONG  | 2026-04-30 15:56:00 | 97.178  | 0    | 1.242   | 2.979   | -0.057        |              | entry_cutoff_blocked  |             |             |             |              | 0.399   | -0.114  |             |             |             |             |             |            
+TXT    | LONG  | 2026-04-30 15:56:00 | 97.933  | 0    | 1.532   | 2.221   | -0.081        |              | entry_cutoff_blocked  |             |             |             |              | 0.492   | -0.335  |             |             |             |             |             |            
+MO     | LONG  | 2026-04-30 15:58:00 | 80.328  | 0    | 2.007   | 1.908   | 0.097         |              | entry_cutoff_blocked  |             |             |             |              | 0.303   | -0.083  |             |             |             |             |             |            
+LNT    | LONG  | 2026-05-01 14:04:00 | 78.215  | 0    | 1.274   | 1.688   | -0.009        |              | entry_cutoff_blocked  | -0.469      | -0.422      | -0.409      |              | -0.000  | -0.771  |             |             |             | Y           |             |            
+LNT    | LONG  | 2026-05-01 14:04:00 | 78.431  | 0    | 1.270   | 1.688   | -0.018        |              | entry_cutoff_blocked  | -0.469      | -0.422      | -0.409      |              | -0.000  | -0.771  |             |             |             | Y           |             |            
+Wrote E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\forensic_executed_strict_confirmations_2026-04-20_2026-05-01.csv
+Wrote E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\forensic_missed_strict_confirmations_2026-04-20_2026-05-01.csv
+
+Forensic Summary (Missed Strict Confirmations)
+- Average MFE: 0.758%
+- Average MAE: -1.058%
+- Missed confirmations reaching +1.0%: 21
+- Missed confirmations hitting -1.0%: 42
+- Block reason with highest average missed MFE: late_entry_blocked (1.106%)
+- controlled_entry blocking profitable setups (+1.0% reached): NO (0 missed, 0.0% hit +1.0%)
+- late_entry blocking profitable setups (+1.0% reached): NO (21 missed, 38.1% hit +1.0%)
+- capital/max position limits blocking profitable setups (+1.0% reached): NO (0 missed, 0.0% hit +1.0%)
+Backtest report: E:\matts documents\Cursor\Arbiter V1\Arbiter\Reports\backtest_report_2026-04-20_to_2026-05-01.txt
+GPT backtest pack: E:\matts documents\Cursor\Arbiter V1\Arbiter\Reports\gpt_backtest_analysis_pack_2026-04-20_to_2026-05-01.txt
+stderr:
+51 of 503 completed
+[**********************90%******************     ]  452 of 503 completed
+[**********************90%******************     ]  453 of 503 completed
+[**********************90%******************     ]  454 of 503 completed
+[**********************90%******************     ]  455 of 503 completed
+[**********************91%*******************    ]  456 of 503 completed
+[**********************91%*******************    ]  457 of 503 completed
+[**********************91%*******************    ]  458 of 503 completed
+[**********************91%*******************    ]  459 of 503 completed
+[**********************91%*******************    ]  460 of 503 completed
+[**********************92%*******************    ]  461 of 503 completed
+[**********************92%*******************    ]  462 of 503 completed
+[**********************92%*******************    ]  463 of 503 completed
+[**********************92%*******************    ]  464 of 503 completed
+[**********************92%*******************    ]  465 of 503 completed
+[**********************93%********************   ]  466 of 503 completed
+[**********************93%********************   ]  467 of 503 completed
+[**********************93%********************   ]  467 of 503 completed
+[**********************93%********************   ]  469 of 503 completed
+[**********************93%********************   ]  470 of 503 completed
+[**********************94%********************   ]  471 of 503 completed
+[**********************94%********************   ]  472 of 503 completed
+[**********************94%********************   ]  473 of 503 completed
+[**********************94%********************   ]  474 of 503 completed
+[**********************94%********************   ]  475 of 503 completed
+[**********************95%*********************  ]  476 of 503 completed
+[**********************95%*********************  ]  477 of 503 completed
+[**********************95%*********************  ]  478 of 503 completed
+[**********************95%*********************  ]  479 of 503 completed
+[**********************95%*********************  ]  480 of 503 completed
+[**********************96%*********************  ]  481 of 503 completed
+[**********************96%*********************  ]  482 of 503 completed
+[**********************96%*********************  ]  483 of 503 completed
+[**********************96%*********************  ]  483 of 503 completed
+[**********************96%*********************  ]  485 of 503 completed
+[**********************97%********************** ]  486 of 503 completed
+[**********************97%********************** ]  487 of 503 completed
+[**********************97%********************** ]  488 of 503 completed
+[**********************97%********************** ]  489 of 503 completed
+[**********************97%********************** ]  490 of 503 completed
+[**********************98%********************** ]  491 of 503 completed
+[**********************98%********************** ]  492 of 503 completed
+[**********************98%********************** ]  493 of 503 completed
+[**********************98%********************** ]  494 of 503 completed
+[**********************98%********************** ]  495 of 503 completed
+[**********************99%***********************]  496 of 503 completed
+[**********************99%***********************]  497 of 503 completed
+[**********************99%***********************]  498 of 503 completed
+[**********************99%***********************]  499 of 503 completed
+[**********************99%***********************]  500 of 503 completed
+[*********************100%***********************]  501 of 503 completed
+[*********************100%***********************]  502 of 503 completed
+[*********************100%***********************]  503 of 503 completed
+
+2 Failed downloads:
+['BF.B']: possibly delisted; no price data found  (1d 2026-01-25 -> 2026-05-01)
+['BRK.B']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+
+
+Archived CSV copies:
+  stock [arbiter-only]: E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\backtest_trades_arbiter_only_2026-04-20_2026-05-01.csv
+  stock [qqq-only]: E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\backtest_trades_qqq_only_2026-04-20_2026-05-01.csv
+  stock [combined]: E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\backtest_trades_combined_2026-04-20_2026-05-01.csv
+  qqq   [arbiter-only]: E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\qqq_backtest_trades_arbiter_only_2026-04-20_2026-05-01.csv
+  qqq   [qqq-only]: E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\qqq_backtest_trades_qqq_only_2026-04-20_2026-05-01.csv
+  qqq   [combined]: E:\matts documents\Cursor\Arbiter V1\Arbiter\logs\qqq_backtest_trades_combined_2026-04-20_2026-05-01.csv
+
+============================================================
+STOCK ARBITER RESULTS (--arbiter-only)
+============================================================
+Trades (rows): 4
+Win rate:      75.0%
+Total P&L:     $2.75
+Avg trade:     $0.69
+Avg MFE:       1.804%
+Avg MAE:       -0.869%
+Exit reasons:  {'STP': 3, 'EOD': 1}
+Setup mix:     {'': 4}
+
+============================================================
+QQQ INTRADAY RESULTS (--qqq-only)
+============================================================
+Trades (rows): 23
+Win rate:      65.2%
+Total P&L:     $26.36
+Avg trade:     $1.15
+Avg MFE:       0.225%
+Avg MAE:       -0.170%
+Exit reasons:  {'QQQ_NO_PROGRESS_EXIT': 16, 'QQQ_STRUCTURAL_FAIL': 4, 'QQQ_PARTIAL_TP': 1, 'QQQ_EOD_EXIT': 2}
+Setup mix:     {'VWAP_CONTINUATION': 23}
+
+============================================================
+COMBINED RESULTS (--combined)
+============================================================
+Stock P&L: $2.75  (n=4)
+QQQ P&L:   $26.36  (n=23)
+Sum P&L:   $29.11
+
+Trade-frequency proxy (CSV rows): arbiter-only stock=4, qqq-only legs=23, combined stock+qqq legs=27
+QQQ added legs vs stock-only run: combined_rows - arbiter_stock_rows = 23 (approximate; partial exits create multiple rows).
+
+============================================================
+QQQ DIAGNOSTICS (from qqq_backtest_session_diag_*.json)
+============================================================
+
+--qqq-only session diagnostics--
+Aggregate totals (all sessions in range):
+  qqq_bars_received: 46800
+  qqq_regime_pass_count: 27662
+  qqq_regime_fail_count: 15506
+  qqq_trend_up_bars: 20507
+  qqq_trend_down_bars: 12487
+  qqq_chop_bars: 13784
+  qqq_vwap_setup_count: 2317
+  qqq_entry_trigger_count: 22
+  qqq_trades_filled: 22
+  qqq_trade_count: 23
+  regime_fail_histogram: {'need_2of3:atr,vwap_distance': 11187, 'need_2of3:atr,opening_range,vwap_distance': 42, 'need_2of3:atr,opening_range': 4277}
+Per-session rows: 10
+  2026-04-20: OR%=0.414 ATR5%=0.066 vwap_dist%=0.151 pass_last=True fail_reason='' trend_up=0 trend_down=2360 chop=2317 vwap=95 entries=3 fills=3
+  2026-04-21: OR%=0.426 ATR5%=0.179 vwap_dist%=0.330 pass_last=True fail_reason='' trend_up=353 trend_down=3238 chop=1087 vwap=241 entries=2 fills=2
+  2026-04-22: OR%=0.299 ATR5%=0.074 vwap_dist%=0.373 pass_last=False fail_reason='need_2of3:atr,opening_range' trend_up=4201 trend_down=66 chop=413 vwap=398 entries=0 fills=0
+  2026-04-23: OR%=0.506 ATR5%=0.159 vwap_dist%=0.093 pass_last=False fail_reason='need_2of3:atr,vwap_distance' trend_up=1828 trend_down=2021 chop=828 vwap=248 entries=3 fills=3
+  2026-04-24: OR%=0.482 ATR5%=0.074 vwap_dist%=0.362 pass_last=True fail_reason='' trend_up=3846 trend_down=31 chop=802 vwap=335 entries=1 fills=1
+  2026-04-27: OR%=0.492 ATR5%=0.060 vwap_dist%=0.215 pass_last=True fail_reason='' trend_up=776 trend_down=1048 chop=2854 vwap=86 entries=2 fills=2
+  2026-04-28: OR%=0.665 ATR5%=0.091 vwap_dist%=0.125 pass_last=True fail_reason='' trend_up=1984 trend_down=2218 chop=475 vwap=317 entries=3 fills=3
+  2026-04-29: OR%=0.409 ATR5%=0.119 vwap_dist%=0.328 pass_last=True fail_reason='' trend_up=2297 trend_down=744 chop=1636 vwap=179 entries=3 fills=3
+  2026-04-30: OR%=1.030 ATR5%=0.087 vwap_dist%=0.582 pass_last=True fail_reason='' trend_up=1799 trend_down=761 chop=2118 vwap=228 entries=2 fills=2
+  2026-05-01: OR%=0.946 ATR5%=0.081 vwap_dist%=0.015 pass_last=False fail_reason='need_2of3:atr,vwap_distance' trend_up=3423 trend_down=0 chop=1254 vwap=190 entries=3 fills=3
+
+--combined session diagnostics (QQQ leg only; SPY/stock unchanged)--
+Aggregate totals (all sessions in range):
+  qqq_bars_received: 46800
+  qqq_regime_pass_count: 27662
+  qqq_regime_fail_count: 15506
+  qqq_trend_up_bars: 20507
+  qqq_trend_down_bars: 12487
+  qqq_chop_bars: 13784
+  qqq_vwap_setup_count: 2317
+  qqq_entry_trigger_count: 22
+  qqq_trades_filled: 22
+  qqq_trade_count: 23
+  regime_fail_histogram: {'need_2of3:atr,vwap_distance': 11187, 'need_2of3:atr,opening_range,vwap_distance': 42, 'need_2of3:atr,opening_range': 4277}
+Per-session rows: 10
+  2026-04-20: OR%=0.414 ATR5%=0.066 vwap_dist%=0.151 pass_last=True fail_reason='' trend_up=0 trend_down=2360 chop=2317 vwap=95 entries=3 fills=3
+  2026-04-21: OR%=0.426 ATR5%=0.179 vwap_dist%=0.330 pass_last=True fail_reason='' trend_up=353 trend_down=3238 chop=1087 vwap=241 entries=2 fills=2
+  2026-04-22: OR%=0.299 ATR5%=0.074 vwap_dist%=0.373 pass_last=False fail_reason='need_2of3:atr,opening_range' trend_up=4201 trend_down=66 chop=413 vwap=398 entries=0 fills=0
+  2026-04-23: OR%=0.506 ATR5%=0.159 vwap_dist%=0.093 pass_last=False fail_reason='need_2of3:atr,vwap_distance' trend_up=1828 trend_down=2021 chop=828 vwap=248 entries=3 fills=3
+  2026-04-24: OR%=0.482 ATR5%=0.074 vwap_dist%=0.362 pass_last=True fail_reason='' trend_up=3846 trend_down=31 chop=802 vwap=335 entries=1 fills=1
+  2026-04-27: OR%=0.492 ATR5%=0.060 vwap_dist%=0.215 pass_last=True fail_reason='' trend_up=776 trend_down=1048 chop=2854 vwap=86 entries=2 fills=2
+  2026-04-28: OR%=0.665 ATR5%=0.091 vwap_dist%=0.125 pass_last=True fail_reason='' trend_up=1984 trend_down=2218 chop=475 vwap=317 entries=3 fills=3
+  2026-04-29: OR%=0.409 ATR5%=0.119 vwap_dist%=0.328 pass_last=True fail_reason='' trend_up=2297 trend_down=744 chop=1636 vwap=179 entries=3 fills=3
+  2026-04-30: OR%=1.030 ATR5%=0.087 vwap_dist%=0.582 pass_last=True fail_reason='' trend_up=1799 trend_down=761 chop=2118 vwap=228 entries=2 fills=2
+  2026-05-01: OR%=0.946 ATR5%=0.081 vwap_dist%=0.015 pass_last=False fail_reason='need_2of3:atr,vwap_distance' trend_up=3423 trend_down=0 chop=1254 vwap=190 entries=3 fills=3

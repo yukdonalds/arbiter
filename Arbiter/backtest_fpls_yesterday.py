@@ -23,6 +23,8 @@ Run: python backtest_fpls_yesterday.py [--from YYYY-MM-DD] [--to YYYY-MM-DD]
 import argparse
 import asyncio
 import csv
+import json
+import math
 import os
 import pickle
 import random
@@ -46,6 +48,7 @@ from parallel_fetch import build_watchlist_parallel_for_date, fetch_daily_metric
 from daily_report import generate_backtest_report
 from universe_rescan import rescan_universe_for_day
 from stats_collector import init_trade_outcomes_log, log_trade_outcome
+from strategies.qqq_intraday_strategy import QQQIntradayStrategy
 
 EASTERN = pytz.timezone("America/New_York")
 BAR_MINUTES = getattr(config, "BAR_MINUTES", 2)
@@ -605,7 +608,11 @@ def _load_sp500_tickers(limit: int | None = None) -> list[str]:
     return tickers
 
 
-def build_event_stream(etf_bars: list[dict], ticker_bars: dict[str, list[dict]]) -> list[tuple]:
+def build_event_stream(
+    etf_bars: list[dict],
+    ticker_bars: dict[str, list[dict]],
+    qqq_bars: list[dict] | None = None,
+) -> list[tuple]:
     """Global event stream: (t_et, symbol, open, high, low, close, volume), sorted by t."""
     events = []
     for sym, bars in ticker_bars.items():
@@ -613,6 +620,10 @@ def build_event_stream(etf_bars: list[dict], ticker_bars: dict[str, list[dict]])
             events.append((b["date"], sym, b["open"], b["high"], b["low"], b["close"], b["volume"]))
     for b in etf_bars:
         events.append((b["date"], ETF_SYMBOL, b["open"], b["high"], b["low"], b["close"], b["volume"]))
+    qsym = getattr(config, "QQQ_SYMBOL", "QQQ").upper()
+    if qqq_bars:
+        for b in qqq_bars:
+            events.append((b["date"], qsym, b["open"], b["high"], b["low"], b["close"], b["volume"]))
     events.sort(key=lambda x: (x[0], x[1]))
     return events
 
@@ -622,6 +633,8 @@ def run_backtest(
     daily_metrics: dict,
     start_capital: float,
     date_str: str,
+    *,
+    replay_mode: str = "arbiter",
 ) -> tuple[list[dict], float, float]:
     """
     Replay events; return (list of trade dicts, end_capital, total_pnl).
@@ -648,6 +661,11 @@ def run_backtest(
     spy_soft_penalties = 0
     last_regime_snapshot: dict = {}
     session_start_capital = float(start_capital)
+    qqq_sym = getattr(config, "QQQ_SYMBOL", "QQQ").upper()
+    qqq_bt: QQQIntradayStrategy | None = None
+    if replay_mode in ("qqq", "combined") and getattr(config, "ENABLE_QQQ_INTRADAY", False):
+        qqq_bt = QQQIntradayStrategy()
+        qqq_bt.reset_session(date_str, float(start_capital))
     trades_filled_today = 0
     loss_count_today = 0
     tickers_cancelled_today: set[str] = set()
@@ -667,6 +685,10 @@ def run_backtest(
     last_close: dict[str, float] = {}
     fill_model = str(getattr(config, "BACKTEST_FILL_MODEL", "live_parity") or "live_parity").strip().lower()
     blocked_candidates_path = os.path.join(config.LOG_DIR, "blocked_candidates.csv")
+    current_event_time: datetime | None = None
+    strict_confirmation_id_seq = 0
+    strict_confirmation_records: list[dict] = []
+    strict_confirmation_index: dict[int, dict] = {}
 
     # Partial TP + runner settings (match live FPLS)
     TP1_PCT = float(getattr(config, "PARTIAL_TP_PCT", 0.025))
@@ -720,7 +742,14 @@ def run_backtest(
             return list(L)
         return list(L) + [dict(bar)]
 
-    def _is_controlled_entry(sym: str, side: str, close_price: float, signal_bar: dict) -> bool:
+    def _is_controlled_entry(
+        sym: str,
+        side: str,
+        close_price: float,
+        signal_bar: dict,
+        *,
+        max_vwap_extension_pct: float | None = None,
+    ) -> bool:
         side_u = (side or "").upper()
         c = float(close_price or 0.0)
         if c <= 0:
@@ -747,7 +776,11 @@ def run_backtest(
             return False
         dist_vwap_pct = (c - vwap) / vwap * 100.0
 
-        max_ext = float(getattr(config, "MAX_DISTANCE_FROM_VWAP_PCT", 0.5) or 0.5)
+        max_ext = float(
+            max_vwap_extension_pct
+            if max_vwap_extension_pct is not None
+            else getattr(config, "MAX_DISTANCE_FROM_VWAP_PCT", 0.5) or 0.5
+        )
         near_vwap_pct = float(getattr(config, "CONTROLLED_ENTRY_NEAR_VWAP_PCT", 0.25) or 0.25)
         pullback_pct = float(getattr(config, "CONTROLLED_ENTRY_MIN_PULLBACK_PCT", 0.30) or 0.30)
         lookback = int(getattr(config, "CONTROLLED_ENTRY_PULLBACK_LOOKBACK_BARS", 15) or 15)
@@ -799,6 +832,7 @@ def run_backtest(
             )
             return ok
         return False
+
 
     def _queue_for_confirmation(sig: dict, signal_bar_key: tuple) -> None:
         side = (sig.get("side") or "LONG").upper()
@@ -854,6 +888,12 @@ def run_backtest(
                     sig = dict(st.get("signal") or {})
                     sig["confirmation_type"] = "strict"
                     sig["confirmed_bars"] = st["bars_waited"]
+                    if current_event_time is not None:
+                        sig["confirmation_ts_et"] = current_event_time
+                    sig["confirmation_price"] = float(close_px)
+                    _register_strict_confirmation(
+                        sig, float(close_px), current_event_time or datetime.now(EASTERN)
+                    )
                     signals_this_bar.append(sig)
                     confirmation_counts["strict"] += 1
                     fast_track_setups_confirmed_count += 1
@@ -934,6 +974,12 @@ def run_backtest(
                 sig = dict(item.get("signal") or {})
                 sig["confirmation_type"] = "strict"
                 sig["confirmed_bars"] = item["bars_checked"]
+                if current_event_time is not None:
+                    sig["confirmation_ts_et"] = current_event_time
+                sig["confirmation_price"] = float(close_px)
+                _register_strict_confirmation(
+                    sig, float(close_px), current_event_time or datetime.now(EASTERN)
+                )
                 signals_this_bar.append(sig)
                 confirmation_counts["strict"] += 1
                 continue
@@ -1095,6 +1141,7 @@ def run_backtest(
                     if isinstance(info.get("entry_dt"), datetime)
                     else 0.0
                 ),
+                "entry_reason_tag": str(info.get("entry_reason_tag") or ""),
             }
         )
 
@@ -1117,6 +1164,55 @@ def run_backtest(
                 writer.writerow(row)
         except OSError:
             pass
+
+    def _register_strict_confirmation(sig: dict, confirm_px: float, confirm_ts: datetime) -> None:
+        nonlocal strict_confirmation_id_seq
+        strict_confirmation_id_seq += 1
+        cid = int(strict_confirmation_id_seq)
+        sig["_strict_confirmation_id"] = cid
+        rec = {
+            "confirmation_id": cid,
+            "date": str(date_str),
+            "ticker": str(sig.get("ticker") or ""),
+            "side": str((sig.get("side") or "LONG")).upper(),
+            "timestamp_et": confirm_ts.strftime("%Y-%m-%d %H:%M:%S"),
+            "timestamp_obj": confirm_ts,
+            "score": float(sig.get("score") or 0.0),
+            "rank": int(sig.get("rank_position") or 0),
+            "rel_vol": float(sig.get("rel_vol") or 0.0),
+            "atr_pct": float(sig.get("atr_pct") or 0.0),
+            "dist_vwap_pct": float(sig.get("dist_vwap_pct") or 0.0),
+            "confirmation_price": float(confirm_px or 0.0),
+            "became_trade": False,
+            "block_reason": "",
+            "entry_time": "",
+            "entry_price": 0.0,
+        }
+        strict_confirmation_records.append(rec)
+        strict_confirmation_index[cid] = rec
+
+    def _mark_confirmation_block(sig: dict, reason: str) -> None:
+        cid = int(sig.get("_strict_confirmation_id") or 0)
+        if cid <= 0:
+            return
+        rec = strict_confirmation_index.get(cid)
+        if not rec:
+            return
+        if not rec.get("became_trade"):
+            rec["block_reason"] = str(reason or rec.get("block_reason") or "")
+
+    def _mark_confirmation_trade(sig: dict, rank_pos: int, t_et: datetime, entry_price: float) -> None:
+        cid = int(sig.get("_strict_confirmation_id") or 0)
+        if cid <= 0:
+            return
+        rec = strict_confirmation_index.get(cid)
+        if not rec:
+            return
+        rec["became_trade"] = True
+        rec["block_reason"] = ""
+        rec["rank"] = int(rank_pos or rec.get("rank") or 0)
+        rec["entry_time"] = t_et.strftime("%H:%M:%S")
+        rec["entry_price"] = float(entry_price or 0.0)
 
     def _check_exits(sym: str, bar_high: float, bar_low: float, bar_close: float, t_et: datetime):
         if sym not in pending_trades:
@@ -1256,12 +1352,16 @@ def run_backtest(
     def _process_signals(t_et):
         """Mirror Arbiter Launch `process_signals` gates and sizing (instant fill for backtest)."""
         nonlocal capital, n_filled, spy_soft_penalties, trades_filled_today, last_regime_snapshot, controlled_entry_block_count, same_ticker_reentry_block_count, post_confirmation_quality_block_count, entry_strength_block_count, fast_track_trade_block_count, late_entry_block_count, fast_track_setups_stored_count, fast_track_setups_confirmed_count, fast_track_setups_expired_count
-        if not signals_this_bar:
-            return
 
         ec_h = int(getattr(config, "ENTRY_CUTOFF_HOUR", 14))
         ec_m = int(getattr(config, "ENTRY_CUTOFF_MINUTE", 0))
+
+        if not signals_this_bar:
+            return
+
         if (t_et.hour, t_et.minute) >= (ec_h, ec_m):
+            for sig in signals_this_bar:
+                _mark_confirmation_block(sig, "entry_cutoff_blocked")
             signals_this_bar.clear()
             return
         late_block_h = int(getattr(config, "BLOCK_ENTRIES_AFTER_HOUR", 13))
@@ -1270,6 +1370,7 @@ def run_backtest(
             for sig in signals_this_bar:
                 late_entry_block_count += 1
                 _append_blocked_candidate_backtest(t_et, sig, "late_entry_blocked")
+                _mark_confirmation_block(sig, "late_entry_blocked")
             signals_this_bar.clear()
             return
 
@@ -1281,12 +1382,16 @@ def run_backtest(
         loss_size_multiplier = 0.7 if loss_count_today >= 3 else 1.0
 
         if (t_et.hour, t_et.minute) < (9, 45):
+            for sig in signals_this_bar:
+                _mark_confirmation_block(sig, "pre_0945_blocked")
             signals_this_bar.clear()
             return
 
         mo_h = int(getattr(config, "MARKET_OPEN_HOUR", 9))
         mo_m = int(getattr(config, "MARKET_OPEN_MINUTE", 30))
         if (t_et.hour, t_et.minute) < (mo_h, mo_m):
+            for sig in signals_this_bar:
+                _mark_confirmation_block(sig, "pre_market_open_blocked")
             signals_this_bar.clear()
             return
 
@@ -1305,6 +1410,7 @@ def run_backtest(
             if (str(sig.get("confirmation_type") or "") == "fast_track") and not allow_fast_track_to_trade:
                 fast_track_trade_block_count += 1
                 _append_blocked_candidate_backtest(t_et, sig, "fast_track_trade_blocked")
+                _mark_confirmation_block(sig, "fast_track_trade_blocked")
                 continue
             side = (sig.get("side") or "LONG").upper()
             score_ok = float(sig.get("score") or 0.0) >= min_trade_score
@@ -1321,21 +1427,30 @@ def run_backtest(
             else:
                 post_confirmation_quality_block_count += 1
                 _append_blocked_candidate_backtest(t_et, sig, "post_confirmation_quality_failed")
+                _mark_confirmation_block(sig, "post_confirmation_quality_failed")
 
         ranked = rank_and_cap(quality_passed, config.MAX_SIGNALS_PER_DAY)
         signals_this_bar.clear()
 
         ranked = sorted(ranked, key=lambda s: s["ticker"] in tickers_cancelled_today)
         if len(ranked) < config.MIN_SIGNALS_TO_TRADE:
+            for sig in quality_passed:
+                _mark_confirmation_block(sig, "min_signals_to_trade_not_met")
             return
         if len(positions_today) >= config.MAX_POSITIONS:
+            for sig in ranked:
+                _mark_confirmation_block(sig, "max_positions_limit")
             return
 
         capital_now = capital + sum(t["pnl_dollars"] for t in trades_out)
         if capital_now <= 0:
+            for sig in ranked:
+                _mark_confirmation_block(sig, "capital_limit")
             return
         max_loss = float(getattr(config, "MAX_DAILY_LOSS_PCT", 0.05))
         if session_start_capital > 0 and (session_start_capital - capital_now) / session_start_capital >= max_loss:
+            for sig in ranked:
+                _mark_confirmation_block(sig, "max_daily_loss_limit")
             return
 
         regime_state = compute_regime_from_barbuilder(bar_builder, ETF_SYMBOL)
@@ -1351,16 +1466,20 @@ def run_backtest(
 
         for rank_pos, sig in enumerate(ranked, 1):
             if len(positions_today) >= config.MAX_POSITIONS:
+                _mark_confirmation_block(sig, "max_positions_limit")
                 break
             ticker = sig["ticker"]
             if ticker in positions_today:
+                _mark_confirmation_block(sig, "already_in_position")
                 continue
             if ticker.upper() in ticker_placed_today:
                 same_ticker_reentry_block_count += 1
+                _mark_confirmation_block(sig, "same_ticker_reentry_day_blocked")
                 continue
 
             side = (sig.get("side") or "LONG").upper()
             if side == "SHORT" and not getattr(config, "ENABLE_SHORTS", True):
+                _mark_confirmation_block(sig, "shorts_disabled")
                 continue
 
             size_multiplier = 1.0
@@ -1373,6 +1492,7 @@ def run_backtest(
 
             late_day_strength_threshold = 0.35 * size_threshold_scale
             if spy_dir != "NEUTRAL" and late_day and raw_strength < late_day_strength_threshold:
+                _mark_confirmation_block(sig, "late_day_bias_strength_blocked")
                 continue
 
             weak_bias_threshold = 0.10 * size_threshold_scale
@@ -1386,6 +1506,7 @@ def run_backtest(
 
             score = float(sig.get("score") or 0)
             if score < -15:
+                _mark_confirmation_block(sig, "score_floor_failed")
                 continue
 
             effective_strength = 1.0 if bias_dir == "NEUTRAL" else max(raw_strength, 0.01)
@@ -1393,6 +1514,7 @@ def run_backtest(
             bar = sig["bar"]
             signal_close = float(bar.get("close") or 0.0)
             if signal_close <= 0:
+                _mark_confirmation_block(sig, "invalid_signal_close")
                 continue
             if fill_model == "stress":
                 slippage = random.uniform(ENTRY_SLIPPAGE_MIN, ENTRY_SLIPPAGE_MAX)
@@ -1403,11 +1525,13 @@ def run_backtest(
             else:
                 entry_price = round(signal_close * (1.001 if side == "LONG" else 0.999), 2)
             if entry_price <= 0:
+                _mark_confirmation_block(sig, "invalid_entry_price")
                 continue
 
             c_close = float((sig.get("bar") or {}).get("close") or 0)
             if not _is_controlled_entry(ticker, side, c_close, sig.get("bar") or {}):
                 controlled_entry_block_count += 1
+                _mark_confirmation_block(sig, "controlled_entry_filter_failed_post_confirmation")
                 continue
 
             if bool(getattr(config, "ENABLE_ENTRY_STRENGTH_GATE", True)):
@@ -1422,11 +1546,13 @@ def run_backtest(
                 if not strength_ok:
                     entry_strength_block_count += 1
                     _append_blocked_candidate_backtest(t_et, sig, "entry_strength_failed")
+                    _mark_confirmation_block(sig, "entry_strength_failed")
                     continue
 
             dollar, _ = size_per_trade(len(ranked), size_cap, entry_price)
             dollar *= effective_strength * max(0.2, float(size_multiplier) * regime_mult)
             if dollar <= 0:
+                _mark_confirmation_block(sig, "capital_or_sizing_limit")
                 continue
             shares = max(1, int(dollar / entry_price))
 
@@ -1476,11 +1602,39 @@ def run_backtest(
                 "high_since_entry": entry_price,
                 "low_since_entry": entry_price,
             }
+            _mark_confirmation_trade(sig, rank_pos, t_et, entry_price)
 
     for t_et, sym, o, h, l, c, vol in events:
+        current_event_time = t_et
+        last_close[sym] = float(c or 0.0)
+
+        if sym == qqq_sym and qqq_bt is not None:
+            stock_pnl = sum(float(t.get("pnl_dollars") or 0.0) for t in trades_out)
+            qpnl = sum(float(t.get("pnl_dollars") or 0.0) for t in qqq_bt.completed_trades)
+            cap_now = session_start_capital + stock_pnl + qpnl
+            qqq_bt.set_equity(cap_now)
+            max_loss = float(getattr(config, "MAX_DAILY_LOSS_PCT", 0.05))
+            breach = session_start_capital > 0 and (session_start_capital - cap_now) / session_start_capital >= max_loss
+            qqq_bt.on_bar(
+                t_et,
+                float(o),
+                float(h),
+                float(l),
+                float(c),
+                float(vol or 0),
+                global_loss_breach=breach,
+                backtest=True,
+                defer_entry_fill=False,
+            )
+            continue
+
+        if replay_mode == "qqq":
+            continue
+        if not getattr(config, "ENABLE_STOCK_ARBITER", True):
+            if sym not in (ETF_SYMBOL, qqq_sym):
+                continue
         if sym != ETF_SYMBOL and sym not in daily_metrics:
             continue
-        last_close[sym] = float(c or 0.0)
 
         # EOD close (match live runner closing remaining positions)
         if not eod_done and (t_et.hour, t_et.minute) >= (close_hour, close_minute):
@@ -1644,7 +1798,11 @@ def run_backtest(
         if minute % BAR_MINUTES == 0 and t_et.second >= 5 and signals_this_bar:
             _process_signals(t_et)
 
-    total_pnl = sum(t["pnl_dollars"] for t in trades_out)
+    qqq_pnl_sum = (
+        sum(float(t.get("pnl_dollars") or 0.0) for t in qqq_bt.completed_trades) if qqq_bt else 0.0
+    )
+    stock_pnl_sum = sum(t["pnl_dollars"] for t in trades_out)
+    total_pnl = stock_pnl_sum + qqq_pnl_sum
     end_capital = start_capital + total_pnl
     diagnostics = {
         "bias_counts": bias_counts,
@@ -1665,8 +1823,138 @@ def run_backtest(
         "fill_model": fill_model,
         "events_processed": len(events),
         "regime_last": dict(last_regime_snapshot),
+        "strict_confirmation_records": list(strict_confirmation_records),
+        "qqq_trades": list(qqq_bt.completed_trades) if qqq_bt else [],
+        "qqq_session_diag": qqq_bt.get_session_diagnostics() if qqq_bt else {},
     }
     return trades_out, end_capital, total_pnl, diagnostics
+
+
+def _fetch_forensic_yf_1m(symbol: str, day_obj: date):
+    start = day_obj.strftime("%Y-%m-%d")
+    end = (day_obj + timedelta(days=1)).strftime("%Y-%m-%d")
+    try:
+        df = yf.download(
+            tickers=symbol,
+            start=start,
+            end=end,
+            interval="1m",
+            auto_adjust=False,
+            progress=False,
+            threads=False,
+            prepost=False,
+            group_by="column",
+        )
+    except Exception:
+        return None
+    if df is None or len(df) == 0:
+        return None
+    try:
+        if hasattr(df, "columns") and getattr(df.columns, "nlevels", 1) > 1:
+            df.columns = [c[0] if isinstance(c, tuple) else c for c in df.columns]
+        if getattr(df.index, "tz", None) is None:
+            df.index = df.index.tz_localize("UTC").tz_convert(EASTERN)
+        else:
+            df.index = df.index.tz_convert(EASTERN)
+        df = df.between_time("09:30", "16:00")
+    except Exception:
+        return None
+    return df
+
+
+def _forensic_metrics_after_confirmation(side: str, ref_price: float, ts_et: datetime, df) -> dict:
+    out = {
+        "fwd_15m_pct": math.nan,
+        "fwd_30m_pct": math.nan,
+        "fwd_60m_pct": math.nan,
+        "fwd_120m_pct": math.nan,
+        "mfe_pct": math.nan,
+        "mae_pct": math.nan,
+        "hit_pos_0_5": False,
+        "hit_pos_1_0": False,
+        "hit_pos_1_5": False,
+        "hit_neg_0_5": False,
+        "hit_neg_1_0": False,
+        "hit_neg_1_5": False,
+    }
+    if df is None or len(df) == 0 or ref_price <= 0:
+        return out
+    try:
+        future = df[df.index >= ts_et]
+        if future is None or len(future) == 0:
+            return out
+        side_u = (side or "LONG").upper()
+        window_120 = df[(df.index >= ts_et) & (df.index <= (ts_et + timedelta(minutes=120)))]
+        if window_120 is None or len(window_120) == 0:
+            return out
+
+        if side_u == "SHORT":
+            favorable = (ref_price - window_120["Low"]) / ref_price * 100.0
+            adverse = (ref_price - window_120["High"]) / ref_price * 100.0
+        else:
+            favorable = (window_120["High"] - ref_price) / ref_price * 100.0
+            adverse = (window_120["Low"] - ref_price) / ref_price * 100.0
+        out["mfe_pct"] = float(favorable.max()) if len(favorable) else math.nan
+        out["mae_pct"] = float(adverse.min()) if len(adverse) else math.nan
+
+        if len(favorable):
+            out["hit_pos_0_5"] = bool((favorable >= 0.5).any())
+            out["hit_pos_1_0"] = bool((favorable >= 1.0).any())
+            out["hit_pos_1_5"] = bool((favorable >= 1.5).any())
+        if len(adverse):
+            out["hit_neg_0_5"] = bool((adverse <= -0.5).any())
+            out["hit_neg_1_0"] = bool((adverse <= -1.0).any())
+            out["hit_neg_1_5"] = bool((adverse <= -1.5).any())
+
+        for mins, key in [(15, "fwd_15m_pct"), (30, "fwd_30m_pct"), (60, "fwd_60m_pct"), (120, "fwd_120m_pct")]:
+            target_ts = ts_et + timedelta(minutes=mins)
+            fwd = future[future.index >= target_ts]
+            if fwd is None or len(fwd) == 0:
+                continue
+            px = float(fwd.iloc[0]["Close"])
+            if side_u == "SHORT":
+                out[key] = float((ref_price - px) / ref_price * 100.0)
+            else:
+                out[key] = float((px - ref_price) / ref_price * 100.0)
+    except Exception:
+        return out
+    return out
+
+
+def _fmt(v):
+    if isinstance(v, float):
+        if math.isnan(v):
+            return ""
+        return f"{v:.3f}"
+    if isinstance(v, bool):
+        return "Y" if v else ""
+    return str(v if v is not None else "")
+
+
+def _print_table(title: str, rows: list[dict], columns: list[str]) -> None:
+    print(f"\n{title}", flush=True)
+    if not rows:
+        print("(none)", flush=True)
+        return
+    widths = {c: len(c) for c in columns}
+    for r in rows:
+        for c in columns:
+            widths[c] = max(widths[c], len(_fmt(r.get(c, ""))))
+    header = " | ".join(c.ljust(widths[c]) for c in columns)
+    sep = "-+-".join("-" * widths[c] for c in columns)
+    print(header, flush=True)
+    print(sep, flush=True)
+    for r in rows:
+        print(" | ".join(_fmt(r.get(c, "")).ljust(widths[c]) for c in columns), flush=True)
+
+
+def _write_table_csv(path: str, rows: list[dict], columns: list[str]) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=columns)
+        writer.writeheader()
+        for r in rows:
+            writer.writerow({c: r.get(c, "") for c in columns})
 
 
 def _parse_args():
@@ -1679,6 +1967,28 @@ def _parse_args():
         type=float,
         default=None,
         help="Starting capital for sizing/reporting. If omitted, uses latest live equity if available.",
+    )
+    mx = parser.add_mutually_exclusive_group()
+    mx.add_argument(
+        "--arbiter-only",
+        dest="replay_mode",
+        action="store_const",
+        const="arbiter",
+        help="Replay stock Arbiter only (no QQQ intraday)",
+    )
+    mx.add_argument(
+        "--qqq-only",
+        dest="replay_mode",
+        action="store_const",
+        const="qqq",
+        help="Replay QQQ intraday strategy only",
+    )
+    mx.add_argument(
+        "--combined",
+        dest="replay_mode",
+        action="store_const",
+        const="combined",
+        help="Replay stock Arbiter + QQQ intraday",
     )
     args = parser.parse_args()
     yesterday = _yesterday_et().date()
@@ -1703,7 +2013,7 @@ def _parse_args():
         except EOFError:
             inp_from, inp_to = "", ""
         if not inp_from and not inp_to:
-            return yesterday, yesterday, args.start_capital
+            return yesterday, yesterday, args.start_capital, getattr(args, "replay_mode", None)
         if inp_from:
             try:
                 date_from = datetime.strptime(inp_from, "%Y-%m-%d").date()
@@ -1722,14 +2032,14 @@ def _parse_args():
             date_to = date_from
         if date_from > date_to:
             date_from, date_to = date_to, date_from
-        return date_from, date_to, args.start_capital
+        return date_from, date_to, args.start_capital, getattr(args, "replay_mode", None)
     if date_from is None:
         date_from = date_to
     if date_to is None:
         date_to = date_from
     if date_from > date_to:
         date_from, date_to = date_to, date_from
-    return date_from, date_to, args.start_capital
+    return date_from, date_to, args.start_capital, getattr(args, "replay_mode", None)
 
 
 def _load_latest_live_equity(default_capital: float = 100_000.0) -> float:
@@ -1752,8 +2062,47 @@ def _load_latest_live_equity(default_capital: float = 100_000.0) -> float:
         return float(default_capital)
 
 
+def _sort_trades_chrono(trades: list[dict]) -> list[dict]:
+    def _key(t: dict):
+        return (str(t.get("date") or ""), str(t.get("entry_time") or ""))
+
+    return sorted(trades, key=_key)
+
+
+def _max_drawdown_fraction(trades: list[dict], start_equity: float) -> float:
+    """Peak-to-trough drawdown as a fraction of peak equity (sequential trade PnL)."""
+    if start_equity <= 0:
+        return 0.0
+    equity = float(start_equity)
+    peak = equity
+    max_dd = 0.0
+    for t in trades:
+        equity += float(t.get("pnl_dollars") or 0.0)
+        if equity > peak:
+            peak = equity
+        if peak > 0:
+            dd = (peak - equity) / peak
+            if dd > max_dd:
+                max_dd = dd
+    return max_dd
+
+
+def _resolve_replay_mode(cli_mode: str | None) -> str:
+    if cli_mode in ("arbiter", "qqq", "combined"):
+        return cli_mode
+    sa = bool(getattr(config, "ENABLE_STOCK_ARBITER", True))
+    qq = bool(getattr(config, "ENABLE_QQQ_INTRADAY", False))
+    if sa and qq:
+        return "combined"
+    if qq and not sa:
+        return "qqq"
+    return "arbiter"
+
+
 def main():
-    date_from, date_to, cli_start_capital = _parse_args()
+    date_from, date_to, cli_start_capital, cli_replay = _parse_args()
+    replay_mode = _resolve_replay_mode(cli_replay)
+    _p(f"Backtest replay mode: {replay_mode}")
     days = _trading_days_between(date_from, date_to)
     if not days:
         raise SystemExit("No trading days in range.")
@@ -1799,6 +2148,9 @@ def main():
     agg_fast_track_setups_confirmed = 0
     agg_fast_track_setups_expired = 0
     fill_model_seen = ""
+    all_strict_confirmations: list[dict] = []
+    all_qqq_trades: list[dict] = []
+    all_qqq_session_diag: list[dict] = []
 
     try:
         for day_idx, d in enumerate(days):
@@ -1811,80 +2163,145 @@ def main():
             prior_date = metrics_end_dt.date()
             metrics_end_dt_str = _end_dt_str(metrics_end_dt)
 
-            if use_fixed:
-                # Fixed universe: fetch metrics in parallel (no filters)
-                _p("  Fetching metrics (parallel)...")
-                t0 = time_mod.time()
-                daily_metrics = fetch_daily_metrics_parallel_for_date(
-                    ib, tickers, metrics_end_dt_str, max_tickers=len(tickers),
-                    use_backtest_volume_min=False, apply_filters=False,
-                    progress_callback=lambda c, t: _progress_bar("Metrics", c, t),
-                )
-                _p(f"  Metrics: {len(daily_metrics)} tickers in {time_mod.time() - t0:.1f}s")
-                tickers_day = [s for s in tickers if s in daily_metrics]
+            qqq_sym = getattr(config, "QQQ_SYMBOL", "QQQ").upper()
+
+            if replay_mode == "qqq":
+                tickers_day = []
+                daily_metrics = {}
+                subs = [qqq_sym]
+                _p("  QQQ-only replay: skipping stock universe")
             else:
-                # Per-day rescan: build watchlist from prior day's data only
-                _p("  Rescanning universe for prior day...")
-                t0 = time_mod.time()
-                tickers_day, daily_metrics = rescan_universe_for_day(
-                    prior_date,
-                    ib,
-                    tickers,
-                    top_n,
-                    progress_callback=lambda c, t: _progress_bar("Rescan", c, t),
-                )
-                _p(f"  Rescan: {len(tickers_day)} tickers in {time_mod.time() - t0:.1f}s (top 5: {', '.join(tickers_day[:5])})")
-
-            # Match live Arbiter: at most MAX_REALTIME_SUBSCRIPTIONS streams; ETF ensured like Launch.
-            max_subs = int(getattr(config, "MAX_REALTIME_SUBSCRIPTIONS", 100))
-            subs = list(tickers_day[:max_subs])
-            if ETF_SYMBOL not in subs:
-                if len(subs) >= max_subs:
-                    subs = subs[:-1] + [ETF_SYMBOL]
+                if use_fixed:
+                    # Fixed universe: fetch metrics in parallel (no filters)
+                    _p("  Fetching metrics (parallel)...")
+                    t0 = time_mod.time()
+                    daily_metrics = fetch_daily_metrics_parallel_for_date(
+                        ib, tickers, metrics_end_dt_str, max_tickers=len(tickers),
+                        use_backtest_volume_min=False, apply_filters=False,
+                        progress_callback=lambda c, t: _progress_bar("Metrics", c, t),
+                    )
+                    _p(f"  Metrics: {len(daily_metrics)} tickers in {time_mod.time() - t0:.1f}s")
+                    tickers_day = [s for s in tickers if s in daily_metrics]
                 else:
-                    subs.append(ETF_SYMBOL)
-            tickers_day = [t for t in subs if t != ETF_SYMBOL]
-            _p(f"  Subscription universe (live parity): {len(tickers_day)} names + {ETF_SYMBOL}")
+                    # Per-day rescan: build watchlist from prior day's data only
+                    _p("  Rescanning universe for prior day...")
+                    t0 = time_mod.time()
+                    tickers_day, daily_metrics = rescan_universe_for_day(
+                        prior_date,
+                        ib,
+                        tickers,
+                        top_n,
+                        progress_callback=lambda c, t: _progress_bar("Rescan", c, t),
+                    )
+                    _p(f"  Rescan: {len(tickers_day)} tickers in {time_mod.time() - t0:.1f}s (top 5: {', '.join(tickers_day[:5])})")
 
-            if len(tickers_day) < 10:
-                _p(f"  Skipping {date_str}: too few tickers ({len(tickers_day)})")
-                continue
+                # Match live Arbiter: at most MAX_REALTIME_SUBSCRIPTIONS streams; ETF ensured like Launch.
+                max_subs = int(getattr(config, "MAX_REALTIME_SUBSCRIPTIONS", 100))
+                subs = list(tickers_day[:max_subs])
+                if ETF_SYMBOL not in subs:
+                    if len(subs) >= max_subs:
+                        subs = subs[:-1] + [ETF_SYMBOL]
+                    else:
+                        subs.append(ETF_SYMBOL)
+                tickers_day = [t for t in subs if t != ETF_SYMBOL]
+                _p(f"  Subscription universe (live parity): {len(tickers_day)} names + {ETF_SYMBOL}")
+
+                if len(tickers_day) < 10:
+                    _p(f"  Skipping {date_str}: too few tickers ({len(tickers_day)})")
+                    continue
+
+            all_symbols = list(subs)
+            if replay_mode == "combined" and getattr(config, "ENABLE_QQQ_INTRADAY", False):
+                if qqq_sym not in all_symbols:
+                    max_subs = int(getattr(config, "MAX_REALTIME_SUBSCRIPTIONS", 100))
+                    if len(all_symbols) >= max_subs:
+                        # Preserve ETF_SYMBOL (SPY) for stock-bias replay.
+                        # Otherwise combined would end up with no SPY bars and replay would skip.
+                        remove_idx = None
+                        for i in range(len(all_symbols) - 1, -1, -1):
+                            if all_symbols[i] != ETF_SYMBOL:
+                                remove_idx = i
+                                break
+                        if remove_idx is not None:
+                            all_symbols = all_symbols[:remove_idx] + all_symbols[remove_idx + 1 :] + [qqq_sym]
+                        else:
+                            all_symbols = all_symbols[:-1] + [qqq_sym]
+                    else:
+                        all_symbols.append(qqq_sym)
 
             # Fetch 5-sec bars in parallel (SPY + tickers); uses cache when enabled
-            all_symbols = subs
             n_to_fetch = sum(1 for s in all_symbols if _load_cached_bars(date_str, s) is None)
             cache_status = "all cached" if n_to_fetch == 0 else f"{n_to_fetch} to fetch"
             _p(f"  Fetching bars (cache={'on' if getattr(config, 'BACKTEST_USE_CACHE', True) else 'off'}, {cache_status})...")
             t0 = time_mod.time()
             all_bars = fetch_5sec_bars_parallel(ib, all_symbols, end_dt_str, date_str)
             _p(f"  Bars fetched in {time_mod.time() - t0:.1f}s")
-            etf_bars = all_bars.get(ETF_SYMBOL, [])
-            if getattr(config, "BACKTEST_IB_5SEC_ONLY", False):
-                if not etf_bars or not bars_look_like_ib_5sec_TRADES(etf_bars):
-                    _p(
-                        f"  Skipping {date_str}: SPY has no valid IB 5-sec TRADES series "
-                        f"(required for bias replay when BACKTEST_IB_5SEC_ONLY)."
-                    )
-                    continue
-            ticker_bars = {s: all_bars.get(s, []) for s in tickers_day}
-            if getattr(config, "BACKTEST_IB_5SEC_ONLY", False):
-                ticker_bars = {
-                    s: b for s, b in ticker_bars.items() if b and bars_look_like_ib_5sec_TRADES(b)
-                }
-            _p(f"  SPY: {len(etf_bars)} bars, tickers: {sum(1 for v in ticker_bars.values() if v)}/{len(tickers_day)}")
-            tickers_day = [s for s in tickers_day if ticker_bars.get(s)]
-            if len(tickers_day) < 10:
-                _p(f"  Skipping {date_str}: too few bars")
-                continue
-            dm_day = {s: daily_metrics[s] for s in tickers_day if s in daily_metrics}
 
-            events = build_event_stream(etf_bars, {s: ticker_bars[s] for s in tickers_day})
-            if len(events) < 1000:
+            bt_ib_only = getattr(config, "BACKTEST_IB_5SEC_ONLY", False)
+
+            if replay_mode == "qqq":
+                qb = all_bars.get(qqq_sym, [])
+                if not qb:
+                    _p(f"  Skipping {date_str}: no QQQ bars")
+                    continue
+                if bt_ib_only and not bars_look_like_ib_5sec_TRADES(qb):
+                    _p(
+                        f"  Warning: QQQ bars fail IB 5-sec TRADES spacing check; "
+                        f"using anyway ({len(qb)} bars)."
+                    )
+                etf_bars = []
+                ticker_bars = {}
+                dm_day = {}
+                events = build_event_stream([], {}, qqq_bars=qb)
+                rp_mode = "qqq"
+            else:
+                etf_bars = all_bars.get(ETF_SYMBOL, [])
+                if not etf_bars:
+                    _p(f"  Skipping {date_str}: no SPY bars")
+                    continue
+                if bt_ib_only and not bars_look_like_ib_5sec_TRADES(etf_bars):
+                    _p(
+                        f"  Warning: SPY bars fail IB 5-sec TRADES spacing check; "
+                        f"using anyway ({len(etf_bars)} bars) for bias replay."
+                    )
+                ticker_bars = {s: all_bars.get(s, []) for s in tickers_day}
+                if bt_ib_only:
+                    ticker_bars = {
+                        s: b for s, b in ticker_bars.items() if b and bars_look_like_ib_5sec_TRADES(b)
+                    }
+                _p(f"  SPY: {len(etf_bars)} bars, tickers: {sum(1 for v in ticker_bars.values() if v)}/{len(tickers_day)}")
+                tickers_day = [s for s in tickers_day if ticker_bars.get(s)]
+                if len(tickers_day) < 10:
+                    _p(f"  Skipping {date_str}: too few bars")
+                    continue
+                dm_day = {s: daily_metrics[s] for s in tickers_day if s in daily_metrics}
+
+                qqq_extra = None
+                if replay_mode == "combined" and getattr(config, "ENABLE_QQQ_INTRADAY", False):
+                    qbq = all_bars.get(qqq_sym, [])
+                    if qbq:
+                        if bt_ib_only and not bars_look_like_ib_5sec_TRADES(qbq):
+                            _p(
+                                f"  Warning: QQQ bars fail IB 5-sec TRADES spacing check; "
+                                f"using anyway ({len(qbq)} bars)."
+                            )
+                        qqq_extra = qbq
+                    else:
+                        _p(f"  Warning: no QQQ bars for combined replay on {date_str}")
+
+                events = build_event_stream(etf_bars, {s: ticker_bars[s] for s in tickers_day}, qqq_extra)
+                rp_mode = replay_mode
+                if rp_mode == "combined" and not getattr(config, "ENABLE_QQQ_INTRADAY", False):
+                    rp_mode = "arbiter"
+
+            if len(events) < (100 if replay_mode == "qqq" else 1000):
                 _p(f"  Skipping {date_str}: too few events ({len(events)})")
                 continue
 
             _p("  Replaying...")
-            trades, end_capital, total_pnl, diag = run_backtest(events, dm_day, start_capital, date_str)
+            trades, end_capital, total_pnl, diag = run_backtest(
+                events, dm_day, start_capital, date_str, replay_mode=rp_mode
+            )
             replay_days += 1
             last_diag = dict(diag or {})
             _p(f"  Done: {len(trades)} trades, PnL ${total_pnl:,.2f}")
@@ -1911,6 +2328,18 @@ def main():
             agg_fast_track_setups_confirmed += int(diag.get("fast_track_setups_confirmed", 0) or 0)
             agg_fast_track_setups_expired += int(diag.get("fast_track_setups_expired", 0) or 0)
             fill_model_seen = str(diag.get("fill_model", fill_model_seen) or fill_model_seen)
+            all_strict_confirmations.extend(list(diag.get("strict_confirmation_records") or []))
+            all_qqq_trades.extend(list(diag.get("qqq_trades") or []))
+            qsd = diag.get("qqq_session_diag") or {}
+            if qsd:
+                all_qqq_session_diag.append(qsd)
+                _p(
+                    f"  QQQ session summary: bars={qsd.get('qqq_bars_received')} "
+                    f"regime_pass={qsd.get('qqq_regime_pass_count')} fail={qsd.get('qqq_regime_fail_count')} "
+                    f"trend_up={qsd.get('qqq_trend_up_bars')} trend_down={qsd.get('qqq_trend_down_bars')} chop={qsd.get('qqq_chop_bars')} "
+                    f"vwap_setups={qsd.get('qqq_vwap_setup_count')} entries={qsd.get('qqq_entry_trigger_count')} "
+                    f"fills={qsd.get('qqq_trades_filled')} trade_rows={qsd.get('qqq_trade_count')}"
+                )
 
         disconnect_ib(ib)
     except Exception as e:
@@ -1932,6 +2361,23 @@ def main():
     print("Fast-track setups stored:", agg_fast_track_setups_stored, flush=True)
     print("Fast-track setups confirmed:", agg_fast_track_setups_confirmed, flush=True)
     print("Fast-track setups expired:", agg_fast_track_setups_expired, flush=True)
+    if all_qqq_session_diag:
+        print("\n--- QQQ replay diagnostics (aggregate) ---", flush=True)
+        print(f"  Sessions with QQQ replay: {len(all_qqq_session_diag)}", flush=True)
+        print(
+            "  Totals: bars_received="
+            f"{sum(int(x.get('qqq_bars_received') or 0) for x in all_qqq_session_diag)}, "
+            f"regime_pass={sum(int(x.get('qqq_regime_pass_count') or 0) for x in all_qqq_session_diag)}, "
+            f"regime_fail={sum(int(x.get('qqq_regime_fail_count') or 0) for x in all_qqq_session_diag)}, "
+            f"trend_up_bars={sum(int(x.get('qqq_trend_up_bars') or 0) for x in all_qqq_session_diag)}, "
+            f"trend_down_bars={sum(int(x.get('qqq_trend_down_bars') or 0) for x in all_qqq_session_diag)}, "
+            f"chop_bars={sum(int(x.get('qqq_chop_bars') or 0) for x in all_qqq_session_diag)}, "
+            f"vwap_setups={sum(int(x.get('qqq_vwap_setup_count') or 0) for x in all_qqq_session_diag)}, "
+            f"entry_triggers={sum(int(x.get('qqq_entry_trigger_count') or 0) for x in all_qqq_session_diag)}, "
+            f"qqq_fills={sum(int(x.get('qqq_trades_filled') or 0) for x in all_qqq_session_diag)}, "
+            f"qqq_trade_rows={sum(int(x.get('qqq_trade_count') or 0) for x in all_qqq_session_diag)}",
+            flush=True,
+        )
     if last_diag:
         # Last-day snapshot of parity diagnostics from run_backtest.
         print("Confirmation hits:", last_diag.get("confirmation_counts", {}), flush=True)
@@ -1946,7 +2392,7 @@ def main():
             "date", "ticker", "side", "entry_time", "entry_price", "shares", "target", "stop",
             "exit_time", "exit_price", "exit_reason", "pnl_dollars", "pnl_pct",
             "score", "rank_position", "rel_vol", "atr_pct", "dist_vwap_pct",
-            "bias_dir", "bias_strength", "confirmation_type", "MFE_pct", "MAE_pct",
+            "bias_dir", "bias_strength", "confirmation_type", "entry_reason_tag", "MFE_pct", "MAE_pct",
             "time_in_trade_minutes",
         ])
         w.writeheader()
@@ -1972,14 +2418,183 @@ def main():
             str(t.get("exit_reason") or ""),
         )
     total_pnl = sum(t["pnl_dollars"] for t in all_trades)
+    ordered = _sort_trades_chrono(all_trades)
+    max_dd_frac = _max_drawdown_fraction(ordered, base_start_capital)
     print(f"\nTrades: {len(all_trades)}", flush=True)
     print(f"Start capital: ${base_start_capital:,.2f}", flush=True)
     print(f"End capital:   ${start_capital:,.2f}", flush=True)
     print(f"Total PnL:     ${total_pnl:,.2f}", flush=True)
+    print(f"Max drawdown:  {max_dd_frac * 100:.2f}% (peak-to-trough vs peak equity)", flush=True)
     if all_trades:
         wins = sum(1 for t in all_trades if t["pnl_dollars"] > 0)
         print(f"Wins: {wins}/{len(all_trades)}", flush=True)
+    print("\n--- Block reason summary (aggregated diagnostics) ---", flush=True)
+    print(f"  controlled_entry_blocks:        {agg_controlled_entry_blocks}", flush=True)
+    print(f"  same_ticker_reentry_blocks:     {agg_same_ticker_reentry_blocks}", flush=True)
+    print(f"  post_confirmation_quality_blocks: {agg_post_confirmation_quality_blocks}", flush=True)
+    print(f"  entry_strength_blocks:          {agg_entry_strength_blocks}", flush=True)
+    print(f"  fast_track_trade_blocks:        {agg_fast_track_trade_blocks}", flush=True)
+    print(f"  late_entry_blocks:              {agg_late_entry_blocks}", flush=True)
     print(f"Wrote {path}", flush=True)
+
+    qqq_csv_name = f"qqq_backtest_trades_{date_from}_{date_to}.csv" if len(days) > 1 else f"qqq_backtest_trades_{date_from}.csv"
+    qqq_path = os.path.join(config.LOG_DIR, qqq_csv_name)
+    if all_qqq_trades:
+        qcols = sorted({k for row in all_qqq_trades for k in row.keys()})
+        with open(qqq_path, "w", newline="", encoding="utf-8") as qf:
+            qw = csv.DictWriter(qf, fieldnames=qcols)
+            qw.writeheader()
+            for row in all_qqq_trades:
+                qw.writerow({k: row.get(k, "") for k in qcols})
+        print(f"Wrote {qqq_path} ({len(all_qqq_trades)} QQQ legs)", flush=True)
+
+    if all_qqq_session_diag:
+        totals = {
+            "qqq_bars_received": sum(int(x.get("qqq_bars_received") or 0) for x in all_qqq_session_diag),
+            "qqq_regime_pass_count": sum(int(x.get("qqq_regime_pass_count") or 0) for x in all_qqq_session_diag),
+            "qqq_regime_fail_count": sum(int(x.get("qqq_regime_fail_count") or 0) for x in all_qqq_session_diag),
+            "qqq_trend_up_bars": sum(int(x.get("qqq_trend_up_bars") or 0) for x in all_qqq_session_diag),
+            "qqq_trend_down_bars": sum(int(x.get("qqq_trend_down_bars") or 0) for x in all_qqq_session_diag),
+            "qqq_chop_bars": sum(int(x.get("qqq_chop_bars") or 0) for x in all_qqq_session_diag),
+            "qqq_vwap_setup_count": sum(int(x.get("qqq_vwap_setup_count") or 0) for x in all_qqq_session_diag),
+            "qqq_entry_trigger_count": sum(int(x.get("qqq_entry_trigger_count") or 0) for x in all_qqq_session_diag),
+            "qqq_trades_filled": sum(int(x.get("qqq_trades_filled") or 0) for x in all_qqq_session_diag),
+            "qqq_trade_count": sum(int(x.get("qqq_trade_count") or 0) for x in all_qqq_session_diag),
+        }
+        merged_hist: dict[str, int] = {}
+        for x in all_qqq_session_diag:
+            for kk, vv in (x.get("regime_fail_reasons_histogram") or {}).items():
+                merged_hist[kk] = merged_hist.get(kk, 0) + int(vv or 0)
+        diag_json = os.path.join(
+            config.LOG_DIR,
+            f"qqq_backtest_session_diag_{replay_mode}_{date_from}_{date_to}.json",
+        )
+        with open(diag_json, "w", encoding="utf-8") as jf:
+            json.dump(
+                {
+                    "replay_mode": replay_mode,
+                    "sessions": all_qqq_session_diag,
+                    "totals": totals,
+                    "regime_fail_histogram": merged_hist,
+                },
+                jf,
+                indent=2,
+            )
+        print(f"Wrote {diag_json}", flush=True)
+
+    if all_strict_confirmations:
+        yf_cache: dict[tuple[str, date], object] = {}
+        for rec in all_strict_confirmations:
+            ts_obj = rec.get("timestamp_obj")
+            if not isinstance(ts_obj, datetime):
+                try:
+                    ts_obj = EASTERN.localize(datetime.strptime(str(rec.get("timestamp_et") or ""), "%Y-%m-%d %H:%M:%S"))
+                except Exception:
+                    ts_obj = None
+            if ts_obj is None:
+                continue
+            key = (str(rec.get("ticker") or "").upper(), ts_obj.date())
+            if key not in yf_cache:
+                yf_cache[key] = _fetch_forensic_yf_1m(key[0], key[1])
+            metrics = _forensic_metrics_after_confirmation(
+                str(rec.get("side") or "LONG"),
+                float(rec.get("confirmation_price") or 0.0),
+                ts_obj,
+                yf_cache.get(key),
+            )
+            rec.update(metrics)
+
+        table_cols = [
+            "ticker", "side", "timestamp_et", "score", "rank", "rel_vol", "atr_pct", "dist_vwap_pct",
+            "became_trade", "block_reason", "fwd_15m_pct", "fwd_30m_pct", "fwd_60m_pct", "fwd_120m_pct",
+            "mfe_pct", "mae_pct", "hit_pos_0_5", "hit_pos_1_0", "hit_pos_1_5", "hit_neg_0_5", "hit_neg_1_0", "hit_neg_1_5",
+        ]
+        executed_rows = [r for r in all_strict_confirmations if bool(r.get("became_trade"))]
+        missed_rows = [r for r in all_strict_confirmations if not bool(r.get("became_trade"))]
+        _print_table("Executed Trades (Strict Confirmations)", executed_rows, table_cols)
+        _print_table("Missed Strict Confirmations", missed_rows, table_cols)
+        range_tag = f"{date_from}_{date_to}"
+        executed_csv = os.path.join(config.LOG_DIR, f"forensic_executed_strict_confirmations_{range_tag}.csv")
+        missed_csv = os.path.join(config.LOG_DIR, f"forensic_missed_strict_confirmations_{range_tag}.csv")
+        _write_table_csv(executed_csv, executed_rows, table_cols)
+        _write_table_csv(missed_csv, missed_rows, table_cols)
+        print(f"Wrote {executed_csv}", flush=True)
+        print(f"Wrote {missed_csv}", flush=True)
+
+        def _avg(rows, key):
+            vals = [float(r.get(key)) for r in rows if isinstance(r.get(key), (float, int)) and not math.isnan(float(r.get(key)))]
+            return (sum(vals) / len(vals)) if vals else math.nan
+
+        avg_mfe_missed = _avg(missed_rows, "mfe_pct")
+        avg_mae_missed = _avg(missed_rows, "mae_pct")
+        hit_pos_1 = sum(1 for r in missed_rows if bool(r.get("hit_pos_1_0")))
+        hit_neg_1 = sum(1 for r in missed_rows if bool(r.get("hit_neg_1_0")))
+
+        reason_profit: dict[str, list[float]] = {}
+        for r in missed_rows:
+            rsn = str(r.get("block_reason") or "unknown")
+            mfe = float(r.get("mfe_pct")) if isinstance(r.get("mfe_pct"), (float, int)) else math.nan
+            if not math.isnan(mfe):
+                reason_profit.setdefault(rsn, []).append(mfe)
+        most_profitable_reason = ""
+        best_avg = -1e9
+        for rsn, vals in reason_profit.items():
+            if not vals:
+                continue
+            avgv = sum(vals) / len(vals)
+            if avgv > best_avg:
+                best_avg = avgv
+                most_profitable_reason = rsn
+
+        def _reason_profitable(reason_substr: str) -> tuple[int, float]:
+            subset = [r for r in missed_rows if reason_substr in str(r.get("block_reason") or "")]
+            hits = sum(1 for r in subset if bool(r.get("hit_pos_1_0")))
+            total = len(subset)
+            pct = (hits / total * 100.0) if total else 0.0
+            return total, pct
+
+        ce_n, ce_pct = _reason_profitable("controlled_entry")
+        le_n, le_pct = _reason_profitable("late_entry")
+        cap_n = sum(
+            1
+            for r in missed_rows
+            if ("capital" in str(r.get("block_reason") or "")) or ("max_positions" in str(r.get("block_reason") or ""))
+        )
+        cap_hits = sum(
+            1
+            for r in missed_rows
+            if (
+                (("capital" in str(r.get("block_reason") or "")) or ("max_positions" in str(r.get("block_reason") or "")))
+                and bool(r.get("hit_pos_1_0"))
+            )
+        )
+        cap_pct = (cap_hits / cap_n * 100.0) if cap_n else 0.0
+
+        print("\nForensic Summary (Missed Strict Confirmations)", flush=True)
+        print(f"- Average MFE: {_fmt(avg_mfe_missed)}%", flush=True)
+        print(f"- Average MAE: {_fmt(avg_mae_missed)}%", flush=True)
+        print(f"- Missed confirmations reaching +1.0%: {hit_pos_1}", flush=True)
+        print(f"- Missed confirmations hitting -1.0%: {hit_neg_1}", flush=True)
+        print(
+            f"- Block reason with highest average missed MFE: {most_profitable_reason or 'n/a'} "
+            f"({_fmt(best_avg)}%)",
+            flush=True,
+        )
+        print(
+            f"- controlled_entry blocking profitable setups (+1.0% reached): "
+            f"{'YES' if ce_n and ce_pct >= 50.0 else 'NO'} ({ce_n} missed, {ce_pct:.1f}% hit +1.0%)",
+            flush=True,
+        )
+        print(
+            f"- late_entry blocking profitable setups (+1.0% reached): "
+            f"{'YES' if le_n and le_pct >= 50.0 else 'NO'} ({le_n} missed, {le_pct:.1f}% hit +1.0%)",
+            flush=True,
+        )
+        print(
+            f"- capital/max position limits blocking profitable setups (+1.0% reached): "
+            f"{'YES' if cap_n and cap_pct >= 50.0 else 'NO'} ({cap_n} missed, {cap_pct:.1f}% hit +1.0%)",
+            flush=True,
+        )
 
     report_path = generate_backtest_report(
         all_trades,

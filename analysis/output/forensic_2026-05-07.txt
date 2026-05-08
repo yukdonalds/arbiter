@@ -1,0 +1,38 @@
+========================================
+FORENSIC ANALYSIS — 2026-05-07
+========================================
+
+SUMMARY
+----------------------------------------
+Total Candidates: 18
+Strict Confirmations: 18
+Executed Trades: 2
+Missed Opportunities: 16
+
+BLOCK REASONS
+----------------------------------------
+entry_cutoff_blocked: 6
+late_entry_blocked: 5
+entry_strength_failed: 3
+already_in_position_or_pending: 1
+other: 1
+
+MISSED TRADE QUALITY
+----------------------------------------
+MFE >= 1.0%: 8
+MFE >= 1.5%: 7
+MAE <= -1.0% AND MFE >= 1.0%: 1
+
+TOP MISSED TRADES (by MFE)
+----------------------------------------
+1. TPR SHORT | Score: 97.372 | MFE: 2.991% | MAE: -0.307% | Block: late_entry_blocked
+2. TPR SHORT | Score: 99.885 | MFE: 2.564% | MAE: -0.741% | Block: late_entry_blocked
+3. TPR SHORT | Score: 97.200 | MFE: 2.564% | MAE: -0.741% | Block: late_entry_blocked
+4. TPR SHORT | Score: 96.181 | MFE: 2.491% | MAE: -0.114% | Block: entry_cutoff_blocked
+5. TPR SHORT | Score: 81.793 | MFE: 2.447% | MAE: -0.826% | Block: entry_cutoff_blocked
+
+DETAILS (OPTIONAL BUT INCLUDE IF EASY)
+----------------------------------------
+- Average MFE of missed trades: 1.311%
+- Average MAE of missed trades: -1.438%
+- Average score of missed trades: 86.822

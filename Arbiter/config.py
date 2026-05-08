@@ -102,7 +102,7 @@ VOLUME_LOOKBACK = 20
 # Confirmation / breakout sensitivity
 CONFIRMATION_BUFFER = 0.10
 BREAKOUT_THRESHOLD = 0.015
-CONFIRMATION_MIN_MOVE_PCT = 0.0012
+CONFIRMATION_MIN_MOVE_PCT = 0.0015
 # Momentum volume gate used by signal engine
 MIN_VOLUME_MULTIPLIER = 1.1
 # Keep momentum confirmation strict (high-probability setups only).
@@ -188,6 +188,7 @@ ENTRY_CUTOFF_HOUR, ENTRY_CUTOFF_MINUTE = 14, 0
 # Additional late-entry hard block (independent from entry cutoff).
 BLOCK_ENTRIES_AFTER_HOUR = 13
 BLOCK_ENTRIES_AFTER_MINUTE = 0
+
 STOP_SIGNALS_HOUR, STOP_SIGNALS_MINUTE = 15, 55
 CLOSE_POSITIONS_HOUR, CLOSE_POSITIONS_MINUTE = 15, 45
 SHUTDOWN_HOUR, SHUTDOWN_MINUTE = 16, 0
@@ -197,6 +198,50 @@ DISPLAY_TIMEZONE = "Australia/Sydney"
 
 MAX_DAILY_LOSS_PCT = 0.05
 KILL_SWITCH_FILE = os.path.join(BASE_DIR, "KILL_SWITCH.txt")
+
+# --- Stock Arbiter vs QQQ intraday (additive strategies; separate state & orderRef) ---
+ENABLE_STOCK_ARBITER = True
+
+# QQQ intraday (see strategies/qqq_intraday_strategy.py)
+ENABLE_QQQ_INTRADAY = True
+QQQ_ORDER_REF = "QQQ_INTRADAY"
+QQQ_SYMBOL = "QQQ"
+
+QQQ_MAX_TRADES_PER_DAY = 3
+QQQ_MAX_OPEN_POSITIONS = 1
+
+QQQ_RISK_PER_TRADE_PCT = 0.005
+QQQ_MAX_POSITION_PCT = 0.30
+
+QQQ_OPENING_RANGE_MINUTES = 30
+QQQ_MIN_OPENING_RANGE_PCT = 0.004
+
+QQQ_MIN_5MIN_ATR_PCT = 0.0025
+QQQ_MIN_VWAP_DISTANCE_PCT = 0.001
+QQQ_MIN_DISTANCE_FROM_VWAP_PCT = 0.0015
+
+QQQ_PARTIAL_TP_PCT = 0.006
+QQQ_PARTIAL_TP_SIZE = 0.50
+
+QQQ_STOP_MIN_PCT = 0.005
+QQQ_STOP_MAX_PCT = 0.005
+
+QQQ_NO_PROGRESS_MINUTES = 30
+QQQ_NO_PROGRESS_MIN_PNL_PCT = 0.001
+
+QQQ_ENTRY_START_HOUR = 9
+QQQ_ENTRY_START_MINUTE = 45
+
+QQQ_ENTRY_END_HOUR = 15
+QQQ_ENTRY_END_MINUTE = 15
+
+QQQ_FORCE_EXIT_HOUR = 15
+QQQ_FORCE_EXIT_MINUTE = 45
+
+QQQ_MAX_CONSECUTIVE_LOSSES_PER_DAY = 2
+
+# Runner structural trail (% below high-since-entry for longs; mirrored for shorts)
+QQQ_TRAIL_DISTANCE_PCT = 0.35
 
 # Backtest: fixed universe = first 100 from SP500_TICKERS_FILE; False = top N by score from prior day (same rescan as Run Me FPLS when False)
 USE_FIXED_UNIVERSE = False
